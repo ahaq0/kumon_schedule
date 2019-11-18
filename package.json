@@ -1,0 +1,23 @@
+{
+  "name": "kumon_schedule",
+  "version": "1.0.0",
+  "description": "An app design to easily create a schedule for the Kumon center I worked ( and according to the specifications of that center in particular)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier \"src/**/*.{js,html}\" --write",
+    "lint": "eslint \"src/**/*.{js,jsx}\" --quiet",
+    "dev": "parcel src/index.html"
+  },
+  "author": "Ammar Haq",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^1.19.1"
+  },
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
+}
