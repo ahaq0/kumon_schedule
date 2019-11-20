@@ -19,6 +19,7 @@ import Input from "@material-ui/core/Input";
 import MenuItem from "@material-ui/core/MenuItem";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Select from "@material-ui/core/Select";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme, Theme) =>
   createStyles({
@@ -33,12 +34,15 @@ const useStyles = makeStyles((theme, Theme) =>
       flexWrap: "wrap"
     },
     formControl: {
-      margin: theme.spacing(3)
+      margin: theme.spacing(3),
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1)
     },
     textField: {
       marginLeft: theme.spacing(1),
       marginRight: theme.spacing(1),
-      width: 200
+      width: 200,
+      alignContent: "left"
     },
 
     checks: {
@@ -47,7 +51,8 @@ const useStyles = makeStyles((theme, Theme) =>
     timeFormControl: {
       margin: theme.spacing(3),
       minWidth: 500
-    }
+    },
+    grid: {}
   })
 );
 
@@ -57,13 +62,15 @@ export default function PaperSheet() {
   // Default states
 
   return (
-    <Paper className={classes.root}>
-      <Typography component="p" align="left">
-        Paper can be used to build surface or other elements for your
-        application.
-      </Typography>
-
-      <form className={classes.container} noValidate autoComplete="off">
+    <Grid
+      container
+      direction="column"
+      alignItems="center"
+      spacing={1}
+      justify="space-evenly"
+      className={classes.grid}
+    >
+      <Paper className={classes.root}>
         <div>
           <TextField
             id="standard-basic"
@@ -118,11 +125,14 @@ export default function PaperSheet() {
           */}
         </div>
 
+        <h1></h1>
         <div>
+          <Typography variant="h6" component="h3">
+            Start Time
+          </Typography>
+
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="grouped-native-select">
-              Day 1 Start time
-            </InputLabel>
+            <InputLabel htmlFor="grouped-native-select">Day 1</InputLabel>
             <Select
               native
               defaultValue=""
@@ -138,11 +148,8 @@ export default function PaperSheet() {
               <option value={7}>5 : 30 pm</option>
             </Select>
           </FormControl>
-
           <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="grouped-native-select">
-              Day 2 Start time
-            </InputLabel>
+            <InputLabel htmlFor="grouped-native-select">Day 2</InputLabel>
             <Select
               native
               defaultValue=""
@@ -160,7 +167,7 @@ export default function PaperSheet() {
             </Select>
           </FormControl>
         </div>
-      </form>
-    </Paper>
+      </Paper>
+    </Grid>
   );
 }

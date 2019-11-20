@@ -1,0 +1,5 @@
+   
+      <Typography>
+        <Box fontWeight="fontWeightBold">Kumon Schedule</Box>
+      </Typography>
+      <h1>Kumon Schedule</h1>

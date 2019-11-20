@@ -14,6 +14,9 @@ const App = () => {
 
       <br></br>
       <AddStudent />
+      <Button variant="contained" color="primary">
+        Submit🚀
+      </Button>
     </div>
   );
 };

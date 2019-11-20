@@ -1,0 +1,26 @@
+
+
+Go through it once a year
+
+Lookk at all the times; start time, class schedule ( if it changes any time
+
+
+ )
+
+
+24 students per 1 time slot of 30 minutes.TIME SLOT 
+
+
+edit a given students 
+
+delete a given student 
+.
+
+send out the emails, 
+
+
+take out the grade of the student, identifiable information 
+
+For ADD STUDENT
+
+make sure only two days can be selected
