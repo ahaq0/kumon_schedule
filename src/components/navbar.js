@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
     marginRight: theme.spacing(3)
   },
   title: {
-    paddingRight: "5px"
+    paddingRight: "10px"
   },
   label: {
     paddingTop: "20px"

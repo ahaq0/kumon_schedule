@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 
 import Typography from "@material-ui/core/Typography";
 import NavBar from "./components/navbar";
+import AddStudent from "./components/addstudent";
 import GroupedButtons from "./components/buttongroups";
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
       <NavBar />
 
       <br></br>
+      <AddStudent />
     </div>
   );
 };
