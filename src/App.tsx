@@ -12,7 +12,7 @@ const App = () => {
     <div id="menuSelection">
       <NavBar />
 
-      <br></br>
+      <br />
       <AddStudent />
       <Button variant="contained" color="primary">
         Submit🚀

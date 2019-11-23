@@ -5,14 +5,15 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
 // to do pass the styles from the top, basicall ymake it once and then just pass it around
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
   label: {
     paddingTop: "15px"
   }
-}));
+});
 
 export default function GroupedButtons() {
-  const classes = useStyles();
+  // there is a bug in Typescript so workaround is to pass an empty object
+  const classes = useStyles({});
 
   return (
     <Grid

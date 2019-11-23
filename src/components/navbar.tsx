@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 
-import GroupedButtons from "../components/buttongroups";
+import GroupedButtons from "./buttongroups";
 
 import kumonLogo from "../../media/kumon.png";
 const useStyles = makeStyles(theme => ({
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const NavBar = () => {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   return (
     <div>

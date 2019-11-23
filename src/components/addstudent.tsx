@@ -21,7 +21,7 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles((theme, Theme) =>
+const useStyles = makeStyles(theme =>
   createStyles({
     root: {
       padding: theme.spacing(3, 2)
@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme, Theme) =>
 );
 
 export default function PaperSheet() {
-  const classes = useStyles();
+  const classes = useStyles({});
 
   // Default states
 
@@ -73,7 +73,7 @@ export default function PaperSheet() {
       <Paper className={classes.root}>
         <div>
           <TextField
-            id="standard-basic"
+            id="standard-basic-1"
             className={classes.textField}
             label="First Name"
             margin="normal"
@@ -81,7 +81,7 @@ export default function PaperSheet() {
         </div>
         <div>
           <TextField
-            id="standard-basic"
+            id="standard-basic-2"
             className={classes.textField}
             label="Last Name"
             margin="normal"
