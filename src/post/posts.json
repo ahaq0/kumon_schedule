@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "fName": "Joseph",
+    "lName": "Li",
+    "subjects": ["math"],
+    "days": ["tuesday", "wednesday"],
+    "startTime": [1, 3]
+  },
+
+  {
+    "id": 2,
+    "fName": "Matt",
+    "lName": "Li",
+    "subjects": ["math", "reading"],
+    "days": ["tuesday", "friday"],
+    "startTime": [7, 1]
+  },
+  {
+    "id": 3,
+    "fName": "Isiah",
+    "lName": "C",
+    "subjects": ["math", "reading"],
+    "days": ["wednesday", "friday"],
+    "startTime": [3, 2]
+  }
+]

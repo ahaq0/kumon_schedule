@@ -63,7 +63,7 @@ export default function PaperSheet() {
 
   return (
     <Grid
-      container
+      container={true}
       direction="column"
       alignItems="center"
       spacing={1}
@@ -125,7 +125,6 @@ export default function PaperSheet() {
           */}
         </div>
 
-        <h1></h1>
         <div>
           <Typography variant="h6" component="h3">
             Start Time
@@ -134,7 +133,7 @@ export default function PaperSheet() {
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="grouped-native-select">Day 1</InputLabel>
             <Select
-              native
+              native={true}
               defaultValue=""
               input={<Input id="grouped-native-select" />}
             >
@@ -146,12 +145,13 @@ export default function PaperSheet() {
               <option value={5}>4 : 30 pm</option>
               <option value={6}>5 : 00 pm</option>
               <option value={7}>5 : 30 pm</option>
+              <option value={7}>6 : 00 pm</option>
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
             <InputLabel htmlFor="grouped-native-select">Day 2</InputLabel>
             <Select
-              native
+              native={true}
               defaultValue=""
               input={<Input id="grouped-native-select" />}
             >

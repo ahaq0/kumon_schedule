@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier \"src/**/*.{js,html}\" --write",
     "lint": "tslint \"src/**/*.{js,jsx}\" --project",
-    "dev": "parcel src/index.html"
+    "dev": "parcel src/index.html",
+    "typecheck": "tsc --no"
   },
   "author": "Ammar Haq",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "@types/reach__router": "^1.2.6",
     "@types/react": "^16.9.13",
     "@types/react-dom": "^16.9.4",
+    "add": "2.0.6",
     "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1",
     "tslint": "^5.20.1",
@@ -25,6 +27,7 @@
   "dependencies": {
     "@material-ui/core": "^4.6.1",
     "@material-ui/lab": "^4.0.0-alpha.32",
+    "@reach/router": "^1.2.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   }
