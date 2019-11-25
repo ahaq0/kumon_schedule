@@ -6,13 +6,13 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import DaySchedule from "./dayschedule";
-interface TabPanelProps {
+interface ITabPanelProps {
   children?: React.ReactNode;
   index: any;
   value: any;
 }
 
-function TabPanel(props: TabPanelProps) {
+function TabPanel(props: ITabPanelProps) {
   const { children, value, index, ...other } = props;
 
   return (
@@ -36,12 +36,7 @@ function a11yProps(index: any) {
   };
 }
 
-interface LinkTabProps {
-  label?: string;
-  href?: string;
-}
-
-function LinkTab(props: LinkTabProps) {
+function LinkTab(props: ILinkTabProps) {
   return (
     <Tab
       component="a"
@@ -59,6 +54,11 @@ const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: theme.palette.background.paper
   }
 }));
+
+interface ILinkTabProps {
+  label?: string;
+  href?: string;
+}
 
 export default function NavTabs() {
   const classes = useStyles({});
@@ -83,13 +83,13 @@ export default function NavTabs() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <DaySchedule day={"tuesday"} />
+        <DaySchedule days={"tuesday"} />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <DaySchedule day={"wednesday"} />
+        <DaySchedule days={"wednesday"} />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <DaySchedule day={"friday"} />
+        <DaySchedule days={"friday"} />
       </TabPanel>
     </div>
   );

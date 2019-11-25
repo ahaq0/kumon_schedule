@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import {
   withStyles,
   Theme,
@@ -137,51 +137,56 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+interface IDayScheduleProps {
+  days: string;
+}
 // I use React.memo to avoid rerendering the function every single I click elsewhere and go back
 // that behaviour leads to poor performance
-const dayschedule = React.memo(function CustomizedTables(props) {
-  const classes = useStyles({});
+const dayschedule: FunctionComponent<IDayScheduleProps> = React.memo(
+  function CustomizedTables(props) {
+    const classes = useStyles({});
 
-  const rowsData = parseSchedule(props.day);
-  console.log(props.day);
-  console.log(rowsData);
+    const rowsData = parseSchedule(props.days);
+    console.log(props.days);
+    console.log(rowsData);
 
-  // something to think about is that Friday time may be 6pm so i would need to change the TableRow a bit (selection)
+    // something to think about is that Friday time may be 6pm so i would need to change the TableRow a bit (selection)
 
-  return (
-    <Paper className={classes.root}>
-      <Table className={classes.table} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>2 : 30</StyledTableCell>
-            <StyledTableCell>3 : 00</StyledTableCell>
-            <StyledTableCell>3 : 30</StyledTableCell>
-            <StyledTableCell>4 : 00</StyledTableCell>
-            <StyledTableCell>4 : 30</StyledTableCell>
-            <StyledTableCell>5 : 00</StyledTableCell>
-            <StyledTableCell>5 : 30</StyledTableCell>
-            <StyledTableCell>6 : 00</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rowsData.map(row => (
-            <StyledTableRow key={row.id}>
-              <StyledTableCell component="th" scope="row">
-                {row.two3}
-              </StyledTableCell>
-              <StyledTableCell>{row.three}</StyledTableCell>
-              <StyledTableCell>{row.three3}</StyledTableCell>
-              <StyledTableCell>{row.four}</StyledTableCell>
-              <StyledTableCell>{row.four3}</StyledTableCell>
-              <StyledTableCell>{row.five}</StyledTableCell>
-              <StyledTableCell>{row.five3}</StyledTableCell>
-              <StyledTableCell>{row.six}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </Paper>
-  );
-});
+    return (
+      <Paper className={classes.root}>
+        <Table className={classes.table} aria-label="customized table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell>2 : 30</StyledTableCell>
+              <StyledTableCell>3 : 00</StyledTableCell>
+              <StyledTableCell>3 : 30</StyledTableCell>
+              <StyledTableCell>4 : 00</StyledTableCell>
+              <StyledTableCell>4 : 30</StyledTableCell>
+              <StyledTableCell>5 : 00</StyledTableCell>
+              <StyledTableCell>5 : 30</StyledTableCell>
+              <StyledTableCell>6 : 00</StyledTableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rowsData.map(row => (
+              <StyledTableRow key={row.id}>
+                <StyledTableCell component="th" scope="row">
+                  {row.two3}
+                </StyledTableCell>
+                <StyledTableCell>{row.three}</StyledTableCell>
+                <StyledTableCell>{row.three3}</StyledTableCell>
+                <StyledTableCell>{row.four}</StyledTableCell>
+                <StyledTableCell>{row.four3}</StyledTableCell>
+                <StyledTableCell>{row.five}</StyledTableCell>
+                <StyledTableCell>{row.five3}</StyledTableCell>
+                <StyledTableCell>{row.six}</StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
+    );
+  }
+);
 
 export default dayschedule;
