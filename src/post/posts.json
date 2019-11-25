@@ -21,7 +21,15 @@
     "fName": "Isiah",
     "lName": "C",
     "subjects": ["math", "reading"],
-    "days": ["wednesday", "friday"],
-    "startTime": [3, 2]
+    "days": ["wednesday"],
+    "startTime": [3]
+  },
+  {
+    "id": 4,
+    "fName": "Sam",
+    "lName": "T",
+    "subjects": ["math", "reading"],
+    "days": ["friday"],
+    "startTime": [3]
   }
 ]

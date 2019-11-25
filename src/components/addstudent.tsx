@@ -145,7 +145,7 @@ export default function PaperSheet() {
               <option value={5}>4 : 30 pm</option>
               <option value={6}>5 : 00 pm</option>
               <option value={7}>5 : 30 pm</option>
-              <option value={7}>6 : 00 pm</option>
+              <option value={8}>6 : 00 pm</option>
             </Select>
           </FormControl>
           <FormControl className={classes.formControl}>
