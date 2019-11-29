@@ -18,10 +18,6 @@ const App = () => {
       <Router>
         <RouterPage path="/" pageComponent={<AddStudent />} />
 
-        {/* <Button variant="contained" color="primary" path="/">
-              Submit🚀
-            </Button> */}
-
         <RouterPage path="/schedule" pageComponent={<Schedule />} />
         <RouterPage path="/students" pageComponent={<Students />} />
       </Router>

@@ -103,13 +103,8 @@ function findDayIndex(day: string) {
   return index;
 }
 
-// If a new student is added via the table, I want to put it in the posts.json so it updates
-function postData(newStudentAdded) {
-  return newStudentAdded;
-}
 // This function will push the data as it's changed back into the database for next time!
 export default function Students() {
-  const info = useState(() => createDataFromPost);
 
   const [state, setState] = useState<ITableState>({
     columns: [
