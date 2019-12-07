@@ -21,13 +21,37 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 
+function handleSubmit() {
+  // make a student object
+
+  console.log(name);
+  return;
+}
+
+const handleFNameChange = e => {
+  console.log(e.target.value);
+};
+
+function Student(
+  id: number,
+  fName: string,
+  lName: string,
+  subjects: string[],
+  days: string[],
+  startTime: number[]
+) {
+  this.id = id;
+  this.fName = fName;
+  this.lName = lName;
+  this.subjects = subjects;
+  this.days = days;
+  this.starTime = startTime;
+}
+
 const useStyles = makeStyles(theme =>
   createStyles({
     root: {
-      padding: theme.spacing(3, 2)
-    },
-    button: {
-      alignContent: "left"
+      padding: theme.spacing(5, 5)
     },
     container: {
       display: "flex",
@@ -36,7 +60,8 @@ const useStyles = makeStyles(theme =>
     formControl: {
       margin: theme.spacing(3),
       marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1)
+      marginRight: theme.spacing(1),
+      alignContent: "center"
     },
     textField: {
       marginLeft: theme.spacing(1),
@@ -52,6 +77,7 @@ const useStyles = makeStyles(theme =>
       margin: theme.spacing(3),
       minWidth: 500
     },
+    buttons: { padding: 5, marginLeft: 10, backgroundColor: "inherit" },
     grid: {}
   })
 );
@@ -59,115 +85,123 @@ const useStyles = makeStyles(theme =>
 export default function PaperSheet() {
   const classes = useStyles({});
 
-  // Default states
-
   return (
-    <Grid
-      container={true}
-      direction="column"
-      alignItems="center"
-      spacing={1}
-      justify="space-evenly"
-      className={classes.grid}
-    >
-      <Paper className={classes.root}>
-        <div>
-          <TextField
-            id="standard-basic-1"
-            className={classes.textField}
-            label="First Name"
-            margin="normal"
-          />
-        </div>
-        <div>
-          <TextField
-            id="standard-basic-2"
-            className={classes.textField}
-            label="Last Name"
-            margin="normal"
-          />
-        </div>
-        <div className={classes.checks}>
-          <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">Subjects</FormLabel>
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox value="Math" />}
-                label="Math"
-              />
-              <FormControlLabel
-                control={<Checkbox value="Reading" />}
-                label="Reading"
-              />
-            </FormGroup>
-          </FormControl>
+    <form onSubmit={handleSubmit}>
+      <Grid
+        container={true}
+        direction="column"
+        alignItems="center"
+        spacing={1}
+        justify="space-evenly"
+        className={classes.grid}
+      >
+        <Paper className={classes.root}>
+          <div>
+            <TextField
+              id="fninput"
+              className={classes.textField}
+              label="First Name"
+              margin="normal"
+              onChange={handleFNameChange}
+            />
+          </div>
+          <div>
+            <TextField
+              id="lninput"
+              className={classes.textField}
+              label="Last Name"
+              margin="normal"
+            />
+          </div>
+          <div className={classes.checks}>
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Subjects</FormLabel>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox value="Math" />}
+                  label="Math"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="Reading" />}
+                  label="Reading"
+                />
+              </FormGroup>
+            </FormControl>
 
-          <FormControl component="fieldset" className={classes.formControl}>
-            <FormLabel component="legend">Days</FormLabel>
-            <FormGroup>
-              <FormControlLabel
-                control={<Checkbox value="Tuesday" />}
-                label="Tuesday"
-              />
-              <FormControlLabel
-                control={<Checkbox value="Wednesday" />}
-                label="Wednesday"
-              />
-              <FormControlLabel
-                control={<Checkbox value="Friday" />}
-                label="Friday"
-              />
-            </FormGroup>
-          </FormControl>
+            <FormControl component="fieldset" className={classes.formControl}>
+              <FormLabel component="legend">Days</FormLabel>
+              <FormGroup>
+                <FormControlLabel
+                  control={<Checkbox value="Tuesday" />}
+                  label="Tuesday"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="Wednesday" />}
+                  label="Wednesday"
+                />
+                <FormControlLabel
+                  control={<Checkbox value="Friday" />}
+                  label="Friday"
+                />
+              </FormGroup>
+            </FormControl>
 
-          {/*
-          https://codesandbox.io/s/73ewv this is a demo of getting the checkboxes working correctly
-          */}
-        </div>
+            {/*
+        https://codesandbox.io/s/73ewv this is a demo of getting the checkboxes working correctly
+        */}
+          </div>
+          <div>
+            <Typography variant="h6" component="h3">
+              Start Time
+            </Typography>
 
-        <div>
-          <Typography variant="h6" component="h3">
-            Start Time
-          </Typography>
-
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="grouped-native-select">Day 1</InputLabel>
-            <Select
-              native={true}
-              defaultValue=""
-              input={<Input id="grouped-native-select" />}
-            >
-              <option value="" />
-              <option value={1}>2 : 30 pm</option>
-              <option value={2}>3 : 00 pm</option>
-              <option value={3}>3 : 30 pm</option>
-              <option value={4}>4 : 00 pm</option>
-              <option value={5}>4 : 30 pm</option>
-              <option value={6}>5 : 00 pm</option>
-              <option value={7}>5 : 30 pm</option>
-              <option value={8}>6 : 00 pm</option>
-            </Select>
-          </FormControl>
-          <FormControl className={classes.formControl}>
-            <InputLabel htmlFor="grouped-native-select">Day 2</InputLabel>
-            <Select
-              native={true}
-              defaultValue=""
-              input={<Input id="grouped-native-select" />}
-            >
-              <option value="" />
-              <option value={1}>2 : 30 pm</option>
-              <option value={2}>3 : 00 pm</option>
-              <option value={3}>3 : 30 pm</option>
-              <option value={4}>4 : 00 pm</option>
-              <option value={5}>4 : 30 pm</option>
-              <option value={6}>5 : 00 pm</option>
-              <option value={7}>5 : 30 pm</option>
-              <option value={8}>6 : 00 pm</option>
-            </Select>
-          </FormControl>
-        </div>
-      </Paper>
-    </Grid>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="grouped-native-select">Day 1</InputLabel>
+              <Select
+                native={true}
+                defaultValue=""
+                input={<Input id="grouped-native-select" />}
+              >
+                <option value="" />
+                <option value={1}>2 : 30 pm</option>
+                <option value={2}>3 : 00 pm</option>
+                <option value={3}>3 : 30 pm</option>
+                <option value={4}>4 : 00 pm</option>
+                <option value={5}>4 : 30 pm</option>
+                <option value={6}>5 : 00 pm</option>
+                <option value={7}>5 : 30 pm</option>
+                <option value={8}>6 : 00 pm</option>
+              </Select>
+            </FormControl>
+            <FormControl className={classes.formControl}>
+              <InputLabel htmlFor="grouped-native-select">Day 2</InputLabel>
+              <Select
+                native={true}
+                defaultValue=""
+                input={<Input id="grouped-native-select" />}
+              >
+                <option value="" />
+                <option value={1}>2 : 30 pm</option>
+                <option value={2}>3 : 00 pm</option>
+                <option value={3}>3 : 30 pm</option>
+                <option value={4}>4 : 00 pm</option>
+                <option value={5}>4 : 30 pm</option>
+                <option value={6}>5 : 00 pm</option>
+                <option value={7}>5 : 30 pm</option>
+                <option value={8}>6 : 00 pm</option>
+              </Select>
+            </FormControl>
+          </div>
+          <div>
+            <button className={classes.buttons} type="submit">
+              Submit🚀
+            </button>
+            <button className={classes.buttons} type="button">
+              Clear🧹
+            </button>
+          </div>
+        </Paper>
+      </Grid>
+    </form>
   );
 }
