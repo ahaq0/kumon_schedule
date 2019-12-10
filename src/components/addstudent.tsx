@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useReducer } from "react";
+import ReactDOM from "react-dom";
+
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core";
@@ -20,13 +22,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import ListSubheader from "@material-ui/core/ListSubheader";
 import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
-
-function handleSubmit() {
-  // make a student object
-
-  console.log(name);
-  return;
-}
 
 const handleFNameChange = e => {
   console.log(e.target.value);
@@ -82,9 +77,127 @@ const useStyles = makeStyles(theme =>
   })
 );
 
+const initialState = {
+  fName: "",
+  lName: "",
+  subjects: "",
+  days: "",
+  startTime: ""
+};
+
+const ogState = "";
 export default function PaperSheet() {
   const classes = useStyles({});
 
+  // so state variable is called fname
+  // function that updates it is
+  // Since updating a state variable always replaces it vs merging it when using hooks vs a class
+  // I separated hooks for each input
+
+  const [fname, setFname] = useState(ogState);
+  const [lname, setLname] = useState("");
+
+  // If anyone is aware of a better way to accomplish this via the same hook, please let me know.
+  const [math, setMath] = useState("");
+  const [reading, setReading] = useState("");
+
+  // For the Days
+  const [tuesday, setTuesday] = useState("");
+  const [wednesday, setWednesday] = useState("");
+  const [friday, setFriday] = useState("");
+
+  // For the times
+  const [day1Time, setDay1Time] = useState("");
+  const [day2Time, setDay2Time] = useState("");
+  // a function to add the selected days
+
+  // I understand there is a better way to do this like using initialState something akin to this https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
+  // Will change it
+
+  const [{ fName, lName, subjects, days, startTime }, setState] = useState(
+    initialState
+  );
+
+  const clearState = () => {
+    setState({ ...initialState });
+  };
+
+  const onChange = e => {
+    const { name, value } = e.target;
+    setState(prevState => ({ ...prevState, [name]: value }));
+  };
+
+  // const handleSubmit = e => {
+  //   e.preventDefault();
+  //   //signupUser().then(clearState);
+  // };
+
+  const handleReset = () => {
+    console.log("Reset now");
+    setFname(ogState);
+    setLname("");
+    setMath("");
+    setReading("");
+    setTuesday("");
+    setWednesday("");
+    setFriday("");
+    setDay1Time("");
+    setDay2Time("");
+    clearState();
+  };
+
+  const handleSubmit = (event: React.ChangeEvent<{}>) => {
+    event.preventDefault();
+
+    // and now make an object potentially
+    alert(`Fname ${fname} lname ${lname} subjects ${math} ${reading}
+       days: ${tuesday} ${wednesday} ${friday}
+       times: ${day1Time} ${day2Time}`);
+
+    handleReset();
+  };
+
+  const handleDaySubject = (event, type) => {
+    console.log(event + "  " + type);
+    if (event === true) {
+      switch (type) {
+        case "math":
+          setMath("Math");
+          return;
+        case "reading":
+          setReading("Reading");
+          return;
+        case "tuesday":
+          setTuesday("Tuesday");
+          return;
+        case "wednesday":
+          setWednesday("Wednesday");
+          return;
+        case "friday":
+          setFriday("Friday");
+          return;
+      }
+    } // if false, then make it return to default
+    else {
+      switch (type) {
+        case "math":
+          setMath("");
+          return;
+        case "reading":
+          setReading("");
+          return;
+        case "tuesday":
+          setTuesday("");
+          return;
+        case "wednesday":
+          setWednesday("");
+          return;
+        case "friday":
+          setFriday("");
+          return;
+      }
+    }
+  };
   return (
     <form onSubmit={handleSubmit}>
       <Grid
@@ -102,7 +215,7 @@ export default function PaperSheet() {
               className={classes.textField}
               label="First Name"
               margin="normal"
-              onChange={handleFNameChange}
+              onChange={e => setFname(e.target.value)}
             />
           </div>
           <div>
@@ -111,6 +224,7 @@ export default function PaperSheet() {
               className={classes.textField}
               label="Last Name"
               margin="normal"
+              onChange={e => setLname(e.target.value)}
             />
           </div>
           <div className={classes.checks}>
@@ -120,10 +234,19 @@ export default function PaperSheet() {
                 <FormControlLabel
                   control={<Checkbox value="Math" />}
                   label="Math"
+                  // Looks like this fix doesn't work https://stackoverflow.com/questions/42066421/property-value-does-not-exist-on-type-eventtarget
+                  onChange={e =>
+                    // setMath((event.target as HTMLTextAreaElement).checked)
+                    handleDaySubject(event.target.checked, "math")
+                  }
                 />
                 <FormControlLabel
                   control={<Checkbox value="Reading" />}
                   label="Reading"
+                  onChange={e =>
+                    // setReading((event.target as HTMLTextAreaElement).checked)
+                    handleDaySubject(event.target.checked, "reading")
+                  }
                 />
               </FormGroup>
             </FormControl>
@@ -134,14 +257,26 @@ export default function PaperSheet() {
                 <FormControlLabel
                   control={<Checkbox value="Tuesday" />}
                   label="Tuesday"
+                  onChange={e =>
+                    // setMath((event.target as HTMLTextAreaElement).checked)
+                    handleDaySubject(event.target.checked, "tuesday")
+                  }
                 />
                 <FormControlLabel
                   control={<Checkbox value="Wednesday" />}
                   label="Wednesday"
+                  onChange={e =>
+                    // setMath((event.target as HTMLTextAreaElement).checked)
+                    handleDaySubject(event.target.checked, "wednesday")
+                  }
                 />
                 <FormControlLabel
                   control={<Checkbox value="Friday" />}
                   label="Friday"
+                  onChange={e =>
+                    // setMath((event.target as HTMLTextAreaElement).checked)
+                    handleDaySubject(event.target.checked, "friday")
+                  }
                 />
               </FormGroup>
             </FormControl>
@@ -161,6 +296,7 @@ export default function PaperSheet() {
                 native={true}
                 defaultValue=""
                 input={<Input id="grouped-native-select" />}
+                onChange={e => setDay1Time(e.target.value)}
               >
                 <option value="" />
                 <option value={1}>2 : 30 pm</option>
@@ -179,6 +315,7 @@ export default function PaperSheet() {
                 native={true}
                 defaultValue=""
                 input={<Input id="grouped-native-select" />}
+                onChange={e => setDay2Time(e.target.value)}
               >
                 <option value="" />
                 <option value={1}>2 : 30 pm</option>
@@ -196,7 +333,11 @@ export default function PaperSheet() {
             <button className={classes.buttons} type="submit">
               Submit🚀
             </button>
-            <button className={classes.buttons} type="button">
+            <button
+              className={classes.buttons}
+              type="button"
+              onClick={handleReset}
+            >
               Clear🧹
             </button>
           </div>
