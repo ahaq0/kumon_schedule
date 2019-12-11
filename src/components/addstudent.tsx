@@ -98,13 +98,13 @@ export default function PaperSheet() {
   const [lname, setLname] = useState("");
 
   // If anyone is aware of a better way to accomplish this via the same hook, please let me know.
-  const [math, setMath] = useState("");
-  const [reading, setReading] = useState("");
+  const [math, setMath] = useState(false);
+  const [reading, setReading] = useState(false);
 
   // For the Days
-  const [tuesday, setTuesday] = useState("");
-  const [wednesday, setWednesday] = useState("");
-  const [friday, setFriday] = useState("");
+  const [tuesday, setTuesday] = useState(false);
+  const [wednesday, setWednesday] = useState(false);
+  const [friday, setFriday] = useState(false);
 
   // For the times
   const [day1Time, setDay1Time] = useState("");
@@ -114,18 +114,18 @@ export default function PaperSheet() {
   // I understand there is a better way to do this like using initialState something akin to this https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
   // Will change it
 
-  const [{ fName, lName, subjects, days, startTime }, setState] = useState(
-    initialState
-  );
+  // const [{ fName, lName, subjects, days, startTime }, setState] = useState(
+  //   initialState
+  // );
 
-  const clearState = () => {
-    setState({ ...initialState });
-  };
+  // const clearState = () => {
+  //   setState({ ...initialState });
+  // };
 
-  const onChange = e => {
-    const { name, value } = e.target;
-    setState(prevState => ({ ...prevState, [name]: value }));
-  };
+  // const onChange = e => {
+  //   const { name, value } = e.target;
+  //   setState(prevState => ({ ...prevState, [name]: value }));
+  // };
 
   // const handleSubmit = e => {
   //   e.preventDefault();
@@ -134,16 +134,15 @@ export default function PaperSheet() {
 
   const handleReset = () => {
     console.log("Reset now");
-    setFname(ogState);
+    setFname("");
     setLname("");
-    setMath("");
-    setReading("");
-    setTuesday("");
-    setWednesday("");
-    setFriday("");
+    setMath(false);
+    setReading(false);
+    setTuesday(false);
+    setWednesday(false);
+    setFriday(false);
     setDay1Time("");
     setDay2Time("");
-    clearState();
   };
 
   const handleSubmit = (event: React.ChangeEvent<{}>) => {
@@ -154,46 +153,47 @@ export default function PaperSheet() {
        days: ${tuesday} ${wednesday} ${friday}
        times: ${day1Time} ${day2Time}`);
 
+    // Will make a method here to parse the true false stuff into a post request
     handleReset();
   };
 
-  const handleDaySubject = (event, type) => {
+  const handleDaySubject = (event: boolean, type: string) => {
     console.log(event + "  " + type);
     if (event === true) {
       switch (type) {
         case "math":
-          setMath("Math");
+          setMath(true);
           return;
         case "reading":
-          setReading("Reading");
+          setReading(true);
           return;
         case "tuesday":
-          setTuesday("Tuesday");
+          setTuesday(true);
           return;
         case "wednesday":
-          setWednesday("Wednesday");
+          setWednesday(true);
           return;
         case "friday":
-          setFriday("Friday");
+          setFriday(true);
           return;
       }
     } // if false, then make it return to default
     else {
       switch (type) {
         case "math":
-          setMath("");
+          setMath(false);
           return;
         case "reading":
-          setReading("");
+          setReading(false);
           return;
         case "tuesday":
-          setTuesday("");
+          setTuesday(false);
           return;
         case "wednesday":
-          setWednesday("");
+          setWednesday(false);
           return;
         case "friday":
-          setFriday("");
+          setFriday(false);
           return;
       }
     }
@@ -215,6 +215,7 @@ export default function PaperSheet() {
               className={classes.textField}
               label="First Name"
               margin="normal"
+              value={fname}
               onChange={e => setFname(e.target.value)}
             />
           </div>
@@ -224,6 +225,7 @@ export default function PaperSheet() {
               className={classes.textField}
               label="Last Name"
               margin="normal"
+              value={lname}
               onChange={e => setLname(e.target.value)}
             />
           </div>
@@ -232,20 +234,26 @@ export default function PaperSheet() {
               <FormLabel component="legend">Subjects</FormLabel>
               <FormGroup>
                 <FormControlLabel
-                  control={<Checkbox value="Math" />}
+                  control={<Checkbox value="Math" checked={math} />}
                   label="Math"
                   // Looks like this fix doesn't work https://stackoverflow.com/questions/42066421/property-value-does-not-exist-on-type-eventtarget
                   onChange={e =>
                     // setMath((event.target as HTMLTextAreaElement).checked)
-                    handleDaySubject(event.target.checked, "math")
+                    handleDaySubject(
+                      (event.target as HTMLInputElement).checked,
+                      "math"
+                    )
                   }
                 />
                 <FormControlLabel
-                  control={<Checkbox value="Reading" />}
+                  control={<Checkbox value="Reading" checked={reading} />}
                   label="Reading"
                   onChange={e =>
                     // setReading((event.target as HTMLTextAreaElement).checked)
-                    handleDaySubject(event.target.checked, "reading")
+                    handleDaySubject(
+                      (event.target as HTMLInputElement).checked,
+                      "reading"
+                    )
                   }
                 />
               </FormGroup>
@@ -255,27 +263,36 @@ export default function PaperSheet() {
               <FormLabel component="legend">Days</FormLabel>
               <FormGroup>
                 <FormControlLabel
-                  control={<Checkbox value="Tuesday" />}
+                  control={<Checkbox value="Tuesday" checked={tuesday} />}
                   label="Tuesday"
                   onChange={e =>
                     // setMath((event.target as HTMLTextAreaElement).checked)
-                    handleDaySubject(event.target.checked, "tuesday")
+                    handleDaySubject(
+                      (event.target as HTMLInputElement).checked,
+                      "tuesday"
+                    )
                   }
                 />
                 <FormControlLabel
-                  control={<Checkbox value="Wednesday" />}
+                  control={<Checkbox value="Wednesday" checked={wednesday} />}
                   label="Wednesday"
                   onChange={e =>
                     // setMath((event.target as HTMLTextAreaElement).checked)
-                    handleDaySubject(event.target.checked, "wednesday")
+                    handleDaySubject(
+                      (event.target as HTMLInputElement).checked,
+                      "wednesday"
+                    )
                   }
                 />
                 <FormControlLabel
-                  control={<Checkbox value="Friday" />}
+                  control={<Checkbox value="Friday" checked={friday} />}
                   label="Friday"
                   onChange={e =>
                     // setMath((event.target as HTMLTextAreaElement).checked)
-                    handleDaySubject(event.target.checked, "friday")
+                    handleDaySubject(
+                      (event.target as HTMLInputElement).checked,
+                      "friday"
+                    )
                   }
                 />
               </FormGroup>
@@ -296,7 +313,8 @@ export default function PaperSheet() {
                 native={true}
                 defaultValue=""
                 input={<Input id="grouped-native-select" />}
-                onChange={e => setDay1Time(e.target.value)}
+                onChange={e => setDay1Time(e.target.value + "")}
+                value={day1Time}
               >
                 <option value="" />
                 <option value={1}>2 : 30 pm</option>
@@ -315,7 +333,8 @@ export default function PaperSheet() {
                 native={true}
                 defaultValue=""
                 input={<Input id="grouped-native-select" />}
-                onChange={e => setDay2Time(e.target.value)}
+                onChange={e => setDay2Time(e.target.value + "")}
+                value={day2Time}
               >
                 <option value="" />
                 <option value={1}>2 : 30 pm</option>
