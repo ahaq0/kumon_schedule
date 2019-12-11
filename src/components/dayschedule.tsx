@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent, useEffect, useState } from "react";
 import {
   withStyles,
   Theme,
@@ -13,6 +13,7 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import PostData from "../post/posts.json";
+import axios from "axios";
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -36,7 +37,7 @@ const StyledTableRow = withStyles((theme: Theme) =>
   })
 )(TableRow);
 
-function parseSchedule(day) {
+function parseSchedule(day: string) {
   const data = PostData;
 
   // I am creating the data for each row, this is an object type
@@ -65,9 +66,6 @@ function parseSchedule(day) {
       }
       // we mark just one spot
       else {
-        console.log(item.startTime);
-        console.log(+item.startTime[0] - 1);
-        console.log("Hi");
         studentTime[+item.startTime[0]] = studentName;
       }
     }
@@ -90,7 +88,7 @@ function parseSchedule(day) {
 
     // we need to get increment the id
     studentTime[0] = day + "" + count++;
-    console.log(studentTime);
+    // console.log(studentTime);
     const oneSchedule = createScheduleData(
       studentTime[0],
       studentTime[1],
@@ -140,6 +138,20 @@ const useStyles = makeStyles((theme: Theme) =>
 interface IDayScheduleProps {
   days: string;
 }
+
+useEffect(() => {
+  axios
+    .get("http://localhost:4000/students/")
+    .then(res => {
+      // this.setState({
+      //   students: res.data
+      // });
+      console.log(res.data + "   end of the data");
+    })
+    .catch(error => {
+      console.log(error + " axios error");
+    });
+}, []);
 // I use React.memo to avoid rerendering the function every single I click elsewhere and go back
 // that behaviour leads to poor performance
 const dayschedule: FunctionComponent<IDayScheduleProps> = React.memo(

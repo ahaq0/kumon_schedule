@@ -23,24 +23,22 @@ import ListSubheader from "@material-ui/core/ListSubheader";
 import Select from "@material-ui/core/Select";
 import Grid from "@material-ui/core/Grid";
 
-const handleFNameChange = e => {
-  console.log(e.target.value);
-};
+// For sending HTTP request
+import axios from "axios";
+import { indigo } from "@material-ui/core/colors";
 
 function Student(
-  id: number,
   fName: string,
   lName: string,
   subjects: string[],
   days: string[],
   startTime: number[]
 ) {
-  this.id = id;
-  this.fName = fName;
-  this.lName = lName;
+  this.fname = fName;
+  this.lname = lName;
   this.subjects = subjects;
   this.days = days;
-  this.starTime = startTime;
+  this.dayStart = startTime;
 }
 
 const useStyles = makeStyles(theme =>
@@ -133,7 +131,6 @@ export default function PaperSheet() {
   // };
 
   const handleReset = () => {
-    console.log("Reset now");
     setFname("");
     setLname("");
     setMath(false);
@@ -149,16 +146,72 @@ export default function PaperSheet() {
     event.preventDefault();
 
     // and now make an object potentially
+
+    // Converting bool property of subjects and days to text
+    const subjectStrings = [];
+    if (math === true) {
+      subjectStrings.push("Math");
+    }
+    if (reading === true) {
+      subjectStrings.push("Reading");
+    }
+
+    const dayStrings = [];
+    if (tuesday === true) {
+      dayStrings.push("tuesday");
+    }
+    if (wednesday === true) {
+      dayStrings.push("wednesday");
+    }
+    if (friday === true) {
+      dayStrings.push("friday");
+    }
+
+    const startTime = [];
+    // default is empty string
+    if (day1Time !== "") {
+      startTime.push(+day1Time);
+    }
+
+    if (day2Time !== "") {
+      startTime.push(+day2Time);
+    }
+
+    // create a new student
+    const newStudent = new Student(
+      fname,
+      lname,
+      subjectStrings,
+      dayStrings,
+      startTime
+    );
+
+    // console.log(newStudent);
+
+    // Now I will post the data to the database
+    axios
+      .post("http://localhost:4000/students/create-student", newStudent)
+      .then(res => console.log(res.data));
+
+    const copy = {
+      name: "s",
+      email: "a@gmai",
+      rollno: "1"
+    };
+
+    // axios
+    //   .post("http://localhost:4000/students/create-student", copy)
+    //   .then(res => console.log(res.data));
+
     alert(`Fname ${fname} lname ${lname} subjects ${math} ${reading}
        days: ${tuesday} ${wednesday} ${friday}
        times: ${day1Time} ${day2Time}`);
 
-    // Will make a method here to parse the true false stuff into a post request
+    // This will reset the state
     handleReset();
   };
 
   const handleDaySubject = (event: boolean, type: string) => {
-    console.log(event + "  " + type);
     if (event === true) {
       switch (type) {
         case "math":
@@ -311,10 +364,10 @@ export default function PaperSheet() {
               <InputLabel htmlFor="grouped-native-select">Day 1</InputLabel>
               <Select
                 native={true}
-                defaultValue=""
                 input={<Input id="grouped-native-select" />}
                 onChange={e => setDay1Time(e.target.value + "")}
                 value={day1Time}
+                required={true}
               >
                 <option value="" />
                 <option value={1}>2 : 30 pm</option>
@@ -331,7 +384,6 @@ export default function PaperSheet() {
               <InputLabel htmlFor="grouped-native-select">Day 2</InputLabel>
               <Select
                 native={true}
-                defaultValue=""
                 input={<Input id="grouped-native-select" />}
                 onChange={e => setDay2Time(e.target.value + "")}
                 value={day2Time}

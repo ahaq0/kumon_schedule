@@ -77,6 +77,7 @@ export default function NavTabs() {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
+          {/* what to do with drafts trash spam href */}
           <LinkTab label="Tuesday" href="/drafts" {...a11yProps(0)} />
           <LinkTab label="Wednesday" href="/trash" {...a11yProps(1)} />
           <LinkTab label="Friday" href="/spam" {...a11yProps(2)} />

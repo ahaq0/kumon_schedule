@@ -21,7 +21,7 @@ interface IRow {
 function createDataFromPost() {
   const pdata = PostData;
 
-  let data = [];
+  const data = [];
 
   for (const item of pdata) {
     const studentName = item.fName + " " + item.lName;
@@ -69,7 +69,7 @@ function createDataFromPost() {
       sday2Time = 9;
     }
 
-    let oneStudent = {
+    const oneStudent = {
       name: studentName,
       subjects: subjectIndex,
       day1: sday1,
@@ -105,7 +105,6 @@ function findDayIndex(day: string) {
 
 // This function will push the data as it's changed back into the database for next time!
 export default function Students() {
-
   const [state, setState] = useState<ITableState>({
     columns: [
       { title: "Name", field: "name" },
