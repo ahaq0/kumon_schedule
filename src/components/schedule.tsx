@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -6,6 +6,8 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import DaySchedule from "./dayschedule";
+import axios from "axios";
+
 interface ITabPanelProps {
   children?: React.ReactNode;
   index: any;
@@ -63,9 +65,46 @@ interface ILinkTabProps {
 export default function NavTabs() {
   const classes = useStyles({});
   const [value, setValue] = React.useState(0);
+  const [day, setDay] = React.useState("tuesday");
+
+  const [postData, setPostData] = React.useState({});
+
+  // let postData = axios
+  //   .get("http://localhost:4000/students/")
+  //   .then(res => {
+  //     console.log(res.data);
+  //   })
+  //   .catch(error => {
+  //     console.log(error + " axios error");
+  //   });
+  // let post;
+
+  function getData() {
+    axios
+      .get("http://localhost:4000/students/")
+      .then(res => {
+        console.log(res.data);
+        setPostData(res.data);
+      })
+      .catch(error => {
+        console.log(error + " axios error");
+      });
+  }
+  useEffect(() => {
+    getData();
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+    console.log(newValue);
+    if (newValue === 0) {
+      setDay("tuesday");
+    } else if (newValue === 1) {
+      setDay("wednesday");
+    } else if (newValue === 2) {
+      setDay("friday");
+    }
+    console.log(day);
   };
 
   return (
@@ -83,15 +122,19 @@ export default function NavTabs() {
           <LinkTab label="Friday" href="/spam" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <DaySchedule days={"tuesday"} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <DaySchedule days={"wednesday"} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <DaySchedule days={"friday"} />
-      </TabPanel>
+      {/* <TabPanel value={value} index ={}> */}
+      {/* <DaySchedule d={day} /> */}
+      {/* </TabPanel> */}
+      <DaySchedule d={day} pd={postData} />
+
+      {/* <DaySchedule props : {d :day } /> */}
+
+      {/* <TabPanel value={value} index={1}> */}
+      {/* <DaySchedule days={"wednesday"} {...postData} /> */}
+      {/* </TabPanel> */}
+      {/* <TabPanel value={value} index={2}> */}
+      {/* <DaySchedule days={"friday"} {...postData} /> */}
+      {/* </TabPanel> */}
     </div>
   );
 }

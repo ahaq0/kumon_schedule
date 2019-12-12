@@ -7,7 +7,7 @@ import NavBar from "./components/navbar";
 import AddStudent from "./components/addstudent";
 import GroupedButtons from "./components/buttongroups";
 import Students from "./components/students";
-import Schedule from "./components/schedulev2";
+import Schedule from "./components/schedule";
 import { Router, RouteComponentProps } from "@reach/router";
 
 const App = () => {

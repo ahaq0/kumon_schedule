@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useState,
+  Component
+} from "react";
 import {
   withStyles,
   Theme,
@@ -13,7 +18,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import PostData from "../post/posts.json";
-import axios from "axios";
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -36,8 +40,9 @@ const StyledTableRow = withStyles((theme: Theme) =>
     }
   })
 )(TableRow);
-
-function parseSchedule(day: string) {
+let dataRendered = false;
+// This function will look through the JSON payload and create a schedule based on day and the students
+function parseSchedule(day: string, postData: any[]) {
   const data = PostData;
 
   // I am creating the data for each row, this is an object type
@@ -48,6 +53,68 @@ function parseSchedule(day: string) {
   // const dayPassed = "wednesday";
   const dayPassed = day;
   let count = 1;
+
+  // I should create a symbol.iterator for postData to be able to do a for of loop.
+  /* tslint:disable-next-line */
+  for (let i = 0; i < postData.length; i++) {
+    const currentStudent = postData[i];
+    // console.log(current);
+    const sName = currentStudent.fname + " " + currentStudent.lname;
+
+    const subjectN: number = currentStudent.subjects.length;
+    const sTime: string[] = [...daySchedule];
+
+    // assuming I got passed a day, start time is either first index or second
+    // start time is stored as a value between 1 and 8, I use that as an index
+    if (currentStudent.days[0] === dayPassed) {
+      // if there are 2 subjects, total time = 1 hour so we mark 2 spots
+      if (subjectN === 2) {
+        sTime[+currentStudent.dayStart[0]] = sName;
+        sTime[+currentStudent.dayStart[0] + 1] = sName;
+      }
+      // we mark just one spot
+      else {
+        sTime[+currentStudent.dayStart[0]] = sName;
+      }
+    }
+    // same logic as above but we use the secondIndex
+    else if (currentStudent.days[1] === dayPassed) {
+      // if there are 2 subjects, total time = 1 hour so we mark 2 spots
+      if (subjectN === 2) {
+        sTime[+currentStudent.dayStart[1]] = sName;
+        sTime[+currentStudent.dayStart[1] + 1] = sName;
+      }
+      // we mark just one spot
+      else {
+        sTime[+currentStudent.dayStart[1]] = sName;
+      }
+    }
+    // if no days match, we don't want to add the student as it'll be an empty addition so we move on
+    else {
+      continue;
+    }
+
+    // we need to get increment the id
+    sTime[0] = day + "" + count++;
+    // console.log(sTime);
+    const oneSchedule = createScheduleData(
+      sTime[0],
+      sTime[1],
+      sTime[2],
+      sTime[3],
+      sTime[4],
+      sTime[5],
+      sTime[6],
+      sTime[7],
+      sTime[8]
+    );
+
+    // let's add that student's data
+    console.log(oneSchedule);
+    rowsData.push(oneSchedule);
+  }
+
+  dataRendered = true;
   for (const item of data) {
     const studentName = item.fName + " " + item.lName.substring(0, 1);
 
@@ -102,7 +169,7 @@ function parseSchedule(day: string) {
     );
 
     // let's add that student's data
-    rowsData.push(oneSchedule);
+    // rowsData.push(oneSchedule);
   }
   return rowsData;
 }
@@ -135,8 +202,15 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+// interface IDayScheduleProps {
+//   days: string;
+//   postData: [];
+// }
+
 interface IDayScheduleProps {
-  days: string;
+  d: string;
+  // Type is any [] as using {} leads to typescript saying no .length property ( which is false)
+  pd: any[];
 }
 
 // useEffect(() => {
@@ -160,28 +234,15 @@ const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTab
 ) {
   const classes = useStyles({});
 
-  const rowsData = parseSchedule(props.days);
-  // const [rowsData, setRows] = useState([]);
-  // setRows(parseSchedule(props.days));
-  // console.log(props.days);
-  // console.log(rowsData);
+  // if (typeof props.days === "undefined") {
+  // }
+  const data = props.pd;
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/students/")
-      .then(res => {
-        // this.setState({
-        //   students: res.data
-        // });
-        console.log(res.data + "   end of the data");
-      })
-      .catch(error => {
-        console.log(error + " axios error");
-      });
-  }, []);
+  const rowsData = parseSchedule(props.d, data);
+  const values = Object.values(data);
   // something to think about is that Friday time may be 6pm so i would need to change the TableRow a bit (selection)
 
-  return (
+  return dataRendered ? (
     <Paper className={classes.root}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
@@ -214,6 +275,8 @@ const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTab
         </TableBody>
       </Table>
     </Paper>
+  ) : (
+    <h2>Loading {props.d}...</h2>
   );
 };
 

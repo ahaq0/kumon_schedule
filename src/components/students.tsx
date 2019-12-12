@@ -20,9 +20,7 @@ interface IRow {
 // This function will create the data to be displayed in the
 function createDataFromPost() {
   const pdata = PostData;
-
   const data = [];
-
   for (const item of pdata) {
     const studentName = item.fName + " " + item.lName;
 
