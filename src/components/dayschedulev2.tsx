@@ -13,7 +13,6 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 import PostData from "../post/posts.json";
-import axios from "axios";
 
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
@@ -137,6 +136,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface IDayScheduleProps {
   days: string;
+  postData: [];
 }
 
 // useEffect(() => {
@@ -161,24 +161,12 @@ const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTab
   const classes = useStyles({});
 
   const rowsData = parseSchedule(props.days);
+
+  console.log(props.postData);
   // const [rowsData, setRows] = useState([]);
   // setRows(parseSchedule(props.days));
   // console.log(props.days);
   // console.log(rowsData);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/students/")
-      .then(res => {
-        // this.setState({
-        //   students: res.data
-        // });
-        console.log(res.data + "   end of the data");
-      })
-      .catch(error => {
-        console.log(error + " axios error");
-      });
-  }, []);
   // something to think about is that Friday time may be 6pm so i would need to change the TableRow a bit (selection)
 
   return (

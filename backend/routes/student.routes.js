@@ -6,19 +6,6 @@ let router = express.Router();
 let student = require("../models/Student");
 
 // Building a student
-router.route("/").post((req, res, next) => {
-  student.create(req.body, (error, data) => {
-    if (error) {
-      console.log(error);
-      console.log(error + " sigh");
-      return next(error);
-    } else {
-      console.log(data);
-      return res.json(data);
-    }
-  });
-});
-
 router.route("/create-student").post((req, res, next) => {
   student.create(req.body, (error, data) => {
     if (error) {
