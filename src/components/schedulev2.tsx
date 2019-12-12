@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
 import DaySchedule from "./dayschedulev2";
 import axios from "axios";
+
 interface ITabPanelProps {
   children?: React.ReactNode;
   index: any;
@@ -64,50 +65,47 @@ interface ILinkTabProps {
 export default function NavTabs() {
   const classes = useStyles({});
   const [value, setValue] = React.useState(0);
+  const [day, setDay] = React.useState("tuesday");
 
-  let postData, post;
+  const [postData, setPostData] = React.useState({});
 
-  const getData = async () => {
-    post = await axios
+  // let postData = axios
+  //   .get("http://localhost:4000/students/")
+  //   .then(res => {
+  //     console.log(res.data);
+  //   })
+  //   .catch(error => {
+  //     console.log(error + " axios error");
+  //   });
+  // let post;
+
+  function getData() {
+    axios
       .get("http://localhost:4000/students/")
-      .then()
+      .then(res => {
+        console.log(res.data);
+        setPostData(res.data);
+      })
       .catch(error => {
-        console.log(error);
+        console.log(error + " axios error");
       });
-    postData = post.data;
-    console.log(postData);
-  };
-
+  }
   useEffect(() => {
-    async function fetchD() {
-      post = await axios
-        .get("http://localhost:4000/students/")
-        .then()
-        .catch(error => {
-          console.log(error);
-        });
-      postData = post.data;
-      console.log(postData);
-    }
-    fetchD();
-  });
-  //   useEffect(() => {
-  //      axios
-  //       .get("http://localhost:4000/students/")
-  //       .then(res => {
-  //         // this.setState({
-  //         //   students: res.data
-  //         // });
-  //         //postData = res.data;
-  //         console.log(res.data);
-  //       })
-  //       .catch(error => {
-  //         console.log(error + " axios error");
-  //       });
-  //   }, []);
+    getData();
+  }, []);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
+    console.log(newValue);
+    if (newValue === 0) {
+      setDay("tuesday");
+    } else if (newValue === 1) {
+      setDay("wednesday");
+    } else if (newValue === 2) {
+      setDay("friday");
+    }
+    console.log(day);
+    //getData();
   };
 
   return (
@@ -125,16 +123,19 @@ export default function NavTabs() {
           <LinkTab label="Friday" href="/spam" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      <TabPanel value={value} index={0}>
-        <DaySchedule days={"tuesday"} {...postData} />
-      </TabPanel>
+      {/* <TabPanel value={value} index ={}> */}
+      {/* <DaySchedule d={day} /> */}
+      {/* </TabPanel> */}
+      <DaySchedule d={day} pd={postData} />
 
-      <TabPanel value={value} index={1}>
-        {/* <DaySchedule days={"wednesday"} {...postData} /> */}
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        {/* <DaySchedule days={"friday"} {...postData} /> */}
-      </TabPanel>
+      {/* <DaySchedule props : {d :day } /> */}
+
+      {/* <TabPanel value={value} index={1}> */}
+      {/* <DaySchedule days={"wednesday"} {...postData} /> */}
+      {/* </TabPanel> */}
+      {/* <TabPanel value={value} index={2}> */}
+      {/* <DaySchedule days={"friday"} {...postData} /> */}
+      {/* </TabPanel> */}
     </div>
   );
 }

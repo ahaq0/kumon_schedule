@@ -1,4 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from "react";
+import React, {
+  FunctionComponent,
+  useEffect,
+  useState,
+  Component
+} from "react";
 import {
   withStyles,
   Theme,
@@ -134,9 +139,14 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+// interface IDayScheduleProps {
+//   days: string;
+//   postData: [];
+// }
+
 interface IDayScheduleProps {
-  days: string;
-  postData: [];
+  d: string;
+  pd: {};
 }
 
 // useEffect(() => {
@@ -160,16 +170,29 @@ const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTab
 ) {
   const classes = useStyles({});
 
-  const rowsData = parseSchedule(props.days);
+  const rowsData = parseSchedule(props.d);
+  // if (typeof props.days === "undefined") {
+  // }
+  const data = props.pd;
+  const values = Object.values(data);
+  let misc = "not rendered";
+  for (let i = 0; i < props.pd.length; i++) {
+    let current = props.pd[i];
+    misc = current.fname;
+    console.log(current);
+  }
+  //console.log(values);
 
-  console.log(props.postData);
+  //console.log(props.pd);
+
+  //console.log(props.postData);
   // const [rowsData, setRows] = useState([]);
   // setRows(parseSchedule(props.days));
   // console.log(props.days);
   // console.log(rowsData);
   // something to think about is that Friday time may be 6pm so i would need to change the TableRow a bit (selection)
 
-  return (
+  return misc !== "not rendered" ? (
     <Paper className={classes.root}>
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
@@ -202,6 +225,10 @@ const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTab
         </TableBody>
       </Table>
     </Paper>
+  ) : (
+    <h2>
+      {props.d} Loading..{misc}
+    </h2>
   );
 };
 
