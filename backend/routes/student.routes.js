@@ -2,6 +2,12 @@ let mongoose = require("mongoose");
 let express = require("express");
 let router = express.Router();
 
+// Fix some warnings
+mongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+mongoose.set("useUnifiedTopology", true);
+
 // A student schema
 let student = require("../models/Student");
 
@@ -26,6 +32,21 @@ router.route("/").get((req, res, next) => {
       return next(error);
     } else {
       return res.json(data);
+    }
+  });
+});
+
+// Removing students
+
+router.route("/delete-student/:id").delete((req, res, next) => {
+  student.findByIdAndRemove(req.params.id, (error, data) => {
+    if (error) {
+      console.log(error);
+      return next(error);
+    } else {
+      res.status(200).json({
+        msg: data
+      });
     }
   });
 });
