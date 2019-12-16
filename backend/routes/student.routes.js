@@ -51,4 +51,24 @@ router.route("/delete-student/:id").delete((req, res, next) => {
   });
 });
 
+// Updating students
+
+router.route("/update-student/:id").put((req, res, next) => {
+  student.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: req.body
+    },
+    (error, data) => {
+      if (error) {
+        console.log(error + " :(");
+        return next(error);
+      } else {
+        res.json(data);
+        console.log("Student updated successfully !");
+      }
+    }
+  );
+});
+
 module.exports = router;

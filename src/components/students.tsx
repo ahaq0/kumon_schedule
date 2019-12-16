@@ -34,13 +34,36 @@ function Student(
 let pData = [];
 let ogData = [];
 
+// This function will edit the student in the DB who's value was just changed in the schedule component
+// Basically it will make the change permanent
+function updateStudent(index: number, studentToUpdate) {
+  const currentStudent = pData[index];
+  const idOfStudent = currentStudent._id;
+  console.log(studentToUpdate);
+
+  const changedStudent = convertStudentList2Student(studentToUpdate);
+
+  // Put the newly updated student into the database
+  axios
+    .put(
+      "http://localhost:4000/students/update-student/" + idOfStudent,
+      changedStudent
+    )
+    .then(res => {
+      console.log(res.data);
+      console.log("Update complete");
+    })
+    .catch(error => {
+      console.log(error + "fail reason " + error.response.data);
+    });
+}
 // I look at the index of the item that was deleted and then use that to find it's ID
 // Which I use with axios to delete it from the database
 // a normal object so I can retrive it's id to delete from the database.
 
-function removeStudent(index) {
+function removeStudent(index: number) {
   const idOfStudent = pData[index]._id;
-  //let student = convertStudentList2Student(studentToRemove);
+  // let student = convertStudentList2Student(studentToRemove);
   console.log("checking ");
 
   console.log(pData[index]._id);
@@ -128,7 +151,7 @@ function createDataFromPost(postData) {
 function convertStudentList2Student(studentList) {
   let lname = "";
   let fname = "";
-  if (studentList.name !== "") {
+  if (studentList.name !== "" && typeof studentList !== "undefined") {
     fname = studentList.name.split(" ")[0];
     // lname = studentList.name.split("")[1];
   }
@@ -183,9 +206,10 @@ function convertStudentList2Student(studentList) {
     }
 
     // Now find out the start times
-    dayStart.push(+studentList.day1Time);
-    if (studentList.day2Time !== 9) {
-      dayStart.push(+studentList.day2Time);
+    dayStart.push(studentList.day1Time);
+    // 9 means so no time
+    if (studentList.day2Time !== "9") {
+      dayStart.push(studentList.day2Time);
     }
   }
   // If it only has 1 day, we'll just make it have one day
@@ -258,7 +282,7 @@ export default function Students() {
         setState(prevState => {
           // let data = [...prevState.data];
           // data.push(createDataFromPost(res.data));
-          let data = createDataFromPost(res.data);
+          const data = createDataFromPost(res.data);
           // ogData.push(newData);
           // console.log(ogData);
           // postStudentToDb(createDataFromPost(res.data));
@@ -300,26 +324,26 @@ export default function Students() {
       {
         title: "Subjects",
         field: "subjects",
-        lookup: { 1: "Math", 2: "Reading", 3: "Math Reading" }
+        lookup: { "1": "Math", "2": "Reading", "3": "Math Reading" }
       },
 
       {
         title: "Day 1",
         field: "day1",
-        lookup: { 1: "Tuesday", 2: "Wednesday", 3: "Friday" }
+        lookup: { "1": "Tuesday", "2": "Wednesday", "3": "Friday" }
       },
       {
         title: "Time",
         field: "day1Time",
         lookup: {
-          1: "2 : 30 PM",
-          2: "3 : 00 PM",
-          3: "3 : 30 PM",
-          4: "4 : 00 PM",
-          5: "4 : 30 PM",
-          6: "5 : 00 PM",
-          7: "5 : 30 PM",
-          8: "6 : 00 PM"
+          "1": "2 : 30 PM",
+          "2": "3 : 00 PM",
+          "3": "3 : 30 PM",
+          "4": "4 : 00 PM",
+          "5": "4 : 30 PM",
+          "6": "5 : 00 PM",
+          "7": "5 : 30 PM",
+          "8": "6 : 00 PM"
         },
 
         type: "time"
@@ -327,23 +351,23 @@ export default function Students() {
       {
         title: "Day 2",
         field: "day2",
-        lookup: { 1: "Wednesday", 2: "Friday", 3: "" }
+        lookup: { "1": "Wednesday", "2": "Friday", "3": "" }
       },
       {
         title: "Time",
         field: "day2Time",
         // Added a 9 here with empty string since it's possible that they don't have 2 days.
         lookup: {
-          1: "2 : 30 PM",
-          2: "3 : 00 PM",
-          3: "3 : 30 PM",
-          4: "4 : 00 PM",
-          5: "4 : 30 PM",
-          6: "5 : 00 PM",
-          7: "5 : 30 PM",
-          8: "6 : 00 PM",
+          "1": "2 : 30 PM",
+          "2": "3 : 00 PM",
+          "3": "3 : 30 PM",
+          "4": "4 : 00 PM",
+          "5": "4 : 30 PM",
+          "6": "5 : 00 PM",
+          "7": "5 : 30 PM",
+          "8": "6 : 00 PM",
           // So the 9 is there if it's hit by accident
-          9: ""
+          "9": ""
         },
         type: "time"
       }
@@ -364,8 +388,9 @@ export default function Students() {
               setState(prevState => {
                 const data = [...prevState.data];
                 data.push(newData);
-                // ogData.push(newData);
                 console.log(ogData);
+                console.log(newData);
+                // Add that new student to database
                 postStudentToDb(newData);
 
                 return { ...prevState, data };
@@ -379,11 +404,17 @@ export default function Students() {
               if (oldData) {
                 setState(prevState => {
                   const data = [...prevState.data];
+                  console.log(data.indexOf(oldData) + " this was old data");
+                  let dataIndex = data.indexOf(oldData);
                   data[data.indexOf(oldData)] = newData;
+                  console.log(newData);
+                  // Want to update the data after it has changed.
+                  updateStudent(dataIndex, newData);
+
                   return { ...prevState, data };
                 });
               }
-            }, 600);
+            }, 300);
           }),
         onRowDelete: oldData =>
           new Promise(resolve => {
@@ -392,13 +423,10 @@ export default function Students() {
               setState(prevState => {
                 const data = [...prevState.data];
                 console.log(oldData);
+                // Remove student from Database
                 removeStudent(data.indexOf(oldData));
-                // console.log(oldData._id);
-
-                // console.log(data.indexOf(oldData));
-
+                // Remove student from table ( this happens quickly by this even though on new read from DB it will be gone)
                 data.splice(data.indexOf(oldData), 1);
-                // console.log(data.indexOf(oldData));
                 return { ...prevState, data };
               });
             }, 600);
