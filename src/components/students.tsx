@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MaterialTable, { Column } from "material-table";
 import axios from "axios";
 import PostData from "../post/posts.json";
+import { TablePagination } from "@material-ui/core";
 
 interface ITableState {
   columns: Array<Column<IRow>>;
@@ -10,11 +11,11 @@ interface ITableState {
 
 interface IRow {
   name: string;
-  subjects: number;
-  day1: number;
-  day1Time: number;
-  day2: number;
-  day2Time: number;
+  subjects: string;
+  day1: string;
+  day1Time: string;
+  day2: string;
+  day2Time: string;
 }
 
 function Student(
@@ -22,7 +23,7 @@ function Student(
   lName: string,
   subjects: string[],
   days: string[],
-  startTime: number[]
+  startTime: string[]
 ) {
   this.fname = fName;
   this.lname = lName;
@@ -40,8 +41,12 @@ function updateStudent(index: number, studentToUpdate) {
   const currentStudent = pData[index];
   const idOfStudent = currentStudent._id;
   console.log(studentToUpdate);
+  console.log("Student above was updated ^");
 
   const changedStudent = convertStudentList2Student(studentToUpdate);
+
+  console.log("Changed ");
+  console.log(changedStudent);
 
   // Put the newly updated student into the database
   axios
@@ -89,37 +94,37 @@ function createDataFromPost(postData) {
 
     const sName = currentStudent.fname + " " + currentStudent.lname;
 
-    let subjectIndex: number;
+    let subjectIndex: string;
 
     // Every student will have these, if they don't it'll be passed as the last index for empty string
-    let sday1: number;
-    let sday2: number;
-    let sday1Time: number;
-    let sday2Time: number;
+    let sday1: string;
+    let sday2: string;
+    let sday1Time: string;
+    let sday2Time: string;
 
     // Gotta double check this
     if (currentStudent.subjects.length > 1) {
-      subjectIndex = 3;
+      subjectIndex = "3";
     } else {
       if (currentStudent.subjects[0] === "math") {
-        subjectIndex = 1;
+        subjectIndex = "1";
       }
       // it is reading
       else {
-        subjectIndex = 2;
+        subjectIndex = "2";
       }
     }
 
     // Set the correct day column values for the table
     if (currentStudent.days.length > 1) {
       sday1 = findDayIndex(currentStudent.days[0]);
-      sday2 = findDayIndex(currentStudent.days[1]);
+      sday2 = parseInt(findDayIndex(currentStudent.days[1])) - 1 + "";
     } else {
       sday1 = findDayIndex(currentStudent.days[0]);
-      sday2 = 1; // 1 is empty string aka it doesn't exist / won't be shown
+      sday2 = ""; // 1 is empty string aka it doesn't exist / won't be shown
     }
 
-    // if they're 2 days
+    // if they're 2 days for time
     if (currentStudent.dayStart.length > 1) {
       sday1Time = currentStudent.dayStart[0];
       sday2Time = currentStudent.dayStart[1];
@@ -128,7 +133,7 @@ function createDataFromPost(postData) {
     // only one day
     else {
       sday1Time = currentStudent.dayStart[0];
-      sday2Time = 9;
+      sday2Time = "9";
     }
 
     const oneStudent = {
@@ -151,7 +156,7 @@ function createDataFromPost(postData) {
 function convertStudentList2Student(studentList) {
   let lname = "";
   let fname = "";
-  if (studentList.name !== "" && typeof studentList !== "undefined") {
+  if (studentList.name !== "") {
     fname = studentList.name.split(" ")[0];
     // lname = studentList.name.split("")[1];
   }
@@ -253,16 +258,16 @@ function postStudentToDb(student) {
 }
 // This function returns an index corresponding to the accurate day
 function findDayIndex(day: string) {
-  let index: number;
+  let index: string;
   switch (day) {
     case "tuesday":
-      index = 1;
+      index = "1";
       break;
     case "wednesday":
-      index = 2;
+      index = "2";
       break;
     case "friday":
-      index = 3;
+      index = "3";
       break;
   }
   return index;
@@ -316,6 +321,9 @@ export default function Students() {
   useEffect(() => {
     getData();
   }, []);
+  // For making the changes to the table stick
+  // const [rows, setRows] = useState(10);
+  // const [count, setCount] = useState(10);
 
   const [state, setState] = useState<ITableState>({
     columns: [
@@ -380,6 +388,25 @@ export default function Students() {
       title="Student List"
       columns={state.columns}
       data={state.data}
+      // onChangeRowsPerPage={(pageSize: number) => {
+      //   setRows(pageSize);
+      // }}
+      // components= {
+      //   {<TablePagination
+      //     rowsPerPage={rows}
+      //   />}
+      // }
+      // components={{
+      //   Pagination: (props: any) => (
+      //     <TablePagination {...props} rowsPerPage={rows} count={count} />
+      //   )
+      // }}
+      // components={
+      //   {Pagination:(props:any) =>
+      //   (TablePagination  rowsPerPage={rows})}
+      // }
+
+      // For add, edit delete functions
       editable={{
         onRowAdd: newData =>
           new Promise(resolve => {
@@ -392,7 +419,6 @@ export default function Students() {
                 console.log(newData);
                 // Add that new student to database
                 postStudentToDb(newData);
-
                 return { ...prevState, data };
               });
             }, 300);
