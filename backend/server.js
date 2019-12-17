@@ -28,12 +28,12 @@ mongoose
 const app = express();
 
 // Adding production build to fullfill react requestions
-
-app.use(express.static(path.join(__dirname, "./../../kumon_schedule/")));
+let a = require("./../src/index");
+app.use(express.static(path.join(__dirname, "./../src/")));
 
 // React root
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "./../../kumon_schedule/src/index.html"));
+  res.sendFile(path.join(__dirname + "./../src/index"));
 });
 
 app.use(bodyParser.json());
