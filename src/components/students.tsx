@@ -118,6 +118,7 @@ function createDataFromPost(postData) {
     // Set the correct day column values for the table
     if (currentStudent.days.length > 1) {
       sday1 = findDayIndex(currentStudent.days[0]);
+      // tslint:disable-next-line: radix
       sday2 = parseInt(findDayIndex(currentStudent.days[1])) - 1 + "";
     } else {
       sday1 = findDayIndex(currentStudent.days[0]);
@@ -431,7 +432,7 @@ export default function Students() {
                 setState(prevState => {
                   const data = [...prevState.data];
                   console.log(data.indexOf(oldData) + " this was old data");
-                  let dataIndex = data.indexOf(oldData);
+                  const dataIndex = data.indexOf(oldData);
                   data[data.indexOf(oldData)] = newData;
                   console.log(newData);
                   // Want to update the data after it has changed.
