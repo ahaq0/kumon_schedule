@@ -7,7 +7,7 @@ let path = require("path");
 
 const studentR = require("./routes/student.routes");
 
-let pa = require("./../../kumon_schedule/src/index");
+//let pa = require("./../../kumon_schedule/src/index.html");
 
 // Mongo connection
 mongoose.Promise = global.Promise;
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, "./../../kumon_schedule/")));
 
 // React root
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "./../../kumon_schedule/src/index"));
+  res.sendFile(path.join(__dirname + "./../../kumon_schedule/src/index.html"));
 });
 
 app.use(bodyParser.json());
