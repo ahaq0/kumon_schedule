@@ -3,6 +3,7 @@ let mongoose = require("mongoose");
 let cors = require("cors");
 let bodyParser = require("body-parser");
 let dbConfig = require("./database/db");
+let path = require("path");
 
 const studentR = require("./routes/student.routes");
 
@@ -23,6 +24,15 @@ mongoose
   );
 
 const app = express();
+
+// Adding production build to fullfill react requestions
+
+app.use(express.static(path.join(__dirname, "./../../kumon_schedule/")));
+
+// React root
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "./../../kumon_schedule/src/index.html"));
+});
 
 app.use(bodyParser.json());
 app.use(
