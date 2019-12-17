@@ -8,28 +8,28 @@ import Box from "@material-ui/core/Box";
 import DaySchedule from "./dayschedule";
 import axios from "axios";
 
-interface ITabPanelProps {
-  children?: React.ReactNode;
-  index: any;
-  value: any;
-}
+// interface ITabPanelProps {
+//   children?: React.ReactNode;
+//   index: any;
+//   value: any;
+// }
 
-function TabPanel(props: ITabPanelProps) {
-  const { children, value, index, ...other } = props;
+// function TabPanel(props: ITabPanelProps) {
+//   const { children, value, index, ...other } = props;
 
-  return (
-    <Typography
-      component="div"
-      role="tabpanel"
-      hidden={value !== index}
-      id={`nav-tabpanel-${index}`}
-      aria-labelledby={`nav-tab-${index}`}
-      {...other}
-    >
-      <Box p={3}>{children}</Box>
-    </Typography>
-  );
-}
+//   return (
+//     <Typography
+//       component="div"
+//       role="tabpanel"
+//       hidden={value !== index}
+//       id={`nav-tabpanel-${index}`}
+//       aria-labelledby={`nav-tab-${index}`}
+//       {...other}
+//     >
+//       <Box p={3}>{children}</Box>
+//     </Typography>
+//   );
+// }
 
 function a11yProps(index: any) {
   return {
@@ -68,16 +68,6 @@ export default function NavTabs() {
   const [day, setDay] = React.useState("tuesday");
 
   const [postData, setPostData] = React.useState({});
-
-  // let postData = axios
-  //   .get("http://localhost:4000/students/")
-  //   .then(res => {
-  //     console.log(res.data);
-  //   })
-  //   .catch(error => {
-  //     console.log(error + " axios error");
-  //   });
-  // let post;
 
   function getData() {
     axios

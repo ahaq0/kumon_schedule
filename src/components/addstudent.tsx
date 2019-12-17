@@ -83,7 +83,6 @@ const initialState = {
   startTime: ""
 };
 
-const ogState = "";
 export default function PaperSheet() {
   const classes = useStyles({});
 
@@ -92,43 +91,23 @@ export default function PaperSheet() {
   // Since updating a state variable always replaces it vs merging it when using hooks vs a class
   // I separated hooks for each input
 
-  const [fname, setFname] = useState(ogState);
+  // Potential improvement of using one state, https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
+
+  // Name
+  const [fname, setFname] = useState("");
   const [lname, setLname] = useState("");
 
-  // If anyone is aware of a better way to accomplish this via the same hook, please let me know.
+  // Subjects
   const [math, setMath] = useState(false);
   const [reading, setReading] = useState(false);
 
-  // For the Days
+  // Days
   const [tuesday, setTuesday] = useState(false);
   const [wednesday, setWednesday] = useState(false);
   const [friday, setFriday] = useState(false);
-
-  // For the times
+  // Day times
   const [day1Time, setDay1Time] = useState("");
   const [day2Time, setDay2Time] = useState("");
-  // a function to add the selected days
-
-  // I understand there is a better way to do this like using initialState something akin to this https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
-  // Will change it
-
-  // const [{ fName, lName, subjects, days, startTime }, setState] = useState(
-  //   initialState
-  // );
-
-  // const clearState = () => {
-  //   setState({ ...initialState });
-  // };
-
-  // const onChange = e => {
-  //   const { name, value } = e.target;
-  //   setState(prevState => ({ ...prevState, [name]: value }));
-  // };
-
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   //signupUser().then(clearState);
-  // };
 
   const handleReset = () => {
     setFname("");
@@ -145,9 +124,7 @@ export default function PaperSheet() {
   const handleSubmit = (event: React.ChangeEvent<{}>) => {
     event.preventDefault();
 
-    // and now make an object potentially
-
-    // Converting bool property of subjects and days to text
+    // Converting bool property of subjects and days to text for student object
     const subjectStrings = [];
     if (math === true) {
       subjectStrings.push("Math");
@@ -177,7 +154,7 @@ export default function PaperSheet() {
       startTime.push(+day2Time);
     }
 
-    // create a new student
+    // Create a new student
     const newStudent = new Student(
       fname,
       lname,
@@ -186,9 +163,7 @@ export default function PaperSheet() {
       startTime
     );
 
-    // console.log(newStudent);
-
-    // Now I will post the data to the database
+    // Add student to database
     axios
       .post("http://localhost:4000/students/create-student", newStudent)
       .then(res => console.log(res.data));
@@ -199,13 +174,7 @@ export default function PaperSheet() {
       rollno: "1"
     };
 
-    // axios
-    //   .post("http://localhost:4000/students/create-student", copy)
-    //   .then(res => console.log(res.data));
-
-    alert(`Fname ${fname} lname ${lname} subjects ${math} ${reading}
-       days: ${tuesday} ${wednesday} ${friday}
-       times: ${day1Time} ${day2Time}`);
+    alert(`${fname} ${lname} added successfully!`);
 
     // This will reset the state
     handleReset();
