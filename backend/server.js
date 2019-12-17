@@ -30,13 +30,17 @@ const app = express();
 // Adding production build to fullfill react requestions
 //app.use(express.static(path.join(__dirname, "./../src/")));
 
-app.use("/static", express.static(path.join(__dirname, "./../src/")));
+console.log(__dirname);
+// app.use("/static", express.static(path.join(__dirname, "./../src/")));
+app.use("/static", express.static(path.join("./../src/")));
 
 // React root
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "./../src/index"));
+  // res.sendFile(path.join(__dirname + "./../src/index.html"));
+  res.sendFile(path.join("./../src/index.html"));
 });
 
+//let a = require("./../src/index")
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
