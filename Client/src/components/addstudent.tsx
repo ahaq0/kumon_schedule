@@ -25,7 +25,6 @@ import Grid from "@material-ui/core/Grid";
 
 // For sending HTTP request
 import axios from "axios";
-import { indigo } from "@material-ui/core/colors";
 
 function Student(
   fName: string,

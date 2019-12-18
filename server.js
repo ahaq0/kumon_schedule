@@ -5,8 +5,10 @@ let bodyParser = require("body-parser");
 let dbConfig = require("./database/db");
 let path = require("path");
 
-const studentR = require("./routes/student.routes");
+// To externalize or put data out of source code into a .env file. Didn't use CRA so I don't have it
+require("dotenv").config();
 
+const studentR = require("./routes/student.routes");
 //let pa = require("./../../kumon_schedule/src/index.html");
 
 // Mongo connection
@@ -34,12 +36,14 @@ console.log(__dirname);
 //app.use("/static", express.static(path.join(__dirname, "./../src/")));
 // app.use("/static", express.static(path.join("./../src/")));
 
-app.use(express.static(__dirname + "./../dist"));
-// React root
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "./../dist/index.html"));
-  //res.sendFile(path.join("./../src/index.html"));
-});
+// app.use(express.static(__dirname + "./../dist"));
+// // React root
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname + "./../dist/index.html"));
+//   //res.sendFile(path.join("./../src/index.html"));
+// });
+
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 //let a = require("./../src/index")
 app.use(bodyParser.json());
@@ -52,6 +56,10 @@ app.use(cors());
 
 // Might need to change this
 app.use("/students", studentR);
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 // PORT
 const port = process.env.PORT || 4000;

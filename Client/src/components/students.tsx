@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import MaterialTable, { Column } from "material-table";
 import axios from "axios";
-import PostData from "../post/posts.json";
 import { TablePagination } from "@material-ui/core";
 
 interface ITableState {
@@ -84,7 +83,6 @@ function removeStudent(index: number) {
 
 // This function will create the data to be displayed in the
 function createDataFromPost(postData) {
-  const pdata = PostData;
   const data = [];
 
   // Parse through data to fit this format

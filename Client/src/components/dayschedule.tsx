@@ -17,8 +17,6 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-import PostData from "../post/posts.json";
-
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
@@ -43,8 +41,6 @@ const StyledTableRow = withStyles((theme: Theme) =>
 let dataRendered = false;
 // This function will look through the JSON payload and create a schedule based on day and the students
 function parseSchedule(day: string, postData: any[]) {
-  const data = PostData;
-
   // I am creating the data for each row, this is an object type
   // There are 8 possible time slots for a students
   const rowsData = [];
@@ -115,62 +111,6 @@ function parseSchedule(day: string, postData: any[]) {
   }
 
   dataRendered = true;
-  for (const item of data) {
-    const studentName = item.fName + " " + item.lName.substring(0, 1);
-
-    // if two subjects exist , it's 60 minutes otherwise just 30 minutes
-
-    const subjectNum: number = item.subjects.length;
-    const studentTime: string[] = [...daySchedule];
-
-    // assuming I got passed a day, start time is either first index or second
-    // start time is stored as a value between 1 and 8, I use that as an index
-    if (item.days[0] === dayPassed) {
-      // if there are 2 subjects, total time = 1 hour so we mark 2 spots
-      if (subjectNum === 2) {
-        studentTime[+item.startTime[0]] = studentName;
-        studentTime[+item.startTime[0] + 1] = studentName;
-      }
-      // we mark just one spot
-      else {
-        studentTime[+item.startTime[0]] = studentName;
-      }
-    }
-    // same logic as above but we use the secondIndex
-    else if (item.days[1] === dayPassed) {
-      // if there are 2 subjects, total time = 1 hour so we mark 2 spots
-      if (subjectNum === 2) {
-        studentTime[+item.startTime[1]] = studentName;
-        studentTime[+item.startTime[1] + 1] = studentName;
-      }
-      // we mark just one spot
-      else {
-        studentTime[+item.startTime[1]] = studentName;
-      }
-    }
-    // if no days match, we don't want to add the student as it'll be an empty addition so we move on
-    else {
-      continue;
-    }
-
-    // we need to get increment the id
-    studentTime[0] = day + "" + count++;
-    // console.log(studentTime);
-    const oneSchedule = createScheduleData(
-      studentTime[0],
-      studentTime[1],
-      studentTime[2],
-      studentTime[3],
-      studentTime[4],
-      studentTime[5],
-      studentTime[6],
-      studentTime[7],
-      studentTime[8]
-    );
-
-    // let's add that student's data
-    // rowsData.push(oneSchedule);
-  }
   return rowsData;
 }
 
