@@ -43,7 +43,7 @@ console.log(__dirname);
 //   //res.sendFile(path.join("./../src/index.html"));
 // });
 
-app.use(express.static(path.join(__dirname, "client", "dist")));
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 //let a = require("./../src/index")
 app.use(bodyParser.json());
@@ -58,7 +58,7 @@ app.use(cors());
 app.use("/students", studentR);
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
 
 // PORT
