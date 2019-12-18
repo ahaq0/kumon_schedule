@@ -101573,7 +101573,7 @@ var RouterPage = function RouterPage(props) {
 };
 
 react_dom_1.render(react_1.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","@reach/router":"../node_modules/@reach/router/es/index.js"}],"../node_modules/parcel/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","@reach/router":"../node_modules/@reach/router/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -101601,7 +101601,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51491" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57390" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
@@ -101777,5 +101777,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["../node_modules/parcel/src/builtins/hmr-runtime.js","../src/App.tsx"], null)
+},{}]},{},["../node_modules/parcel-bundler/src/builtins/hmr-runtime.js","../src/App.tsx"], null)
 //# sourceMappingURL=/App.587185e3.js.map
