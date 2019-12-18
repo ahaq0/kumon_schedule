@@ -63,5 +63,6 @@
 
     /* Advanced Options */
     "forceConsistentCasingInFileNames": true /* Disallow inconsistently-cased references to the same file. */
-  }
+  },
+  "exclude": ["**/*.spec.ts", "./node_modules"] // To prevent parcel bug https://github.com/parcel-bundler/parcel/issues/2185
 }
