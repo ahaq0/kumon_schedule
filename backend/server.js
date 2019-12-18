@@ -34,10 +34,10 @@ console.log(__dirname);
 //app.use("/static", express.static(path.join(__dirname, "./../src/")));
 // app.use("/static", express.static(path.join("./../src/")));
 
-app.use(express.static(__dirname + "./../src"));
+app.use(express.static(__dirname + "./../dist"));
 // React root
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "./../src/index.html"));
+  res.sendFile(path.join(__dirname + "./../dist/index.html"));
   //res.sendFile(path.join("./../src/index.html"));
 });
 

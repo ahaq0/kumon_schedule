@@ -10,8 +10,9 @@
     "dev": "parcel src/index.html",
     "typecheck": "tsc --no",
     "build": "parcel build src/index.html",
-    "start": "cd backend && npm install && nodemon server.js",
-    "heroku-postbuild": "npm install && npm run build"
+    "start": "cd backend && npm install && node server.js",
+    "heroku-postbuild": "npm install && npm run build",
+    "postinstall": "yarn build"
   },
   "author": "Ammar Haq",
   "license": "ISC",
