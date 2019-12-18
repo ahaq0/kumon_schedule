@@ -87,6 +87,7 @@ function createDataFromPost(postData) {
 
   // Parse through data to fit this format
 
+  // tslint:disable-next-line: prefer-for-of
   for (let i = 0; i < postData.length; i++) {
     const currentStudent = postData[i];
 
@@ -116,6 +117,7 @@ function createDataFromPost(postData) {
     // Set the correct day column values for the table
     if (currentStudent.days.length > 1) {
       sday1 = findDayIndex(currentStudent.days[0]);
+      // tslint:disable-next-line: radix
       sday2 = parseInt(findDayIndex(currentStudent.days[1])) - 1 + "";
     } else {
       sday1 = findDayIndex(currentStudent.days[0]);
@@ -167,13 +169,14 @@ function convertStudentList2Student(studentList) {
   // console.log("we're checkinig  " + studentList.subjects);
   switch (studentList.subjects) {
     case "1":
-      subjects.push("math");
+      subjects.push("Math");
       break;
     case "2":
-      subjects.push("reading");
+      subjects.push("Reading");
       break;
     case "3":
-      subjects.push("math reading");
+      subjects.push("Math");
+      subjects.push("Reading");
       break;
   }
   // console.log("We have :" + subjects);
@@ -429,7 +432,7 @@ export default function Students() {
                 setState(prevState => {
                   const data = [...prevState.data];
                   console.log(data.indexOf(oldData) + " this was old data");
-                  let dataIndex = data.indexOf(oldData);
+                  const dataIndex = data.indexOf(oldData);
                   data[data.indexOf(oldData)] = newData;
                   console.log(newData);
                   // Want to update the data after it has changed.

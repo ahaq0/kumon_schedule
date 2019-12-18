@@ -8,6 +8,7 @@ import AddStudent from "./components/addstudent";
 import GroupedButtons from "./components/buttongroups";
 import Students from "./components/students";
 import Schedule from "./components/schedule";
+import Login from "./components/login";
 import { Router, RouteComponentProps } from "@reach/router";
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
 
         <RouterPage path="/schedule" pageComponent={<Schedule />} />
         <RouterPage path="/students" pageComponent={<Students />} />
+        <RouterPage path="/login" pageComponent={<Login />} />
       </Router>
     </div>
   );
