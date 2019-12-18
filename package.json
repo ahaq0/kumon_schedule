@@ -11,8 +11,7 @@
     "typecheck": "tsc --no",
     "build": "parcel build src/index.html",
     "start": "cd backend && npm install && node server.js",
-    "heroku-postbuild": "npm install && npm run build",
-    "postinstall": "npm run build"
+    "heroku-postbuild": "npm install"
   },
   "author": "Ammar Haq",
   "license": "ISC",
