@@ -1,0 +1,1 @@
+{"version":3,"sources":["style.css"],"names":[],"mappings":"AAAA,eACE,iBACF,CACA,MACE,kBACF","file":"style.35ff168b.css","sourceRoot":"..\\public","sourcesContent":["#menuSelection {\r\n  text-align: center;\r\n}\r\n#body {\r\n  font-family: Roboto;\r\n}\r\n"]}
