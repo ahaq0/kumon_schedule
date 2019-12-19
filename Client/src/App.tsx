@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { render } from "react-dom";
 import Button from "@material-ui/core/Button";
 
@@ -11,22 +11,28 @@ import Schedule from "./components/schedule";
 import Login from "./components/login";
 import { Router, RouteComponentProps } from "@reach/router";
 
+import LoginContext from "./components/login-context";
+
 const App = () => {
+  // Hook
+
+  const loginHook = useState(false); // Default value
+  console.log(loginHook[0]);
+
   return (
-    <div id="menuSelection">
-      <NavBar />
-
-      <Router>
-        <RouterPage path="/" pageComponent={<AddStudent />} />
-
-        <RouterPage path="/schedule" pageComponent={<Schedule />} />
-        <RouterPage path="/students" pageComponent={<Students />} />
-        <RouterPage path="/login" pageComponent={<Login />} />
-      </Router>
-    </div>
+    <LoginContext.Provider value={loginHook}>
+      <div id="menuSelection">
+        <NavBar />
+        <Router>
+          <RouterPage path="/" pageComponent={<AddStudent />} />
+          <RouterPage path="/schedule" pageComponent={<Schedule />} />
+          <RouterPage path="/students" pageComponent={<Students />} />
+          <RouterPage path="/login" pageComponent={<Login />} />
+        </Router>
+      </div>
+    </LoginContext.Provider>
   );
 };
-
 // got this piece of code from https://github.com/reach/router/issues/141 idea is to make a wrapper
 // component for each component to avoid typescript from complaining
 const RouterPage = (

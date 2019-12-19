@@ -58702,604 +58702,24 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../src/components/addstudent.tsx":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../src/components/login-context.tsx":[function(require,module,exports) {
 "use strict";
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
-var __importDefault = this && this.__importDefault || function (mod) {
-  return mod && mod.__esModule ? mod : {
-    "default": mod
-  };
-};
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importStar(require("react"));
-
-var styles_1 = require("@material-ui/core/styles");
-
-var Paper_1 = __importDefault(require("@material-ui/core/Paper"));
-
-var TextField_1 = __importDefault(require("@material-ui/core/TextField"));
-
-var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
-
-var FormLabel_1 = __importDefault(require("@material-ui/core/FormLabel"));
-
-var FormControl_1 = __importDefault(require("@material-ui/core/FormControl"));
-
-var FormGroup_1 = __importDefault(require("@material-ui/core/FormGroup"));
-
-var FormControlLabel_1 = __importDefault(require("@material-ui/core/FormControlLabel"));
-
-var Checkbox_1 = __importDefault(require("@material-ui/core/Checkbox")); // for menu item or drawer below
-
-
-var InputLabel_1 = __importDefault(require("@material-ui/core/InputLabel"));
-
-var Input_1 = __importDefault(require("@material-ui/core/Input"));
-
-var Select_1 = __importDefault(require("@material-ui/core/Select"));
-
-var Grid_1 = __importDefault(require("@material-ui/core/Grid")); // For sending HTTP request
-
-
-var axios_1 = __importDefault(require("axios"));
-
-function Student(fName, lName, subjects, days, startTime) {
-  this.fname = fName;
-  this.lname = lName;
-  this.subjects = subjects;
-  this.days = days;
-  this.dayStart = startTime;
-}
-
-var useStyles = styles_1.makeStyles(function (theme) {
-  return styles_1.createStyles({
-    root: {
-      padding: theme.spacing(5, 5)
-    },
-    container: {
-      display: "flex",
-      flexWrap: "wrap"
-    },
-    formControl: {
-      margin: theme.spacing(3),
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      alignContent: "center"
-    },
-    textField: {
-      marginLeft: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      width: 200,
-      alignContent: "left"
-    },
-    checks: {
-      display: "flex"
-    },
-    timeFormControl: {
-      margin: theme.spacing(3),
-      minWidth: 500
-    },
-    buttons: {
-      padding: 5,
-      marginLeft: 10,
-      backgroundColor: "inherit"
-    },
-    grid: {}
-  });
-});
-var initialState = {
-  fName: "",
-  lName: "",
-  subjects: "",
-  days: "",
-  startTime: ""
-};
-
-function PaperSheet() {
-  var classes = useStyles({}); // so state variable is called fname
-  // function that updates it is
-  // Since updating a state variable always replaces it vs merging it when using hooks vs a class
-  // I separated hooks for each input
-  // Potential improvement of using one state, https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
-  // Name
-
-  var _react_1$useState = react_1.useState(""),
-      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
-      fname = _react_1$useState2[0],
-      setFname = _react_1$useState2[1];
-
-  var _react_1$useState3 = react_1.useState(""),
-      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
-      lname = _react_1$useState4[0],
-      setLname = _react_1$useState4[1]; // Subjects
-
-
-  var _react_1$useState5 = react_1.useState(false),
-      _react_1$useState6 = _slicedToArray(_react_1$useState5, 2),
-      math = _react_1$useState6[0],
-      setMath = _react_1$useState6[1];
-
-  var _react_1$useState7 = react_1.useState(false),
-      _react_1$useState8 = _slicedToArray(_react_1$useState7, 2),
-      reading = _react_1$useState8[0],
-      setReading = _react_1$useState8[1]; // Days
-
-
-  var _react_1$useState9 = react_1.useState(false),
-      _react_1$useState10 = _slicedToArray(_react_1$useState9, 2),
-      tuesday = _react_1$useState10[0],
-      setTuesday = _react_1$useState10[1];
-
-  var _react_1$useState11 = react_1.useState(false),
-      _react_1$useState12 = _slicedToArray(_react_1$useState11, 2),
-      wednesday = _react_1$useState12[0],
-      setWednesday = _react_1$useState12[1];
-
-  var _react_1$useState13 = react_1.useState(false),
-      _react_1$useState14 = _slicedToArray(_react_1$useState13, 2),
-      friday = _react_1$useState14[0],
-      setFriday = _react_1$useState14[1]; // Day times
-
-
-  var _react_1$useState15 = react_1.useState(""),
-      _react_1$useState16 = _slicedToArray(_react_1$useState15, 2),
-      day1Time = _react_1$useState16[0],
-      setDay1Time = _react_1$useState16[1];
-
-  var _react_1$useState17 = react_1.useState(""),
-      _react_1$useState18 = _slicedToArray(_react_1$useState17, 2),
-      day2Time = _react_1$useState18[0],
-      setDay2Time = _react_1$useState18[1];
-
-  var handleReset = function handleReset() {
-    setFname("");
-    setLname("");
-    setMath(false);
-    setReading(false);
-    setTuesday(false);
-    setWednesday(false);
-    setFriday(false);
-    setDay1Time("");
-    setDay2Time("");
-  };
-
-  var handleSubmit = function handleSubmit(event) {
-    event.preventDefault(); // Converting bool property of subjects and days to text for student object
-
-    var subjectStrings = [];
-
-    if (math === true) {
-      subjectStrings.push("Math");
-    }
-
-    if (reading === true) {
-      subjectStrings.push("Reading");
-    }
-
-    var dayStrings = [];
-
-    if (tuesday === true) {
-      dayStrings.push("tuesday");
-    }
-
-    if (wednesday === true) {
-      dayStrings.push("wednesday");
-    }
-
-    if (friday === true) {
-      dayStrings.push("friday");
-    }
-
-    var startTime = []; // default is empty string
-
-    if (day1Time !== "") {
-      startTime.push(+day1Time);
-    }
-
-    if (day2Time !== "") {
-      startTime.push(+day2Time);
-    } // Create a new student
-
-
-    var newStudent = new Student(fname, lname, subjectStrings, dayStrings, startTime); // Add student to database
-
-    axios_1.default.post("http://localhost:4000/students/create-student", newStudent).then(function (res) {
-      return console.log(res.data);
-    });
-    var copy = {
-      name: "s",
-      email: "a@gmai",
-      rollno: "1"
-    };
-    alert("".concat(fname, " ").concat(lname, " added successfully!")); // This will reset the state
-
-    handleReset();
-  };
-
-  var handleDaySubject = function handleDaySubject(event, type) {
-    if (event === true) {
-      switch (type) {
-        case "math":
-          setMath(true);
-          return;
-
-        case "reading":
-          setReading(true);
-          return;
-
-        case "tuesday":
-          setTuesday(true);
-          return;
-
-        case "wednesday":
-          setWednesday(true);
-          return;
-
-        case "friday":
-          setFriday(true);
-          return;
-      }
-    } // if false, then make it return to default
-    else {
-        switch (type) {
-          case "math":
-            setMath(false);
-            return;
-
-          case "reading":
-            setReading(false);
-            return;
-
-          case "tuesday":
-            setTuesday(false);
-            return;
-
-          case "wednesday":
-            setWednesday(false);
-            return;
-
-          case "friday":
-            setFriday(false);
-            return;
-        }
-      }
-  };
-
-  return react_1.default.createElement("form", {
-    onSubmit: handleSubmit
-  }, react_1.default.createElement(Grid_1.default, {
-    container: true,
-    direction: "column",
-    alignItems: "center",
-    spacing: 1,
-    justify: "space-evenly",
-    className: classes.grid
-  }, react_1.default.createElement(Paper_1.default, {
-    className: classes.root
-  }, react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
-    id: "fninput",
-    className: classes.textField,
-    label: "First Name",
-    margin: "normal",
-    value: fname,
-    onChange: function onChange(e) {
-      return setFname(e.target.value);
-    }
-  })), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
-    id: "lninput",
-    className: classes.textField,
-    label: "Last Name",
-    margin: "normal",
-    value: lname,
-    onChange: function onChange(e) {
-      return setLname(e.target.value);
-    }
-  })), react_1.default.createElement("div", {
-    className: classes.checks
-  }, react_1.default.createElement(FormControl_1.default, {
-    component: "fieldset",
-    className: classes.formControl
-  }, react_1.default.createElement(FormLabel_1.default, {
-    component: "legend"
-  }, "Subjects"), react_1.default.createElement(FormGroup_1.default, null, react_1.default.createElement(FormControlLabel_1.default, {
-    control: react_1.default.createElement(Checkbox_1.default, {
-      value: "Math",
-      checked: math
-    }),
-    label: "Math",
-    // Looks like this fix doesn't work https://stackoverflow.com/questions/42066421/property-value-does-not-exist-on-type-eventtarget
-    onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "math")
-      );
-    }
-  }), react_1.default.createElement(FormControlLabel_1.default, {
-    control: react_1.default.createElement(Checkbox_1.default, {
-      value: "Reading",
-      checked: reading
-    }),
-    label: "Reading",
-    onChange: function onChange(e) {
-      return (// setReading((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "reading")
-      );
-    }
-  }))), react_1.default.createElement(FormControl_1.default, {
-    component: "fieldset",
-    className: classes.formControl
-  }, react_1.default.createElement(FormLabel_1.default, {
-    component: "legend"
-  }, "Days"), react_1.default.createElement(FormGroup_1.default, null, react_1.default.createElement(FormControlLabel_1.default, {
-    control: react_1.default.createElement(Checkbox_1.default, {
-      value: "Tuesday",
-      checked: tuesday
-    }),
-    label: "Tuesday",
-    onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "tuesday")
-      );
-    }
-  }), react_1.default.createElement(FormControlLabel_1.default, {
-    control: react_1.default.createElement(Checkbox_1.default, {
-      value: "Wednesday",
-      checked: wednesday
-    }),
-    label: "Wednesday",
-    onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "wednesday")
-      );
-    }
-  }), react_1.default.createElement(FormControlLabel_1.default, {
-    control: react_1.default.createElement(Checkbox_1.default, {
-      value: "Friday",
-      checked: friday
-    }),
-    label: "Friday",
-    onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "friday")
-      );
-    }
-  })))), react_1.default.createElement("div", null, react_1.default.createElement(Typography_1.default, {
-    variant: "h6",
-    component: "h3"
-  }, "Start Time"), react_1.default.createElement(FormControl_1.default, {
-    className: classes.formControl
-  }, react_1.default.createElement(InputLabel_1.default, {
-    htmlFor: "grouped-native-select"
-  }, "Day 1"), react_1.default.createElement(Select_1.default, {
-    native: true,
-    input: react_1.default.createElement(Input_1.default, {
-      id: "grouped-native-select"
-    }),
-    onChange: function onChange(e) {
-      return setDay1Time(e.target.value + "");
-    },
-    value: day1Time,
-    required: true
-  }, react_1.default.createElement("option", {
-    value: ""
-  }), react_1.default.createElement("option", {
-    value: 1
-  }, "2 : 30 pm"), react_1.default.createElement("option", {
-    value: 2
-  }, "3 : 00 pm"), react_1.default.createElement("option", {
-    value: 3
-  }, "3 : 30 pm"), react_1.default.createElement("option", {
-    value: 4
-  }, "4 : 00 pm"), react_1.default.createElement("option", {
-    value: 5
-  }, "4 : 30 pm"), react_1.default.createElement("option", {
-    value: 6
-  }, "5 : 00 pm"), react_1.default.createElement("option", {
-    value: 7
-  }, "5 : 30 pm"), react_1.default.createElement("option", {
-    value: 8
-  }, "6 : 00 pm"))), react_1.default.createElement(FormControl_1.default, {
-    className: classes.formControl
-  }, react_1.default.createElement(InputLabel_1.default, {
-    htmlFor: "grouped-native-select"
-  }, "Day 2"), react_1.default.createElement(Select_1.default, {
-    native: true,
-    input: react_1.default.createElement(Input_1.default, {
-      id: "grouped-native-select"
-    }),
-    onChange: function onChange(e) {
-      return setDay2Time(e.target.value + "");
-    },
-    value: day2Time
-  }, react_1.default.createElement("option", {
-    value: ""
-  }), react_1.default.createElement("option", {
-    value: 1
-  }, "2 : 30 pm"), react_1.default.createElement("option", {
-    value: 2
-  }, "3 : 00 pm"), react_1.default.createElement("option", {
-    value: 3
-  }, "3 : 30 pm"), react_1.default.createElement("option", {
-    value: 4
-  }, "4 : 00 pm"), react_1.default.createElement("option", {
-    value: 5
-  }, "4 : 30 pm"), react_1.default.createElement("option", {
-    value: 6
-  }, "5 : 00 pm"), react_1.default.createElement("option", {
-    value: 7
-  }, "5 : 30 pm"), react_1.default.createElement("option", {
-    value: 8
-  }, "6 : 00 pm")))), react_1.default.createElement("div", null, react_1.default.createElement("button", {
-    className: classes.buttons,
-    type: "submit"
-  }, "Submit\uD83D\uDE80"), react_1.default.createElement("button", {
-    className: classes.buttons,
-    type: "button",
-    onClick: handleReset
-  }, "Clear\uD83E\uDDF9")))));
-}
-
-exports.default = PaperSheet;
-},{"react":"../node_modules/react/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Paper":"../node_modules/@material-ui/core/esm/Paper/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/FormLabel":"../node_modules/@material-ui/core/esm/FormLabel/index.js","@material-ui/core/FormControl":"../node_modules/@material-ui/core/esm/FormControl/index.js","@material-ui/core/FormGroup":"../node_modules/@material-ui/core/esm/FormGroup/index.js","@material-ui/core/FormControlLabel":"../node_modules/@material-ui/core/esm/FormControlLabel/index.js","@material-ui/core/Checkbox":"../node_modules/@material-ui/core/esm/Checkbox/index.js","@material-ui/core/InputLabel":"../node_modules/@material-ui/core/esm/InputLabel/index.js","@material-ui/core/Input":"../node_modules/@material-ui/core/esm/Input/index.js","@material-ui/core/Select":"../node_modules/@material-ui/core/esm/Select/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","axios":"../node_modules/axios/index.js"}],"../node_modules/@babel/runtime/helpers/interopRequireDefault.js":[function(require,module,exports) {
-function _interopRequireDefault(obj) {
-  return obj && obj.__esModule ? obj : {
-    "default": obj
-  };
-}
-
-module.exports = _interopRequireDefault;
-},{}],"../node_modules/@babel/runtime/helpers/extends.js":[function(require,module,exports) {
-function _extends() {
-  module.exports = _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-module.exports = _extends;
-},{}],"../node_modules/material-table/dist/utils/polyfill/array.find.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(Array.prototype, 'find', {
-  value: function value(predicate) {
-    if (this == null) {
-      throw new TypeError('"this" is null or not defined');
-    }
-
-    var o = Object(this);
-    var len = o.length >>> 0;
-
-    if (typeof predicate !== 'function') {
-      throw new TypeError('predicate must be a function');
-    }
-
-    var thisArg = arguments[1];
-    var k = 0;
-
-    while (k < len) {
-      var kValue = o[k];
-
-      if (predicate.call(thisArg, kValue, k, o)) {
-        return kValue;
-      }
-
-      k++;
-    }
-
-    return undefined;
-  }
-});
-},{}],"../node_modules/material-table/dist/utils/polyfill/index.js":[function(require,module,exports) {
-"use strict";
-
-if (!Array.prototype.find) {
-  require("./array.find");
-}
-},{"./array.find":"../node_modules/material-table/dist/utils/polyfill/array.find.js"}],"../node_modules/@babel/runtime/helpers/typeof.js":[function(require,module,exports) {
-function _typeof(obj) {
-  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-    module.exports = _typeof = function _typeof(obj) {
-      return typeof obj;
-    };
-  } else {
-    module.exports = _typeof = function _typeof(obj) {
-      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-    };
-  }
-
-  return _typeof(obj);
-}
-
-module.exports = _typeof;
-},{}],"../node_modules/@babel/runtime/helpers/interopRequireWildcard.js":[function(require,module,exports) {
-var _typeof = require("../helpers/typeof");
-
-function _getRequireWildcardCache() {
-  if (typeof WeakMap !== "function") return null;
-  var cache = new WeakMap();
-
-  _getRequireWildcardCache = function _getRequireWildcardCache() {
-    return cache;
-  };
-
-  return cache;
-}
-
-function _interopRequireWildcard(obj) {
-  if (obj && obj.__esModule) {
-    return obj;
-  }
-
-  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
-    return {
-      "default": obj
-    };
-  }
-
-  var cache = _getRequireWildcardCache();
-
-  if (cache && cache.has(obj)) {
-    return cache.get(obj);
-  }
-
-  var newObj = {};
-  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
-
-  for (var key in obj) {
-    if (Object.prototype.hasOwnProperty.call(obj, key)) {
-      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
-
-      if (desc && (desc.get || desc.set)) {
-        Object.defineProperty(newObj, key, desc);
-      } else {
-        newObj[key] = obj[key];
-      }
-    }
-  }
-
-  newObj["default"] = obj;
-
-  if (cache) {
-    cache.set(obj, newObj);
-  }
-
-  return newObj;
-}
-
-module.exports = _interopRequireWildcard;
-},{"../helpers/typeof":"../node_modules/@babel/runtime/helpers/typeof.js"}],"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js":[function(require,module,exports) {
+var react_1 = require("react"); // export const loggedIn = {
+//   status: false
+// };
+// export const LoginContext = React.createContext(
+//   loggedIn.status // default value
+// );
+
+
+var LoginContext = react_1.createContext([false, function () {}]);
+exports.default = LoginContext;
+},{"react":"../node_modules/react/index.js"}],"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59576,7 +58996,656 @@ Object.defineProperty(exports, "default", {
 var _CircularProgress = _interopRequireDefault(require("./CircularProgress"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js"}],"../node_modules/@material-ui/core/esm/Icon/Icon.js":[function(require,module,exports) {
+},{"./CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js"}],"../src/components/notLoggedIn.tsx":[function(require,module,exports) {
+"use strict";
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importDefault(require("react"));
+
+var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
+
+var styles_1 = require("@material-ui/core/styles");
+
+var CircularProgress_1 = __importDefault(require("@material-ui/core/CircularProgress")); // This component will be rendered if a user has not signed in yet.
+
+
+var useStyles = styles_1.makeStyles({
+  root: {
+    width: "100%",
+    maxWidth: 500
+  }
+});
+
+function notLoggedIn() {
+  var classes = useStyles({});
+  return react_1.default.createElement("div", null, react_1.default.createElement(Typography_1.default, {
+    variant: "h5",
+    gutterBottom: true
+  }, "Please log in ", react_1.default.createElement(CircularProgress_1.default, null)));
+}
+
+exports.default = notLoggedIn;
+},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/index.js"}],"../src/components/addstudent.tsx":[function(require,module,exports) {
+"use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
+
+var __importDefault = this && this.__importDefault || function (mod) {
+  return mod && mod.__esModule ? mod : {
+    "default": mod
+  };
+};
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = __importStar(require("react"));
+
+var styles_1 = require("@material-ui/core/styles");
+
+var Paper_1 = __importDefault(require("@material-ui/core/Paper"));
+
+var TextField_1 = __importDefault(require("@material-ui/core/TextField"));
+
+var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
+
+var FormLabel_1 = __importDefault(require("@material-ui/core/FormLabel"));
+
+var FormControl_1 = __importDefault(require("@material-ui/core/FormControl"));
+
+var FormGroup_1 = __importDefault(require("@material-ui/core/FormGroup"));
+
+var FormControlLabel_1 = __importDefault(require("@material-ui/core/FormControlLabel"));
+
+var Checkbox_1 = __importDefault(require("@material-ui/core/Checkbox")); // for menu item or drawer below
+
+
+var InputLabel_1 = __importDefault(require("@material-ui/core/InputLabel"));
+
+var Input_1 = __importDefault(require("@material-ui/core/Input"));
+
+var Select_1 = __importDefault(require("@material-ui/core/Select"));
+
+var Grid_1 = __importDefault(require("@material-ui/core/Grid")); // For sending HTTP request
+
+
+var axios_1 = __importDefault(require("axios"));
+
+var login_context_1 = __importDefault(require("./login-context"));
+
+var notLoggedIn_1 = __importDefault(require("./notLoggedIn"));
+
+function Student(fName, lName, subjects, days, startTime) {
+  this.fname = fName;
+  this.lname = lName;
+  this.subjects = subjects;
+  this.days = days;
+  this.dayStart = startTime;
+}
+
+var useStyles = styles_1.makeStyles(function (theme) {
+  return styles_1.createStyles({
+    root: {
+      padding: theme.spacing(5, 5)
+    },
+    container: {
+      display: "flex",
+      flexWrap: "wrap"
+    },
+    formControl: {
+      margin: theme.spacing(3),
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      alignContent: "center"
+    },
+    textField: {
+      marginLeft: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      width: 200,
+      alignContent: "left"
+    },
+    checks: {
+      display: "flex"
+    },
+    timeFormControl: {
+      margin: theme.spacing(3),
+      minWidth: 500
+    },
+    buttons: {
+      padding: 5,
+      marginLeft: 10,
+      backgroundColor: "inherit"
+    },
+    grid: {}
+  });
+});
+var initialState = {
+  fName: "",
+  lName: "",
+  subjects: "",
+  days: "",
+  startTime: ""
+};
+
+function PaperSheet() {
+  var classes = useStyles({}); // so state variable is called fname
+  // function that updates it is
+  // Since updating a state variable always replaces it vs merging it when using hooks vs a class
+  // I separated hooks for each input
+  // Potential improvement of using one state, https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
+  // Name
+
+  var _react_1$useState = react_1.useState(""),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      fname = _react_1$useState2[0],
+      setFname = _react_1$useState2[1];
+
+  var _react_1$useState3 = react_1.useState(""),
+      _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
+      lname = _react_1$useState4[0],
+      setLname = _react_1$useState4[1]; // Subjects
+
+
+  var _react_1$useState5 = react_1.useState(false),
+      _react_1$useState6 = _slicedToArray(_react_1$useState5, 2),
+      math = _react_1$useState6[0],
+      setMath = _react_1$useState6[1];
+
+  var _react_1$useState7 = react_1.useState(false),
+      _react_1$useState8 = _slicedToArray(_react_1$useState7, 2),
+      reading = _react_1$useState8[0],
+      setReading = _react_1$useState8[1]; // Days
+
+
+  var _react_1$useState9 = react_1.useState(false),
+      _react_1$useState10 = _slicedToArray(_react_1$useState9, 2),
+      tuesday = _react_1$useState10[0],
+      setTuesday = _react_1$useState10[1];
+
+  var _react_1$useState11 = react_1.useState(false),
+      _react_1$useState12 = _slicedToArray(_react_1$useState11, 2),
+      wednesday = _react_1$useState12[0],
+      setWednesday = _react_1$useState12[1];
+
+  var _react_1$useState13 = react_1.useState(false),
+      _react_1$useState14 = _slicedToArray(_react_1$useState13, 2),
+      friday = _react_1$useState14[0],
+      setFriday = _react_1$useState14[1]; // Day times
+
+
+  var _react_1$useState15 = react_1.useState(""),
+      _react_1$useState16 = _slicedToArray(_react_1$useState15, 2),
+      day1Time = _react_1$useState16[0],
+      setDay1Time = _react_1$useState16[1];
+
+  var _react_1$useState17 = react_1.useState(""),
+      _react_1$useState18 = _slicedToArray(_react_1$useState17, 2),
+      day2Time = _react_1$useState18[0],
+      setDay2Time = _react_1$useState18[1]; // To determine whether they are logged in
+
+
+  var _react_1$useContext = react_1.useContext(login_context_1.default),
+      _react_1$useContext2 = _slicedToArray(_react_1$useContext, 2),
+      loginHook = _react_1$useContext2[0],
+      setLoginHook = _react_1$useContext2[1];
+
+  var a = false;
+
+  var handleReset = function handleReset() {
+    console.log("Status of login is " + loginHook); //setLoginHook(true);
+
+    setFname("");
+    setLname("");
+    setMath(false);
+    setReading(false);
+    setTuesday(false);
+    setWednesday(false);
+    setFriday(false);
+    setDay1Time("");
+    setDay2Time("");
+  };
+
+  var handleSubmit = function handleSubmit(event) {
+    event.preventDefault(); // Converting bool property of subjects and days to text for student object
+
+    var subjectStrings = [];
+
+    if (math === true) {
+      subjectStrings.push("Math");
+    }
+
+    if (reading === true) {
+      subjectStrings.push("Reading");
+    }
+
+    var dayStrings = [];
+
+    if (tuesday === true) {
+      dayStrings.push("tuesday");
+    }
+
+    if (wednesday === true) {
+      dayStrings.push("wednesday");
+    }
+
+    if (friday === true) {
+      dayStrings.push("friday");
+    }
+
+    var startTime = []; // default is empty string
+
+    if (day1Time !== "") {
+      startTime.push(+day1Time);
+    }
+
+    if (day2Time !== "") {
+      startTime.push(+day2Time);
+    } // Create a new student
+
+
+    var newStudent = new Student(fname, lname, subjectStrings, dayStrings, startTime); // Add student to database
+
+    axios_1.default.post("http://localhost:4000/students/create-student", newStudent).then(function (res) {
+      return console.log(res.data);
+    });
+    var copy = {
+      name: "s",
+      email: "a@gmai",
+      rollno: "1"
+    };
+    alert("".concat(fname, " ").concat(lname, " added successfully!")); // This will reset the state
+
+    handleReset();
+  };
+
+  var handleDaySubject = function handleDaySubject(event, type) {
+    if (event === true) {
+      switch (type) {
+        case "math":
+          setMath(true);
+          return;
+
+        case "reading":
+          setReading(true);
+          return;
+
+        case "tuesday":
+          setTuesday(true);
+          return;
+
+        case "wednesday":
+          setWednesday(true);
+          return;
+
+        case "friday":
+          setFriday(true);
+          return;
+      }
+    } // if false, then make it return to default
+    else {
+        switch (type) {
+          case "math":
+            setMath(false);
+            return;
+
+          case "reading":
+            setReading(false);
+            return;
+
+          case "tuesday":
+            setTuesday(false);
+            return;
+
+          case "wednesday":
+            setWednesday(false);
+            return;
+
+          case "friday":
+            setFriday(false);
+            return;
+        }
+      }
+  };
+
+  return loginHook ? react_1.default.createElement("form", {
+    onSubmit: handleSubmit
+  }, react_1.default.createElement(Grid_1.default, {
+    container: true,
+    direction: "column",
+    alignItems: "center",
+    spacing: 1,
+    justify: "space-evenly",
+    className: classes.grid
+  }, react_1.default.createElement(Paper_1.default, {
+    className: classes.root
+  }, react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
+    id: "fninput",
+    className: classes.textField,
+    label: "First Name",
+    margin: "normal",
+    value: fname,
+    onChange: function onChange(e) {
+      return setFname(e.target.value);
+    }
+  })), react_1.default.createElement("div", null, react_1.default.createElement(TextField_1.default, {
+    id: "lninput",
+    className: classes.textField,
+    label: "Last Name",
+    margin: "normal",
+    value: lname,
+    onChange: function onChange(e) {
+      return setLname(e.target.value);
+    }
+  })), react_1.default.createElement("div", {
+    className: classes.checks
+  }, react_1.default.createElement(FormControl_1.default, {
+    component: "fieldset",
+    className: classes.formControl
+  }, react_1.default.createElement(FormLabel_1.default, {
+    component: "legend"
+  }, "Subjects"), react_1.default.createElement(FormGroup_1.default, null, react_1.default.createElement(FormControlLabel_1.default, {
+    control: react_1.default.createElement(Checkbox_1.default, {
+      value: "Math",
+      checked: math
+    }),
+    label: "Math",
+    // Looks like this fix doesn't work https://stackoverflow.com/questions/42066421/property-value-does-not-exist-on-type-eventtarget
+    onChange: function onChange(e) {
+      return (// setMath((event.target as HTMLTextAreaElement).checked)
+        handleDaySubject(event.target.checked, "math")
+      );
+    }
+  }), react_1.default.createElement(FormControlLabel_1.default, {
+    control: react_1.default.createElement(Checkbox_1.default, {
+      value: "Reading",
+      checked: reading
+    }),
+    label: "Reading",
+    onChange: function onChange(e) {
+      return (// setReading((event.target as HTMLTextAreaElement).checked)
+        handleDaySubject(event.target.checked, "reading")
+      );
+    }
+  }))), react_1.default.createElement(FormControl_1.default, {
+    component: "fieldset",
+    className: classes.formControl
+  }, react_1.default.createElement(FormLabel_1.default, {
+    component: "legend"
+  }, "Days"), react_1.default.createElement(FormGroup_1.default, null, react_1.default.createElement(FormControlLabel_1.default, {
+    control: react_1.default.createElement(Checkbox_1.default, {
+      value: "Tuesday",
+      checked: tuesday
+    }),
+    label: "Tuesday",
+    onChange: function onChange(e) {
+      return (// setMath((event.target as HTMLTextAreaElement).checked)
+        handleDaySubject(event.target.checked, "tuesday")
+      );
+    }
+  }), react_1.default.createElement(FormControlLabel_1.default, {
+    control: react_1.default.createElement(Checkbox_1.default, {
+      value: "Wednesday",
+      checked: wednesday
+    }),
+    label: "Wednesday",
+    onChange: function onChange(e) {
+      return (// setMath((event.target as HTMLTextAreaElement).checked)
+        handleDaySubject(event.target.checked, "wednesday")
+      );
+    }
+  }), react_1.default.createElement(FormControlLabel_1.default, {
+    control: react_1.default.createElement(Checkbox_1.default, {
+      value: "Friday",
+      checked: friday
+    }),
+    label: "Friday",
+    onChange: function onChange(e) {
+      return (// setMath((event.target as HTMLTextAreaElement).checked)
+        handleDaySubject(event.target.checked, "friday")
+      );
+    }
+  })))), react_1.default.createElement("div", null, react_1.default.createElement(Typography_1.default, {
+    variant: "h6",
+    component: "h3"
+  }, "Start Time"), react_1.default.createElement(FormControl_1.default, {
+    className: classes.formControl
+  }, react_1.default.createElement(InputLabel_1.default, {
+    htmlFor: "grouped-native-select"
+  }, "Day 1"), react_1.default.createElement(Select_1.default, {
+    native: true,
+    input: react_1.default.createElement(Input_1.default, {
+      id: "grouped-native-select"
+    }),
+    onChange: function onChange(e) {
+      return setDay1Time(e.target.value + "");
+    },
+    value: day1Time,
+    required: true
+  }, react_1.default.createElement("option", {
+    value: ""
+  }), react_1.default.createElement("option", {
+    value: 1
+  }, "2 : 30 pm"), react_1.default.createElement("option", {
+    value: 2
+  }, "3 : 00 pm"), react_1.default.createElement("option", {
+    value: 3
+  }, "3 : 30 pm"), react_1.default.createElement("option", {
+    value: 4
+  }, "4 : 00 pm"), react_1.default.createElement("option", {
+    value: 5
+  }, "4 : 30 pm"), react_1.default.createElement("option", {
+    value: 6
+  }, "5 : 00 pm"), react_1.default.createElement("option", {
+    value: 7
+  }, "5 : 30 pm"), react_1.default.createElement("option", {
+    value: 8
+  }, "6 : 00 pm"))), react_1.default.createElement(FormControl_1.default, {
+    className: classes.formControl
+  }, react_1.default.createElement(InputLabel_1.default, {
+    htmlFor: "grouped-native-select"
+  }, "Day 2"), react_1.default.createElement(Select_1.default, {
+    native: true,
+    input: react_1.default.createElement(Input_1.default, {
+      id: "grouped-native-select"
+    }),
+    onChange: function onChange(e) {
+      return setDay2Time(e.target.value + "");
+    },
+    value: day2Time
+  }, react_1.default.createElement("option", {
+    value: ""
+  }), react_1.default.createElement("option", {
+    value: 1
+  }, "2 : 30 pm"), react_1.default.createElement("option", {
+    value: 2
+  }, "3 : 00 pm"), react_1.default.createElement("option", {
+    value: 3
+  }, "3 : 30 pm"), react_1.default.createElement("option", {
+    value: 4
+  }, "4 : 00 pm"), react_1.default.createElement("option", {
+    value: 5
+  }, "4 : 30 pm"), react_1.default.createElement("option", {
+    value: 6
+  }, "5 : 00 pm"), react_1.default.createElement("option", {
+    value: 7
+  }, "5 : 30 pm"), react_1.default.createElement("option", {
+    value: 8
+  }, "6 : 00 pm")))), react_1.default.createElement("div", null, react_1.default.createElement("button", {
+    className: classes.buttons,
+    type: "submit"
+  }, "Submit\uD83D\uDE80"), react_1.default.createElement("button", {
+    className: classes.buttons,
+    type: "button",
+    onClick: handleReset
+  }, "Clear\uD83E\uDDF9"))))) : react_1.default.createElement(notLoggedIn_1.default, null);
+}
+
+exports.default = PaperSheet;
+},{"react":"../node_modules/react/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Paper":"../node_modules/@material-ui/core/esm/Paper/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/FormLabel":"../node_modules/@material-ui/core/esm/FormLabel/index.js","@material-ui/core/FormControl":"../node_modules/@material-ui/core/esm/FormControl/index.js","@material-ui/core/FormGroup":"../node_modules/@material-ui/core/esm/FormGroup/index.js","@material-ui/core/FormControlLabel":"../node_modules/@material-ui/core/esm/FormControlLabel/index.js","@material-ui/core/Checkbox":"../node_modules/@material-ui/core/esm/Checkbox/index.js","@material-ui/core/InputLabel":"../node_modules/@material-ui/core/esm/InputLabel/index.js","@material-ui/core/Input":"../node_modules/@material-ui/core/esm/Input/index.js","@material-ui/core/Select":"../node_modules/@material-ui/core/esm/Select/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","axios":"../node_modules/axios/index.js","./login-context":"../src/components/login-context.tsx","./notLoggedIn":"../src/components/notLoggedIn.tsx"}],"../node_modules/@babel/runtime/helpers/interopRequireDefault.js":[function(require,module,exports) {
+function _interopRequireDefault(obj) {
+  return obj && obj.__esModule ? obj : {
+    "default": obj
+  };
+}
+
+module.exports = _interopRequireDefault;
+},{}],"../node_modules/@babel/runtime/helpers/extends.js":[function(require,module,exports) {
+function _extends() {
+  module.exports = _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+module.exports = _extends;
+},{}],"../node_modules/material-table/dist/utils/polyfill/array.find.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(Array.prototype, 'find', {
+  value: function value(predicate) {
+    if (this == null) {
+      throw new TypeError('"this" is null or not defined');
+    }
+
+    var o = Object(this);
+    var len = o.length >>> 0;
+
+    if (typeof predicate !== 'function') {
+      throw new TypeError('predicate must be a function');
+    }
+
+    var thisArg = arguments[1];
+    var k = 0;
+
+    while (k < len) {
+      var kValue = o[k];
+
+      if (predicate.call(thisArg, kValue, k, o)) {
+        return kValue;
+      }
+
+      k++;
+    }
+
+    return undefined;
+  }
+});
+},{}],"../node_modules/material-table/dist/utils/polyfill/index.js":[function(require,module,exports) {
+"use strict";
+
+if (!Array.prototype.find) {
+  require("./array.find");
+}
+},{"./array.find":"../node_modules/material-table/dist/utils/polyfill/array.find.js"}],"../node_modules/@babel/runtime/helpers/typeof.js":[function(require,module,exports) {
+function _typeof(obj) {
+  if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
+    module.exports = _typeof = function _typeof(obj) {
+      return typeof obj;
+    };
+  } else {
+    module.exports = _typeof = function _typeof(obj) {
+      return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+    };
+  }
+
+  return _typeof(obj);
+}
+
+module.exports = _typeof;
+},{}],"../node_modules/@babel/runtime/helpers/interopRequireWildcard.js":[function(require,module,exports) {
+var _typeof = require("../helpers/typeof");
+
+function _getRequireWildcardCache() {
+  if (typeof WeakMap !== "function") return null;
+  var cache = new WeakMap();
+
+  _getRequireWildcardCache = function _getRequireWildcardCache() {
+    return cache;
+  };
+
+  return cache;
+}
+
+function _interopRequireWildcard(obj) {
+  if (obj && obj.__esModule) {
+    return obj;
+  }
+
+  if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") {
+    return {
+      "default": obj
+    };
+  }
+
+  var cache = _getRequireWildcardCache();
+
+  if (cache && cache.has(obj)) {
+    return cache.get(obj);
+  }
+
+  var newObj = {};
+  var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor;
+
+  for (var key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null;
+
+      if (desc && (desc.get || desc.set)) {
+        Object.defineProperty(newObj, key, desc);
+      } else {
+        newObj[key] = obj[key];
+      }
+    }
+  }
+
+  newObj["default"] = obj;
+
+  if (cache) {
+    cache.set(obj, newObj);
+  }
+
+  return newObj;
+}
+
+module.exports = _interopRequireWildcard;
+},{"../helpers/typeof":"../node_modules/@babel/runtime/helpers/typeof.js"}],"../node_modules/@material-ui/core/esm/Icon/Icon.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -100754,6 +100823,10 @@ var material_table_1 = __importDefault(require("material-table"));
 
 var axios_1 = __importDefault(require("axios"));
 
+var login_context_1 = __importDefault(require("./login-context"));
+
+var notLoggedIn_1 = __importDefault(require("./notLoggedIn"));
+
 function Student(fName, lName, subjects, days, startTime) {
   this.fname = fName;
   this.lname = lName;
@@ -100998,6 +101071,10 @@ function Students() {
       postData = _react_1$default$useS2[0],
       setPostData = _react_1$default$useS2[1];
 
+  var _react_1$default$useC = react_1.default.useContext(login_context_1.default),
+      _react_1$default$useC2 = _slicedToArray(_react_1$default$useC, 1),
+      loginData = _react_1$default$useC2[0];
+
   function getData() {
     axios_1.default.get("http://localhost:4000/students/").then(function (res) {
       // console.log(res.data);
@@ -101107,7 +101184,7 @@ function Students() {
       state = _react_1$useState2[0],
       setState = _react_1$useState2[1];
 
-  return react_1.default.createElement(material_table_1.default, {
+  return loginData ? react_1.default.createElement(material_table_1.default, {
     title: "Student List",
     columns: state.columns,
     data: state.data,
@@ -101192,11 +101269,11 @@ function Students() {
         });
       }
     }
-  });
+  }) : react_1.default.createElement(notLoggedIn_1.default, null);
 }
 
 exports.default = Students;
-},{"react":"../node_modules/react/index.js","material-table":"../node_modules/material-table/dist/index.js","axios":"../node_modules/axios/index.js"}],"../src/components/dayschedule.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","material-table":"../node_modules/material-table/dist/index.js","axios":"../node_modules/axios/index.js","./login-context":"../src/components/login-context.tsx","./notLoggedIn":"../src/components/notLoggedIn.tsx"}],"../src/components/dayschedule.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -101223,7 +101300,10 @@ var TableHead_1 = __importDefault(require("@material-ui/core/TableHead"));
 
 var TableRow_1 = __importDefault(require("@material-ui/core/TableRow"));
 
-var Paper_1 = __importDefault(require("@material-ui/core/Paper"));
+var Paper_1 = __importDefault(require("@material-ui/core/Paper")); // For loading animation
+
+
+var notLoggedIn_1 = __importDefault(require("./notLoggedIn"));
 
 var StyledTableCell = styles_1.withStyles(function (theme) {
   return styles_1.createStyles({
@@ -101366,11 +101446,11 @@ var dayschedule = function CustomizedTables(props) {
       component: "th",
       scope: "row"
     }, row.two3), react_1.default.createElement(StyledTableCell, null, row.three), react_1.default.createElement(StyledTableCell, null, row.three3), react_1.default.createElement(StyledTableCell, null, row.four), react_1.default.createElement(StyledTableCell, null, row.four3), react_1.default.createElement(StyledTableCell, null, row.five), react_1.default.createElement(StyledTableCell, null, row.five3), react_1.default.createElement(StyledTableCell, null, row.six));
-  })))) : react_1.default.createElement("h2", null, "Loading ", props.d, "...");
+  })))) : react_1.default.createElement("div", null, react_1.default.createElement(notLoggedIn_1.default, null), react_1.default.createElement("h1", null, "OK"));
 };
 
 exports.default = dayschedule;
-},{"react":"../node_modules/react/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Table":"../node_modules/@material-ui/core/esm/Table/index.js","@material-ui/core/TableBody":"../node_modules/@material-ui/core/esm/TableBody/index.js","@material-ui/core/TableCell":"../node_modules/@material-ui/core/esm/TableCell/index.js","@material-ui/core/TableHead":"../node_modules/@material-ui/core/esm/TableHead/index.js","@material-ui/core/TableRow":"../node_modules/@material-ui/core/esm/TableRow/index.js","@material-ui/core/Paper":"../node_modules/@material-ui/core/esm/Paper/index.js"}],"../src/components/schedule.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Table":"../node_modules/@material-ui/core/esm/Table/index.js","@material-ui/core/TableBody":"../node_modules/@material-ui/core/esm/TableBody/index.js","@material-ui/core/TableCell":"../node_modules/@material-ui/core/esm/TableCell/index.js","@material-ui/core/TableHead":"../node_modules/@material-ui/core/esm/TableHead/index.js","@material-ui/core/TableRow":"../node_modules/@material-ui/core/esm/TableRow/index.js","@material-ui/core/Paper":"../node_modules/@material-ui/core/esm/Paper/index.js","./notLoggedIn":"../src/components/notLoggedIn.tsx"}],"../src/components/schedule.tsx":[function(require,module,exports) {
 "use strict";
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -101413,27 +101493,11 @@ var Tab_1 = __importDefault(require("@material-ui/core/Tab"));
 
 var dayschedule_1 = __importDefault(require("./dayschedule"));
 
-var axios_1 = __importDefault(require("axios")); // interface ITabPanelProps {
-//   children?: React.ReactNode;
-//   index: any;
-//   value: any;
-// }
-// function TabPanel(props: ITabPanelProps) {
-//   const { children, value, index, ...other } = props;
-//   return (
-//     <Typography
-//       component="div"
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`nav-tabpanel-${index}`}
-//       aria-labelledby={`nav-tab-${index}`}
-//       {...other}
-//     >
-//       <Box p={3}>{children}</Box>
-//     </Typography>
-//   );
-// }
+var axios_1 = __importDefault(require("axios"));
 
+var login_context_1 = __importDefault(require("./login-context"));
+
+var notLoggedIn_1 = __importDefault(require("./notLoggedIn"));
 
 function a11yProps(index) {
   return {
@@ -101478,6 +101542,10 @@ function NavTabs() {
       postData = _react_1$default$useS6[0],
       setPostData = _react_1$default$useS6[1];
 
+  var _react_1$useContext = react_1.useContext(login_context_1.default),
+      _react_1$useContext2 = _slicedToArray(_react_1$useContext, 1),
+      loginHook = _react_1$useContext2[0];
+
   function getData() {
     axios_1.default.get("http://localhost:4000/students/").then(function (res) {
       console.log(res.data);
@@ -101506,7 +101574,7 @@ function NavTabs() {
     console.log(day);
   };
 
-  return react_1.default.createElement("div", {
+  return loginHook ? react_1.default.createElement("div", {
     className: classes.root
   }, react_1.default.createElement(AppBar_1.default, {
     position: "static"
@@ -101527,11 +101595,11 @@ function NavTabs() {
   }, a11yProps(2))))), react_1.default.createElement(dayschedule_1.default, {
     d: day,
     pd: postData
-  }));
+  })) : react_1.default.createElement(notLoggedIn_1.default, null);
 }
 
 exports.default = NavTabs;
-},{"react":"../node_modules/react/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","@material-ui/core/Tabs":"../node_modules/@material-ui/core/esm/Tabs/index.js","@material-ui/core/Tab":"../node_modules/@material-ui/core/esm/Tab/index.js","./dayschedule":"../src/components/dayschedule.tsx","axios":"../node_modules/axios/index.js"}],"../node_modules/@material-ui/core/esm/internal/svg-icons/Person.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","@material-ui/core/Tabs":"../node_modules/@material-ui/core/esm/Tabs/index.js","@material-ui/core/Tab":"../node_modules/@material-ui/core/esm/Tab/index.js","./dayschedule":"../src/components/dayschedule.tsx","axios":"../node_modules/axios/index.js","./login-context":"../src/components/login-context.tsx","./notLoggedIn":"../src/components/notLoggedIn.tsx"}],"../node_modules/@material-ui/core/esm/internal/svg-icons/Person.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -103532,7 +103600,9 @@ var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 
 var styles_1 = require("@material-ui/core/styles");
 
-var Container_1 = __importDefault(require("@material-ui/core/Container")); // This login page is a template provided by material-ui that I modified.
+var Container_1 = __importDefault(require("@material-ui/core/Container"));
+
+var login_context_1 = __importDefault(require("./login-context")); // This login page is a template provided by material-ui that I modified.
 // Link https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
 
 
@@ -103580,17 +103650,35 @@ function SignIn() {
   var _react_1$useState3 = react_1.useState(""),
       _react_1$useState4 = _slicedToArray(_react_1$useState3, 2),
       password = _react_1$useState4[0],
-      setPassword = _react_1$useState4[1]; // This function will check to see if the values submitted are correct
+      setPassword = _react_1$useState4[1];
+
+  var _react_1$useContext = react_1.useContext(login_context_1.default),
+      _react_1$useContext2 = _slicedToArray(_react_1$useContext, 2),
+      login = _react_1$useContext2[0],
+      setLogin = _react_1$useContext2[1]; // This function will check to see if the values submitted are correct
 
 
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
+    console.log(user);
+    console.log(password);
 
     if (user !== "12" || password !== "12") {
-      console.log(user);
-      console.log(password);
       alert("Incorrect password");
+    } // That means they have implemented the login correctly.
+
+
+    if (user === "12" && password === "12") {
+      setLogin(true); //setLogin(true);
+
+      console.log("here"); //console.log(login);
     }
+
+    console.log(login);
+  };
+
+  var setLog = function setLog() {
+    setLogin(true);
   };
 
   return react_1.default.createElement(Container_1.default, {
@@ -103644,8 +103732,18 @@ function SignIn() {
 }
 
 exports.default = SignIn;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js"}],"../src/App.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","./login-context":"../src/components/login-context.tsx"}],"../src/App.tsx":[function(require,module,exports) {
 "use strict";
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -103657,7 +103755,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importDefault(require("react"));
+var react_1 = __importStar(require("react"));
 
 var react_dom_1 = require("react-dom");
 
@@ -103673,8 +103771,16 @@ var login_1 = __importDefault(require("./components/login"));
 
 var router_1 = require("@reach/router");
 
+var login_context_1 = __importDefault(require("./components/login-context"));
+
 var App = function App() {
-  return react_1.default.createElement("div", {
+  // Hook
+  var loginHook = react_1.useState(false); // Default value
+
+  console.log(loginHook[0]);
+  return react_1.default.createElement(login_context_1.default.Provider, {
+    value: loginHook
+  }, react_1.default.createElement("div", {
     id: "menuSelection"
   }, react_1.default.createElement(navbar_1.default, null), react_1.default.createElement(router_1.Router, null, react_1.default.createElement(RouterPage, {
     path: "/",
@@ -103688,7 +103794,7 @@ var App = function App() {
   }), react_1.default.createElement(RouterPage, {
     path: "/login",
     pageComponent: react_1.default.createElement(login_1.default, null)
-  })));
+  }))));
 }; // got this piece of code from https://github.com/reach/router/issues/141 idea is to make a wrapper
 // component for each component to avoid typescript from complaining
 
@@ -103698,7 +103804,7 @@ var RouterPage = function RouterPage(props) {
 };
 
 react_dom_1.render(react_1.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","./components/login":"../src/components/login.tsx","@reach/router":"../node_modules/@reach/router/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","./components/login":"../src/components/login.tsx","@reach/router":"../node_modules/@reach/router/es/index.js","./components/login-context":"../src/components/login-context.tsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;

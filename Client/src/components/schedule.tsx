@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -8,28 +8,8 @@ import Box from "@material-ui/core/Box";
 import DaySchedule from "./dayschedule";
 import axios from "axios";
 
-// interface ITabPanelProps {
-//   children?: React.ReactNode;
-//   index: any;
-//   value: any;
-// }
-
-// function TabPanel(props: ITabPanelProps) {
-//   const { children, value, index, ...other } = props;
-
-//   return (
-//     <Typography
-//       component="div"
-//       role="tabpanel"
-//       hidden={value !== index}
-//       id={`nav-tabpanel-${index}`}
-//       aria-labelledby={`nav-tab-${index}`}
-//       {...other}
-//     >
-//       <Box p={3}>{children}</Box>
-//     </Typography>
-//   );
-// }
+import loginContext from "./login-context";
+import Loading from "./notLoggedIn";
 
 function a11yProps(index: any) {
   return {
@@ -69,6 +49,8 @@ export default function NavTabs() {
 
   const [postData, setPostData] = React.useState({});
 
+  const [loginHook] = useContext(loginContext);
+
   function getData() {
     axios
       .get("http://localhost:4000/students/")
@@ -97,7 +79,7 @@ export default function NavTabs() {
     console.log(day);
   };
 
-  return (
+  return loginHook ? (
     <div className={classes.root}>
       <AppBar position="static">
         <Tabs
@@ -112,19 +94,10 @@ export default function NavTabs() {
           <LinkTab label="Friday" href="/spam" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      {/* <TabPanel value={value} index ={}> */}
-      {/* <DaySchedule d={day} /> */}
-      {/* </TabPanel> */}
+      {/* I just reuse this component to display different days instead of creating 3 components */}
       <DaySchedule d={day} pd={postData} />
-
-      {/* <DaySchedule props : {d :day } /> */}
-
-      {/* <TabPanel value={value} index={1}> */}
-      {/* <DaySchedule days={"wednesday"} {...postData} /> */}
-      {/* </TabPanel> */}
-      {/* <TabPanel value={value} index={2}> */}
-      {/* <DaySchedule days={"friday"} {...postData} /> */}
-      {/* </TabPanel> */}
     </div>
+  ) : (
+    <Loading />
   );
 }

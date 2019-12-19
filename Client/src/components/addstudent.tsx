@@ -1,4 +1,4 @@
-import React, { useState, useReducer } from "react";
+import React, { useState, useReducer, useContext } from "react";
 import ReactDOM from "react-dom";
 
 import { Theme, createStyles, makeStyles } from "@material-ui/core/styles";
@@ -25,6 +25,9 @@ import Grid from "@material-ui/core/Grid";
 
 // For sending HTTP request
 import axios from "axios";
+
+import loginContext from "./login-context";
+import Loading from "./notLoggedIn";
 
 function Student(
   fName: string,
@@ -108,7 +111,15 @@ export default function PaperSheet() {
   const [day1Time, setDay1Time] = useState("");
   const [day2Time, setDay2Time] = useState("");
 
+  // To determine whether they are logged in
+  const [loginHook, setLoginHook] = useContext(loginContext);
+  const a = false;
+
   const handleReset = () => {
+    console.log("Status of login is " + loginHook);
+
+    //setLoginHook(true);
+
     setFname("");
     setLname("");
     setMath(false);
@@ -219,7 +230,7 @@ export default function PaperSheet() {
       }
     }
   };
-  return (
+  return loginHook ? (
     <form onSubmit={handleSubmit}>
       <Grid
         container={true}
@@ -383,5 +394,7 @@ export default function PaperSheet() {
         </Paper>
       </Grid>
     </form>
+  ) : (
+    <Loading />
   );
 }

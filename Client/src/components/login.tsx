@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -12,6 +12,8 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
+
+import LoginContext from "./login-context";
 
 // This login page is a template provided by material-ui that I modified.
 // Link https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
@@ -55,15 +57,31 @@ export default function SignIn() {
   const [user, setUser] = useState("");
   const [password, setPassword] = useState("");
 
+  const [login, setLogin] = useContext(LoginContext);
   // This function will check to see if the values submitted are correct
 
   const handleSubmit = (event: React.ChangeEvent<{}>) => {
     event.preventDefault();
+
+    console.log(user);
+    console.log(password);
+
     if (user !== "12" || password !== "12") {
-      console.log(user);
-      console.log(password);
       alert("Incorrect password");
     }
+    // That means they have implemented the login correctly.
+    if (user === "12" && password === "12") {
+      setLogin(true);
+      //setLogin(true);
+
+      console.log("here");
+      //console.log(login);
+    }
+    console.log(login);
+  };
+
+  const setLog = () => {
+    setLogin(true);
   };
 
   return (
@@ -81,19 +99,19 @@ export default function SignIn() {
             variant="outlined"
             margin="normal"
             required={true}
-            fullWidth
+            fullWidth={true}
             id="email"
             label="Username"
             name="email"
             autoComplete="email"
             onChange={e => setUser(e.target.value)}
-            autoFocus
+            autoFocus={true}
           />
           <TextField
             variant="outlined"
             margin="normal"
-            required
-            fullWidth
+            required={true}
+            fullWidth={true}
             name="password"
             label="Password"
             type="password"
@@ -103,7 +121,7 @@ export default function SignIn() {
           />
           <Button
             type="submit"
-            fullWidth
+            fullWidth={true}
             variant="contained"
             color="primary"
             className={classes.submit}

@@ -17,6 +17,9 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
+// For loading animation
+import Loading from "./notLoggedIn";
+
 const StyledTableCell = withStyles((theme: Theme) =>
   createStyles({
     head: {
@@ -216,7 +219,10 @@ const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTab
       </Table>
     </Paper>
   ) : (
-    <h2>Loading {props.d}...</h2>
+    <div>
+      <Loading />
+      <h1>OK</h1>
+    </div>
   );
 };
 

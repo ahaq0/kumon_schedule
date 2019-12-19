@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import MaterialTable, { Column } from "material-table";
 import axios from "axios";
 import { TablePagination } from "@material-ui/core";
+
+import loginContext from "./login-context";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import Loading from "./notLoggedIn";
 
 interface ITableState {
   columns: Array<Column<IRow>>;
@@ -278,6 +282,7 @@ function findDayIndex(day: string) {
 export default function Students() {
   const [postData, setPostData] = React.useState({});
 
+  const [loginData] = React.useContext(loginContext);
   function getData() {
     axios
       .get("http://localhost:4000/students/")
@@ -384,7 +389,7 @@ export default function Students() {
     // data: createDataFromPost(postData)
     data: ogData
   });
-  return (
+  return loginData ? (
     <MaterialTable
       title="Student List"
       columns={state.columns}
@@ -460,5 +465,7 @@ export default function Students() {
           })
       }}
     />
+  ) : (
+    <Loading />
   );
 }
