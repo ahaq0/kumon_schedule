@@ -49,6 +49,19 @@ console.log(__dirname);
 // });
 
 app.use(express.static(path.join(__dirname, "Client", "dist")));
+app.use(cors());
+
+// Allow Cross Origin Resource Sharing (CORS) cross domain requestions
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 //let a = require("./../src/index")
 app.use(bodyParser.json());
@@ -57,7 +70,6 @@ app.use(
     extended: true
   })
 );
-app.use(cors());
 
 // Might need to change this
 app.use("/students", studentR);
@@ -70,17 +82,6 @@ app.get("*", (req, res) => {
 const port = process.env.PORT || 4000;
 const server = app.listen(port, () => {
   console.log("Connected to port  " + port);
-});
-
-// Allow Cross Origin Resource Sharing (CORS) cross domain requestions
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  next();
 });
 
 // 404 Error
