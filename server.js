@@ -3,7 +3,7 @@ let mongoose = require("mongoose");
 let cors = require("cors");
 let bodyParser = require("body-parser");
 
-// let dbConfig = require("./database/db");
+let dbConfig = require("./database/db");
 let path = require("path");
 
 // To externalize or put data out of source code into a .env file. Didn't use CRA so I don't have it
@@ -16,7 +16,7 @@ const studentR = require("./routes/student.routes");
 mongoose.Promise = global.Promise;
 
 // Getting variable
-let dbConfig = process.env.MONGODB_URL;
+//let dbConfig = process.env.MONGODB_URL;
 
 mongoose
   .connect(dbConfig.db, {
@@ -24,6 +24,7 @@ mongoose
   })
   .then(
     () => {
+      console.log(process.env.MONGODB_URL);
       console.log("Database sucessfully connected!");
     },
     error => {
