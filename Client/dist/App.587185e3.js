@@ -59218,8 +59218,7 @@ function PaperSheet() {
   var a = false;
 
   var handleReset = function handleReset() {
-    console.log("Status of login is " + loginHook); //setLoginHook(true);
-
+    console.log("Status of login is " + loginHook);
     setFname("");
     setLname("");
     setMath(false);
@@ -103831,7 +103830,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57745" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64032" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

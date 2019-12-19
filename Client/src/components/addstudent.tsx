@@ -117,9 +117,6 @@ export default function PaperSheet() {
 
   const handleReset = () => {
     console.log("Status of login is " + loginHook);
-
-    //setLoginHook(true);
-
     setFname("");
     setLname("");
     setMath(false);
