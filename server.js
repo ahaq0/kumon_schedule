@@ -18,6 +18,18 @@ mongoose.Promise = global.Promise;
 // Getting variable
 //let dbConfig = process.env.MONGODB_URL;
 
+// Cors issue hotfix
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
+app.options("*", cors());
+
 mongoose
   .connect(dbConfig.db, {
     useNewUrlParser: true
@@ -34,24 +46,10 @@ mongoose
 
 const app = express();
 
-// Adding production build to fullfill react requestions
-//app.use(express.static(path.join(__dirname, "./../src/")));
-
-console.log(__dirname);
-//app.use("/static", express.static(path.join(__dirname, "./../src/")));
-// app.use("/static", express.static(path.join("./../src/")));
-
-// app.use(express.static(__dirname + "./../dist"));
-// // React root
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname + "./../dist/index.html"));
-//   //res.sendFile(path.join("./../src/index.html"));
-// });
-
 app.use(express.static(path.join(__dirname, "Client", "dist")));
 app.use(cors());
 
-// Allow Cross Origin Resource Sharing (CORS) cross domain requestions
+// Allow Cross Origin Resource Sharing (CORS) cross domain requests
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
