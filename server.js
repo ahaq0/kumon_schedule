@@ -20,6 +20,7 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
+app.options("*", cors());
 // Cors issue hotfix
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -31,7 +32,17 @@ app.use(function(req, res, next) {
   next();
 });
 app.options("*", cors());
+// preflight OPTIONS; put before other routes
+app.listen(80, function() {
+  console.log("CORS-enabled web server listening on port 80");
+});
 
+corsOptions = {
+  origin: "kumonschedule.herokuapp.com",
+  optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 mongoose
   .connect(dbConfig.db, {
     useNewUrlParser: true
@@ -51,15 +62,15 @@ app.use(cors());
 
 // Allow Cross Origin Resource Sharing (CORS) cross domain requests
 
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept"
-  );
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  next();
-});
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "*");
+//   res.header(
+//     "Access-Control-Allow-Headers",
+//     "Origin, X-Requested-With, Content-Type, Accept"
+//   );
+//   res.setHeader("Access-Control-Allow-Origin", "*");
+//   next();
+// });
 
 //let a = require("./../src/index")
 app.use(bodyParser.json());
