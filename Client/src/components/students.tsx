@@ -53,10 +53,7 @@ function updateStudent(index: number, studentToUpdate) {
 
   // Put the newly updated student into the database
   axios
-    .put(
-      "http://localhost:4000/students/update-student/" + idOfStudent,
-      changedStudent
-    )
+    .put("/students/update-student/" + idOfStudent, changedStudent)
     .then(res => {
       console.log(res.data);
       console.log("Update complete");
@@ -76,7 +73,7 @@ function removeStudent(index: number) {
 
   console.log(pData[index]._id);
   axios
-    .delete("http://localhost:4000/students/delete-student/" + idOfStudent)
+    .delete("/students/delete-student/" + idOfStudent)
     .then(res => {
       console.log("Student successfully deleted!");
     })
@@ -258,7 +255,7 @@ function postStudentToDb(student) {
   console.log(newStudent);
   // Send the newly created student to the database
   axios
-    .post("http://localhost:4000/students/create-student", newStudent)
+    .post("/students/create-student", newStudent)
     .then(res => console.log(res.data));
 }
 // This function returns an index corresponding to the accurate day
@@ -285,7 +282,7 @@ export default function Students() {
   const [loginData] = React.useContext(loginContext);
   function getData() {
     axios
-      .get("http://localhost:4000/students/")
+      .get("/students/")
       .then(res => {
         // console.log(res.data);
         setPostData(res.data);

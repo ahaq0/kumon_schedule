@@ -156,22 +156,6 @@ interface IDayScheduleProps {
   pd: any[];
 }
 
-// useEffect(() => {
-//   axios
-//     .get("http://localhost:4000/students/")
-//     .then(res => {
-//       // this.setState({
-//       //   students: res.data
-//       // });
-//       console.log(res.data + "   end of the data");
-//     })
-//     .catch(error => {
-//       console.log(error + " axios error");
-//     });
-// }, []);
-
-// I use React.memo to avoid rerendering the function every single I click elsewhere and go back
-// that behaviour leads to poor performance
 const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTables(
   props
 ) {

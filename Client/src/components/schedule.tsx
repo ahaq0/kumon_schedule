@@ -53,7 +53,7 @@ export default function NavTabs() {
 
   function getData() {
     axios
-      .get("http://localhost:4000/students/")
+      .get("/students/")
       .then(res => {
         console.log(res.data);
         setPostData(res.data);

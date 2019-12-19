@@ -100848,7 +100848,7 @@ function updateStudent(index, studentToUpdate) {
   console.log("Changed ");
   console.log(changedStudent); // Put the newly updated student into the database
 
-  axios_1.default.put("http://localhost:4000/students/update-student/" + idOfStudent, changedStudent).then(function (res) {
+  axios_1.default.put("/students/update-student/" + idOfStudent, changedStudent).then(function (res) {
     console.log(res.data);
     console.log("Update complete");
   }).catch(function (error) {
@@ -100864,7 +100864,7 @@ function removeStudent(index) {
 
   console.log("checking ");
   console.log(pData[index]._id);
-  axios_1.default.delete("http://localhost:4000/students/delete-student/" + idOfStudent).then(function (res) {
+  axios_1.default.delete("/students/delete-student/" + idOfStudent).then(function (res) {
     console.log("Student successfully deleted!");
   }).catch(function (error) {
     console.log(error);
@@ -101038,7 +101038,7 @@ function postStudentToDb(student) {
   var newStudent = convertStudentList2Student(student);
   console.log(newStudent); // Send the newly created student to the database
 
-  axios_1.default.post("http://localhost:4000/students/create-student", newStudent).then(function (res) {
+  axios_1.default.post("/students/create-student", newStudent).then(function (res) {
     return console.log(res.data);
   });
 } // This function returns an index corresponding to the accurate day
@@ -101076,7 +101076,7 @@ function Students() {
       loginData = _react_1$default$useC2[0];
 
   function getData() {
-    axios_1.default.get("http://localhost:4000/students/").then(function (res) {
+    axios_1.default.get("/students/").then(function (res) {
       // console.log(res.data);
       setPostData(res.data);
       pData = res.data;
@@ -101410,21 +101410,7 @@ var useStyles = styles_1.makeStyles(function (theme) {
       minWidth: 700
     }
   });
-}); // useEffect(() => {
-//   axios
-//     .get("http://localhost:4000/students/")
-//     .then(res => {
-//       // this.setState({
-//       //   students: res.data
-//       // });
-//       console.log(res.data + "   end of the data");
-//     })
-//     .catch(error => {
-//       console.log(error + " axios error");
-//     });
-// }, []);
-// I use React.memo to avoid rerendering the function every single I click elsewhere and go back
-// that behaviour leads to poor performance
+});
 
 var dayschedule = function CustomizedTables(props) {
   var classes = useStyles({}); // if (typeof props.days === "undefined") {
@@ -101547,7 +101533,7 @@ function NavTabs() {
       loginHook = _react_1$useContext2[0];
 
   function getData() {
-    axios_1.default.get("http://localhost:4000/students/").then(function (res) {
+    axios_1.default.get("/students/").then(function (res) {
       console.log(res.data);
       setPostData(res.data);
     }).catch(function (error) {
