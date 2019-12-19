@@ -103669,9 +103669,8 @@ function SignIn() {
 
 
     if (user === "12" && password === "12") {
-      setLogin(true); //setLogin(true);
-
-      console.log("here"); //console.log(login);
+      setLogin(true);
+      console.log("here");
     }
 
     console.log(login);

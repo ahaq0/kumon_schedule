@@ -72,10 +72,8 @@ export default function SignIn() {
     // That means they have implemented the login correctly.
     if (user === "12" && password === "12") {
       setLogin(true);
-      //setLogin(true);
 
       console.log("here");
-      //console.log(login);
     }
     console.log(login);
   };
