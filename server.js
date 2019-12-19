@@ -20,7 +20,6 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
-app.options("*", cors());
 // Cors issue hotfix
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -31,11 +30,8 @@ app.use(function(req, res, next) {
   );
   next();
 });
+
 app.options("*", cors());
-// preflight OPTIONS; put before other routes
-app.listen(80, function() {
-  console.log("CORS-enabled web server listening on port 80");
-});
 
 corsOptions = {
   origin: "kumonschedule.herokuapp.com",
