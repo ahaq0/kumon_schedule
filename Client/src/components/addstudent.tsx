@@ -172,7 +172,6 @@ export default function PaperSheet() {
 
     // Add student to database
     axios
-      //.post("http://localhost:4000/students/create-student", newStudent)
       .post("/students/create-student", newStudent)
 
       .then(res => console.log(res.data));

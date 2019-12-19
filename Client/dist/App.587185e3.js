@@ -59270,8 +59270,7 @@ function PaperSheet() {
 
     var newStudent = new Student(fname, lname, subjectStrings, dayStrings, startTime); // Add student to database
 
-    axios_1.default //.post("http://localhost:4000/students/create-student", newStudent)
-    .post("/students/create-student", newStudent).then(function (res) {
+    axios_1.default.post("/students/create-student", newStudent).then(function (res) {
       return console.log(res.data);
     });
     var copy = {
