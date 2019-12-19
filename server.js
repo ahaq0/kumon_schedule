@@ -18,6 +18,8 @@ mongoose.Promise = global.Promise;
 // Getting variable
 //let dbConfig = process.env.MONGODB_URL;
 
+const app = express();
+
 // Cors issue hotfix
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -43,8 +45,6 @@ mongoose
       console.log("Could not connect to database : " + error);
     }
   );
-
-const app = express();
 
 app.use(express.static(path.join(__dirname, "Client", "dist")));
 app.use(cors());
