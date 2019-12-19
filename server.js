@@ -20,6 +20,7 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
+// Getting Cors to connect
 app.all("/*", function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
@@ -27,36 +28,7 @@ app.all("/*", function(req, res, next) {
   next();
 });
 
-// Cors issue hotfix
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   next();
-// });
-
-//app.options("*", cors());
-// From http://johnzhang.io/options-request-in-express
-// app.options("/*", function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Origin", "http://localhost:4000/students/");
-//   res.header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Content-Type, Authorization, Content-Length, X-Requested-With"
-//   );
-//   res.send(200);
-// });
-
-corsOptions = {
-  origin: "kumonschedule.herokuapp.com",
-  optionsSuccessStatus: 200
-};
-
-//app.use(cors(corsOptions));
+// Connect the database to schema
 mongoose
   .connect(dbConfig.db, {
     useNewUrlParser: true
@@ -71,22 +43,11 @@ mongoose
     }
   );
 
+// Loading up all of the front end files to serve
 app.use(express.static(path.join(__dirname, "Client", "dist")));
 app.use(cors());
 
-// Allow Cross Origin Resource Sharing (CORS) cross domain requests
-
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header(
-//     "Access-Control-Allow-Headers",
-//     "Origin, X-Requested-With, Content-Type, Accept"
-//   );
-//   res.setHeader("Access-Control-Allow-Origin", "*");
-//   next();
-// });
-
-//let a = require("./../src/index")
+// Parse the data in easily readable format
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -112,6 +73,7 @@ app.use((req, res, next) => {
   next(createError(404));
 });
 
+// Unkown error
 app.use(function(err, req, res, next) {
   console.error(err.message);
   if (!err.statusCode) err.statusCode = 500;
