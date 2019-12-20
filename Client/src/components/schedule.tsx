@@ -3,8 +3,6 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
 import DaySchedule from "./dayschedule";
 import axios from "axios";
 
@@ -42,6 +40,13 @@ interface ILinkTabProps {
   href?: string;
 }
 
+// const httpsAgent = new https.Agent({
+//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
+//   cert: fs.readFileSync("./usercert.pem"),
+//   key: fs.readFileSync("./key.pem"),
+//   passphrase: "YYY"
+// });
+
 export default function NavTabs() {
   const classes = useStyles({});
   const [value, setValue] = React.useState(0);
@@ -62,8 +67,12 @@ export default function NavTabs() {
         console.log(error + " axios error");
       });
   }
+
   useEffect(() => {
-    getData();
+    // Only fetch data if we're logged in (due to security concerns), otherwise don't.
+    if (loginHook) {
+      getData();
+    }
   }, []);
 
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {

@@ -100824,7 +100824,8 @@ var axios_1 = __importDefault(require("axios"));
 
 var login_context_1 = __importDefault(require("./login-context"));
 
-var notLoggedIn_1 = __importDefault(require("./notLoggedIn"));
+var notLoggedIn_1 = __importDefault(require("./notLoggedIn")); // A function to create student object
+
 
 function Student(fName, lName, subjects, days, startTime) {
   this.fname = fName;
@@ -100832,36 +100833,29 @@ function Student(fName, lName, subjects, days, startTime) {
   this.subjects = subjects;
   this.days = days;
   this.dayStart = startTime;
-}
+} // This is data direct from the DB pull request, I use it to grab __id of the item prior to update / delete operations
 
-var pData = [];
+
+var pData = []; // This is essentially a place holder for when there is no data
+
 var ogData = []; // This function will edit the student in the DB who's value was just changed in the schedule component
 // Basically it will make the change permanent
 
 function updateStudent(index, studentToUpdate) {
   var currentStudent = pData[index];
   var idOfStudent = currentStudent._id;
-  console.log(studentToUpdate);
-  console.log("Student above was updated ^");
-  var changedStudent = convertStudentList2Student(studentToUpdate);
-  console.log("Changed ");
-  console.log(changedStudent); // Put the newly updated student into the database
+  var changedStudent = convertStudentList2Student(studentToUpdate); // Put the newly updated student into the database
 
   axios_1.default.put("/students/update-student/" + idOfStudent, changedStudent).then(function (res) {
     console.log(res.data);
-    console.log("Update complete");
   }).catch(function (error) {
     console.log(error + "fail reason " + error.response.data);
   });
-} // I look at the index of the item that was deleted and then use that to find it's ID
-// Which I use with axios to delete it from the database
-// a normal object so I can retrive it's id to delete from the database.
+} // This function looks at the index of the item that was deleted and then use that to find it's ID to delete from DB
 
 
 function removeStudent(index) {
-  var idOfStudent = pData[index]._id; // let student = convertStudentList2Student(studentToRemove);
-
-  console.log("checking ");
+  var idOfStudent = pData[index]._id;
   console.log(pData[index]._id);
   axios_1.default.delete("/students/delete-student/" + idOfStudent).then(function (res) {
     console.log("Student successfully deleted!");
@@ -100944,7 +100938,7 @@ function convertStudentList2Student(studentList) {
     lname = studentList.name.split(" ")[1];
   }
 
-  var subjects = []; // console.log("we're checkinig  " + studentList.subjects);
+  var subjects = [];
 
   switch (studentList.subjects) {
     case "1":
@@ -100959,8 +100953,7 @@ function convertStudentList2Student(studentList) {
       subjects.push("Math");
       subjects.push("Reading");
       break;
-  } // console.log("We have :" + subjects);
-  // Check if it has 2 days
+  } // Check if it has 2 days
 
 
   var days = [];
@@ -101020,27 +101013,22 @@ function convertStudentList2Student(studentList) {
       }
 
       dayStart.push(+studentList.day1);
-    } // console.log(
-  //   fname + " " + lname + "  " + subjects + " " + days + " " + dayStart
-  // );
-
+    }
 
   return new Student(fname, lname, subjects, days, dayStart);
 } // I need to add the student to the DB however the input is different in this component vs how it is normally in the form
-// So I convert this object into the appropriate model so that I can store in the DB and then store it.
+// So I convert this object into the appropriate model so that I can store in the DB.
 
 
 function postStudentToDb(student) {
-  // Might need some error handling here over potential names, default seperated by space.
-  // Will add what if someone enters in a ""
+  // Should add more error handling here especially with obscure names in tests
   ogData.push(student);
-  var newStudent = convertStudentList2Student(student);
-  console.log(newStudent); // Send the newly created student to the database
+  var newStudent = convertStudentList2Student(student); // Send the newly created student to the database
 
   axios_1.default.post("/students/create-student", newStudent).then(function (res) {
     return console.log(res.data);
   });
-} // This function returns an index corresponding to the accurate day
+} // This function returns an index corresponding to the accurate day the student is in
 
 
 function findDayIndex(day) {
@@ -101065,45 +101053,21 @@ function findDayIndex(day) {
 
 
 function Students() {
-  var _react_1$default$useS = react_1.default.useState({}),
-      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
-      postData = _react_1$default$useS2[0],
-      setPostData = _react_1$default$useS2[1];
-
   var _react_1$default$useC = react_1.default.useContext(login_context_1.default),
       _react_1$default$useC2 = _slicedToArray(_react_1$default$useC, 1),
       loginData = _react_1$default$useC2[0];
 
   function getData() {
     axios_1.default.get("/students/").then(function (res) {
-      // console.log(res.data);
-      setPostData(res.data);
       pData = res.data;
       setState(function (prevState) {
-        // let data = [...prevState.data];
-        // data.push(createDataFromPost(res.data));
-        var data = createDataFromPost(res.data); // ogData.push(newData);
-        // console.log(ogData);
-        // postStudentToDb(createDataFromPost(res.data));
-
+        var data = createDataFromPost(res.data);
         return _objectSpread({}, prevState, {
           data: data
         });
       });
-      var st = state; // return res.data;
-
+      var st = state;
       st.data = createDataFromPost(res.data);
-      console.log(st); // Make a copy of old state
-      // let newState = state;
-      // newState.data = createDataFromPost(res.data);
-      // ogData = createDataFromPost(res.data);
-      // setState(st);
-      // setState(newState);
-      // console.log(state);
-      // setState(ogData);
-      // console.log(res.data);
-      // ogData = createDataFromPost(res.data);
-      // setState(state);
     }).catch(function (error) {
       console.log(error + " axios error");
     });
@@ -101111,10 +101075,10 @@ function Students() {
 
 
   react_1.useEffect(function () {
-    getData();
-  }, []); // For making the changes to the table stick
-  // const [rows, setRows] = useState(10);
-  // const [count, setCount] = useState(10);
+    if (loginData) {
+      getData();
+    }
+  }, []); // Table key
 
   var _react_1$useState = react_1.useState({
     columns: [{
@@ -101171,12 +101135,10 @@ function Students() {
         "6": "5 : 00 PM",
         "7": "5 : 30 PM",
         "8": "6 : 00 PM",
-        // So the 9 is there if it's hit by accident
         "9": ""
       },
       type: "time"
     }],
-    // data: createDataFromPost(postData)
     data: ogData
   }),
       _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
@@ -101187,24 +101149,7 @@ function Students() {
     title: "Student List",
     columns: state.columns,
     data: state.data,
-    // onChangeRowsPerPage={(pageSize: number) => {
-    //   setRows(pageSize);
-    // }}
-    // components= {
-    //   {<TablePagination
-    //     rowsPerPage={rows}
-    //   />}
-    // }
-    // components={{
-    //   Pagination: (props: any) => (
-    //     <TablePagination {...props} rowsPerPage={rows} count={count} />
-    //   )
-    // }}
-    // components={
-    //   {Pagination:(props:any) =>
-    //   (TablePagination  rowsPerPage={rows})}
-    // }
-    // For add, edit delete functions
+    // For add, edit delete functions of students
     editable: {
       onRowAdd: function onRowAdd(newData) {
         return new Promise(function (resolve) {
@@ -101253,9 +101198,8 @@ function Students() {
           setTimeout(function () {
             resolve();
             setState(function (prevState) {
-              var data = _toConsumableArray(prevState.data);
+              var data = _toConsumableArray(prevState.data); // Remove student from Database
 
-              console.log(oldData); // Remove student from Database
 
               removeStudent(data.indexOf(oldData)); // Remove student from table ( this happens quickly by this even though on new read from DB it will be gone)
 
@@ -101507,7 +101451,12 @@ var useStyles = styles_1.makeStyles(function (theme) {
       backgroundColor: theme.palette.background.paper
     }
   };
-});
+}); // const httpsAgent = new https.Agent({
+//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
+//   cert: fs.readFileSync("./usercert.pem"),
+//   key: fs.readFileSync("./key.pem"),
+//   passphrase: "YYY"
+// });
 
 function NavTabs() {
   var classes = useStyles({});
@@ -101541,7 +101490,10 @@ function NavTabs() {
   }
 
   react_1.useEffect(function () {
-    getData();
+    // Only fetch data if we're logged in (due to security concerns), otherwise don't.
+    if (loginHook) {
+      getData();
+    }
   }, []);
 
   var handleChange = function handleChange(event, newValue) {
@@ -103657,12 +103609,6 @@ function SignIn() {
       setLogin(true);
       console.log("here");
     }
-
-    console.log(login);
-  };
-
-  var setLog = function setLog() {
-    setLogin(true);
   };
 
   return react_1.default.createElement(Container_1.default, {
@@ -103816,7 +103762,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53951" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52183" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

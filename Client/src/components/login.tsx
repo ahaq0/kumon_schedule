@@ -75,11 +75,6 @@ export default function SignIn() {
 
       console.log("here");
     }
-    console.log(login);
-  };
-
-  const setLog = () => {
-    setLogin(true);
   };
 
   return (
