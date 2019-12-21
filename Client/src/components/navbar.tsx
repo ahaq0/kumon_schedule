@@ -36,14 +36,14 @@ const NavBar = () => {
             Kumon
           </Typography>
           <GroupedButtons />
-          <Button
+          {/* <Button
             color="inherit"
             className={classes.label}
             component={Link}
             to="/login"
           >
             Login
-          </Button>
+          </Button> */}
         </Toolbar>
       </AppBar>
     </div>

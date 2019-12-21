@@ -10,6 +10,7 @@ import Students from "./components/students";
 import Schedule from "./components/schedule";
 import Login from "./components/login";
 import { Router, RouteComponentProps } from "@reach/router";
+import CssBaseline from "@material-ui/core/CssBaseline";
 
 import LoginContext from "./components/login-context";
 
@@ -22,6 +23,7 @@ const App = () => {
   return (
     <LoginContext.Provider value={loginHook}>
       <div id="menuSelection">
+        <CssBaseline />
         <NavBar />
         <Router>
           <RouterPage path="/" pageComponent={<AddStudent />} />
