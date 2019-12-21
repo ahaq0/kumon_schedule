@@ -13,6 +13,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { green, amber } from "@material-ui/core/colors";
+import clsx from "clsx";
 
 import LoginContext from "./login-context";
 
@@ -84,7 +85,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export interface Props {
+export interface IProps {
   className?: string;
   message?: string;
   onClose?: () => void;
@@ -116,8 +117,8 @@ const useStyles1 = makeStyles((theme: Theme) => ({
   }
 }));
 
-function MySnackbarContentWrapper(props: Props) {
-  const classes = useStyles1();
+function MySnackbarContentWrapper(props: IProps) {
+  const classes = useStyles1({});
   const { className, message, onClose, variant, ...other } = props;
   const Icon = variantIcon[variant];
 
@@ -157,8 +158,12 @@ export default function SignIn() {
 
   // For the snackbar
   const [open, setOpen] = React.useState(false);
+  const [openError, setOpenError] = React.useState(false);
   const handleClick = () => {
     setOpen(true);
+  };
+  const handleClickL = () => {
+    setOpenError(true);
   };
 
   const handleClose = (
@@ -171,6 +176,16 @@ export default function SignIn() {
     setOpen(false);
   };
 
+  const handleCloseError = (
+    event: React.SyntheticEvent | React.MouseEvent,
+    reason?: string
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenError(false);
+  };
+
   const handleSubmit = (event: React.ChangeEvent<{}>) => {
     event.preventDefault();
 
@@ -178,10 +193,12 @@ export default function SignIn() {
     console.log(password);
 
     if (user !== "12" || password !== "12") {
-      //alert("Incorrect password");
-      handleClick();
+      // alert("Incorrect password");
+      // handleClick();
+      handleClickL();
     }
-    // That means they have implemented the login correctly.
+
+    // If they have the right password.
     if (user === "12" && password === "12") {
       setLogin(true);
       handleClick();
@@ -251,14 +268,26 @@ export default function SignIn() {
         <MySnackbarContentWrapper
           onClose={handleClose}
           variant="success"
-          message="This is a success message!"
+          message="Logged in succesfully!"
         />
       </Snackbar>
-      <MySnackbarContentWrapper
-        variant="error"
-        className={classes.margin}
-        message="This is an error message!"
-      />
+
+      <Snackbar
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left"
+        }}
+        open={openError}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <MySnackbarContentWrapper
+          variant="error"
+          onClose={handleCloseError}
+          className={classes.margin}
+          message="Incorrect login, please try again!"
+        />
+      </Snackbar>
     </Container>
   );
 }

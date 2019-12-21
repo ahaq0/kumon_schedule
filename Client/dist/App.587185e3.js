@@ -104942,6 +104942,8 @@ var Container_1 = __importDefault(require("@material-ui/core/Container"));
 
 var colors_1 = require("@material-ui/core/colors");
 
+var clsx_1 = __importDefault(require("clsx"));
+
 var login_context_1 = __importDefault(require("./login-context")); // For snackbar
 
 
@@ -105047,7 +105049,7 @@ var useStyles1 = styles_1.makeStyles(function (theme) {
 });
 
 function MySnackbarContentWrapper(props) {
-  var classes = useStyles1();
+  var classes = useStyles1({});
 
   var className = props.className,
       message = props.message,
@@ -105057,13 +105059,13 @@ function MySnackbarContentWrapper(props) {
 
   var Icon = variantIcon[variant];
   return react_1.default.createElement(SnackbarContent_1.default, Object.assign({
-    className: clsx(classes[variant], className),
+    className: clsx_1.default(classes[variant], className),
     "aria-describedby": "client-snackbar",
     message: react_1.default.createElement("span", {
       id: "client-snackbar",
       className: classes.message
     }, react_1.default.createElement(Icon, {
-      className: clsx(classes.icon, classes.iconVariant)
+      className: clsx_1.default(classes.icon, classes.iconVariant)
     }), message),
     action: [react_1.default.createElement(IconButton_1.default, {
       key: "close",
@@ -105101,8 +105103,17 @@ function SignIn() {
       open = _react_1$default$useS2[0],
       setOpen = _react_1$default$useS2[1];
 
+  var _react_1$default$useS3 = react_1.default.useState(false),
+      _react_1$default$useS4 = _slicedToArray(_react_1$default$useS3, 2),
+      openError = _react_1$default$useS4[0],
+      setOpenError = _react_1$default$useS4[1];
+
   var handleClick = function handleClick() {
     setOpen(true);
+  };
+
+  var handleClickL = function handleClickL() {
+    setOpenError(true);
   };
 
   var handleClose = function handleClose(event, reason) {
@@ -105113,15 +105124,24 @@ function SignIn() {
     setOpen(false);
   };
 
+  var handleCloseError = function handleCloseError(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+  };
+
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
     console.log(user);
     console.log(password);
 
     if (user !== "12" || password !== "12") {
-      //alert("Incorrect password");
-      handleClick();
-    } // That means they have implemented the login correctly.
+      // alert("Incorrect password");
+      // handleClick();
+      handleClickL();
+    } // If they have the right password.
 
 
     if (user === "12" && password === "12") {
@@ -105189,12 +105209,21 @@ function SignIn() {
   }, react_1.default.createElement(MySnackbarContentWrapper, {
     onClose: handleClose,
     variant: "success",
-    message: "This is a success message!"
-  })), react_1.default.createElement(MySnackbarContentWrapper, {
+    message: "Logged in succesfully!"
+  })), react_1.default.createElement(Snackbar_1.default, {
+    anchorOrigin: {
+      vertical: "bottom",
+      horizontal: "left"
+    },
+    open: openError,
+    autoHideDuration: 6000,
+    onClose: handleClose
+  }, react_1.default.createElement(MySnackbarContentWrapper, {
     variant: "error",
+    onClose: handleCloseError,
     className: classes.margin,
-    message: "This is an error message!"
-  }));
+    message: "Incorrect login, please try again!"
+  })));
 }
 
 exports.default = SignIn; // Old snackbar
@@ -105233,7 +105262,7 @@ exports.default = SignIn; // Old snackbar
   ]}
   /> */
 }
-},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/colors":"../node_modules/@material-ui/core/esm/colors/index.js","./login-context":"../src/components/login-context.tsx","@material-ui/icons/CheckCircle":"../node_modules/@material-ui/icons/CheckCircle.js","@material-ui/icons/Error":"../node_modules/@material-ui/icons/Error.js","@material-ui/icons/Info":"../node_modules/@material-ui/icons/Info.js","@material-ui/icons/Close":"../node_modules/@material-ui/icons/Close.js","@material-ui/core/IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","@material-ui/core/Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/index.js","@material-ui/core/SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js","@material-ui/icons/Warning":"../node_modules/@material-ui/icons/Warning.js"}],"../src/App.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/colors":"../node_modules/@material-ui/core/esm/colors/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","./login-context":"../src/components/login-context.tsx","@material-ui/icons/CheckCircle":"../node_modules/@material-ui/icons/CheckCircle.js","@material-ui/icons/Error":"../node_modules/@material-ui/icons/Error.js","@material-ui/icons/Info":"../node_modules/@material-ui/icons/Info.js","@material-ui/icons/Close":"../node_modules/@material-ui/icons/Close.js","@material-ui/core/IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","@material-ui/core/Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/index.js","@material-ui/core/SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js","@material-ui/icons/Warning":"../node_modules/@material-ui/icons/Warning.js"}],"../src/App.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
