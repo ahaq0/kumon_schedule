@@ -58,6 +58,10 @@ app.use(
 // Might need to change this
 app.use("/students", studentR);
 
+app.get("/students", (req, res) => {
+  res.sendStatus(212);
+  //res.sendFile(path.join(__dirname, "Client", "dist", "index.html"));
+});
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "Client", "dist", "index.html"));
 });

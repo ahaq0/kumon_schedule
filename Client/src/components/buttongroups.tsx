@@ -8,8 +8,10 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   label: {
-    paddingTop: "15px"
-  }
+    //paddingTop: "15px",
+    paddingRight: "20px"
+  },
+  alignment: {}
 });
 
 export default function GroupedButtons() {
@@ -17,31 +19,87 @@ export default function GroupedButtons() {
   const classes = useStyles({});
 
   return (
-    <Grid
-      container={true}
-      spacing={0}
-      justify="flex-start"
-      alignItems="flex-end"
-      direction="row"
-    >
-      <ButtonGroup
-        variant="text"
-        color="inherit"
-        size="medium"
-        className={classes.label}
-      >
-        <Button component={Link} to="/">
-          ADD STUDENT
-        </Button>
-
-        <Button component={Link} to="/schedule">
-          SCHEDULE
-        </Button>
-
-        <Button component={Link} to="/students">
-          STUDENTS
-        </Button>
-      </ButtonGroup>
+    <Grid container>
+      <Grid item xs={4}>
+        {/* Left this empty on purpose to align things  */}
+      </Grid>
+      <Grid container item xs={4} justify="center">
+        <div>
+          <ButtonGroup
+            variant="text"
+            color="inherit"
+            size="medium"
+            className={classes.label}
+          >
+            <Button component={Link} to="/">
+              ADD STUDENT
+            </Button>
+            <Button component={Link} to="/schedule">
+              SCHEDULE
+            </Button>
+            <Button component={Link} to="/students">
+              STUDENTS
+            </Button>
+          </ButtonGroup>
+        </div>
+      </Grid>
+      <Grid container item xs={4} justify="flex-end">
+        <div>
+          <Button
+            component={Link}
+            to="/login"
+            className={classes.alignment}
+            color="inherit"
+            size="medium"
+            variant="text"
+          >
+            Login
+          </Button>
+        </div>
+      </Grid>
     </Grid>
+    // <div>
+    //   <Grid container={true}>
+    //     <Grid item xs={4}>
+    //       {/* <h1>hi</h1> */}
+    //     </Grid>
+    //     <Grid container={true} item={true} justify="center" xs={4}>
+    //       <div>
+    //         <ButtonGroup
+    //           variant="text"
+    //           color="inherit"
+    //           size="medium"
+    //           className={classes.label}
+    //         >
+    //           <Button component={Link} to="/">
+    //             ADD STUDENT
+    //           </Button>
+    //           <Button component={Link} to="/schedule">
+    //             SCHEDULE
+    //           </Button>
+    //           <Button component={Link} to="/students">
+    //             STUDENTS
+    //           </Button>
+    //         </ButtonGroup>
+    //       </div>
+    //     </Grid>
+    //     <Grid container={true} item={true} justify="flex-end" xs={4}>
+    //       <div>
+    //         <ButtonGroup>
+    //           <Button
+    //             component={Link}
+    //             to="/login"
+    //             className={classes.alignment}
+    //             color="inherit"
+    //             size="medium"
+    //             variant="text"
+    //           >
+    //             Login
+    //           </Button>
+    //         </ButtonGroup>
+    //       </div>
+    //     </Grid>
+    //   </Grid>
+    // </div>
   );
 }

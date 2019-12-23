@@ -41050,7 +41050,932 @@ Object.defineProperty(exports, "default", {
 var _Typography = _interopRequireDefault(require("./Typography"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Typography":"../node_modules/@material-ui/core/esm/Typography/Typography.js"}],"../node_modules/@material-ui/core/esm/utils/setRef.js":[function(require,module,exports) {
+},{"./Typography":"../node_modules/@material-ui/core/esm/Typography/Typography.js"}],"../node_modules/@material-ui/core/esm/styles/createStyles.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = createStyles;
+
+var _styles = require("@material-ui/styles");
+
+// let warnOnce = false;
+// To remove in v5
+function createStyles(styles) {
+  // warning(
+  //   warnOnce,
+  //   [
+  //     'Material-UI: createStyles from @material-ui/core/styles is deprecated.',
+  //     'Please use @material-ui/styles/createStyles',
+  //   ].join('\n'),
+  // );
+  // warnOnce = true;
+  return (0, _styles.createStyles)(styles);
+}
+},{"@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js"}],"../node_modules/@material-ui/core/esm/styles/makeStyles.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _styles = require("@material-ui/styles");
+
+var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function makeStyles(stylesOrCreator) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  return (0, _styles.makeStyles)(stylesOrCreator, (0, _extends2.default)({
+    defaultTheme: _defaultTheme.default
+  }, options));
+}
+
+var _default = makeStyles;
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/convert-css-length/dist/index.esm.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = _default;
+
+var e = function (e) {
+  return parseFloat(e);
+};
+
+function _default(r) {
+  return null == r && (r = r), function (n, t, i, f) {
+    null == i && (i = r), null == f && (f = i);
+    var l = String(n).match(/[\d.\-\+]*\s*(.*)/)[1] || "";
+    if (l === t) return n;
+    var u = e(n);
+    if ("px" !== l) if ("em" === l) u = e(n) * e(i);else if ("rem" === l) u = e(n) * e(r);else {
+      if ("ex" !== l) return n;
+      u = e(n) * e(i) * 2;
+    }
+    var a = u;
+    if ("px" !== t) if ("em" === t) a = u / e(f);else if ("rem" === t) a = u / e(r);else {
+      if ("ex" !== t) return n;
+      a = u / e(f) / 2;
+    }
+    return parseFloat(a.toFixed(5)) + t;
+  };
+}
+},{}],"../node_modules/@material-ui/core/esm/styles/cssUtils.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.alignProperty = alignProperty;
+exports.fontGrid = fontGrid;
+exports.responsiveProperty = responsiveProperty;
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function alignProperty(_ref) {
+  var size = _ref.size,
+      grid = _ref.grid;
+  var sizeBelow = size - size % grid;
+  var sizeAbove = sizeBelow + grid;
+  return size - sizeBelow < sizeAbove - size ? sizeBelow : sizeAbove;
+} // fontGrid finds a minimal grid (in rem) for the fontSize values so that the
+// lineHeight falls under a x pixels grid, 4px in the case of Material Design,
+// without changing the relative line height
+
+
+function fontGrid(_ref2) {
+  var lineHeight = _ref2.lineHeight,
+      pixels = _ref2.pixels,
+      htmlFontSize = _ref2.htmlFontSize;
+  return pixels / (lineHeight * htmlFontSize);
+}
+/**
+ * generate a responsive version of a given CSS property
+ * @example
+ * responsiveProperty({
+ *   cssProperty: 'fontSize',
+ *   min: 15,
+ *   max: 20,
+ *   unit: 'px',
+ *   breakpoints: [300, 600],
+ * })
+ *
+ * // this returns
+ *
+ * {
+ *   fontSize: '15px',
+ *   '@media (min-width:300px)': {
+ *     fontSize: '17.5px',
+ *   },
+ *   '@media (min-width:600px)': {
+ *     fontSize: '20px',
+ *   },
+ * }
+ *
+ * @param {Object} params
+ * @param {string} params.cssProperty - The CSS property to be made responsive
+ * @param {number} params.min - The smallest value of the CSS property
+ * @param {number} params.max - The largest value of the CSS property
+ * @param {string} [params.unit] - The unit to be used for the CSS property
+ * @param {Array.number} [params.breakpoints]  - An array of breakpoints
+ * @param {number} [params.alignStep] - Round scaled value to fall under this grid
+ * @returns {Object} responsive styles for {params.cssProperty}
+ */
+
+
+function responsiveProperty(_ref3) {
+  var cssProperty = _ref3.cssProperty,
+      min = _ref3.min,
+      max = _ref3.max,
+      _ref3$unit = _ref3.unit,
+      unit = _ref3$unit === void 0 ? 'rem' : _ref3$unit,
+      _ref3$breakpoints = _ref3.breakpoints,
+      breakpoints = _ref3$breakpoints === void 0 ? [600, 960, 1280] : _ref3$breakpoints,
+      _ref3$transform = _ref3.transform,
+      transform = _ref3$transform === void 0 ? null : _ref3$transform;
+  var output = (0, _defineProperty2.default)({}, cssProperty, "".concat(min).concat(unit));
+  var factor = (max - min) / breakpoints[breakpoints.length - 1];
+  breakpoints.forEach(function (breakpoint) {
+    var value = min + factor * breakpoint;
+
+    if (transform !== null) {
+      value = transform(value);
+    }
+
+    output["@media (min-width:".concat(breakpoint, "px)")] = (0, _defineProperty2.default)({}, cssProperty, "".concat(Math.round(value * 10000) / 10000).concat(unit));
+  });
+  return output;
+}
+},{"@babel/runtime/helpers/esm/defineProperty":"../node_modules/@babel/runtime/helpers/esm/defineProperty.js"}],"../node_modules/@material-ui/core/esm/styles/responsiveFontSizes.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = responsiveFontSizes;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _convertCssLength = _interopRequireDefault(require("convert-css-length"));
+
+var _cssUtils = require("./cssUtils");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function isUnitless(value) {
+  return String(parseFloat(value)).length === String(value).length;
+}
+
+function responsiveFontSizes(themeInput) {
+  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var _options$breakpoints = options.breakpoints,
+      breakpoints = _options$breakpoints === void 0 ? ['sm', 'md', 'lg'] : _options$breakpoints,
+      _options$disableAlign = options.disableAlign,
+      disableAlign = _options$disableAlign === void 0 ? false : _options$disableAlign,
+      _options$factor = options.factor,
+      factor = _options$factor === void 0 ? 2 : _options$factor,
+      _options$variants = options.variants,
+      variants = _options$variants === void 0 ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2', 'body1', 'body2', 'caption', 'button', 'overline'] : _options$variants;
+  var theme = (0, _extends2.default)({}, themeInput);
+  theme.typography = (0, _extends2.default)({}, theme.typography);
+  var typography = theme.typography; // Convert between css lengths e.g. em->px or px->rem
+  // Set the baseFontSize for your project. Defaults to 16px (also the browser default).
+
+  var convert = (0, _convertCssLength.default)(typography.htmlFontSize);
+  var breakpointValues = breakpoints.map(function (x) {
+    return theme.breakpoints.values[x];
+  });
+  variants.forEach(function (variant) {
+    var style = typography[variant];
+    var remFontSize = parseFloat(convert(style.fontSize, 'rem'));
+
+    if (remFontSize <= 1) {
+      return;
+    }
+
+    var maxFontSize = remFontSize;
+    var minFontSize = 1 + (maxFontSize - 1) / factor;
+    var lineHeight = style.lineHeight;
+
+    if (!isUnitless(lineHeight) && !disableAlign) {
+      throw new Error(["Material-UI: unsupported non-unitless line height with grid alignment.", 'Use unitless line heights instead.'].join('\n'));
+    }
+
+    if (!isUnitless(lineHeight)) {
+      // make it unitless
+      lineHeight = parseFloat(convert(lineHeight, 'rem')) / parseFloat(remFontSize);
+    }
+
+    var transform = null;
+
+    if (!disableAlign) {
+      transform = function transform(value) {
+        return (0, _cssUtils.alignProperty)({
+          size: value,
+          grid: (0, _cssUtils.fontGrid)({
+            pixels: 4,
+            lineHeight: lineHeight,
+            htmlFontSize: typography.htmlFontSize
+          })
+        });
+      };
+    }
+
+    typography[variant] = (0, _extends2.default)({}, style, {}, (0, _cssUtils.responsiveProperty)({
+      cssProperty: 'fontSize',
+      min: minFontSize,
+      max: maxFontSize,
+      unit: 'rem',
+      breakpoints: breakpointValues,
+      transform: transform
+    }));
+  });
+  return theme;
+}
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","convert-css-length":"../node_modules/convert-css-length/dist/index.esm.js","./cssUtils":"../node_modules/@material-ui/core/esm/styles/cssUtils.js"}],"../node_modules/@material-ui/core/esm/styles/styled.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _styles = require("@material-ui/styles");
+
+var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styled = function styled(Component) {
+  var componentCreator = (0, _styles.styled)(Component);
+  return function (style, options) {
+    return componentCreator(style, (0, _extends2.default)({
+      defaultTheme: _defaultTheme.default
+    }, options));
+  };
+};
+
+var _default = styled;
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/@material-ui/core/esm/styles/useTheme.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = useTheme;
+
+var _styles = require("@material-ui/styles");
+
+var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function useTheme() {
+  return (0, _styles.useTheme)() || _defaultTheme.default;
+}
+},{"@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/@material-ui/core/esm/styles/withTheme.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _styles = require("@material-ui/styles");
+
+var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var withTheme = (0, _styles.withThemeCreator)({
+  defaultTheme: _defaultTheme.default
+});
+var _default = withTheme;
+exports.default = _default;
+},{"@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/@material-ui/core/esm/styles/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+var _exportNames = {
+  createMuiTheme: true,
+  createStyles: true,
+  makeStyles: true,
+  responsiveFontSizes: true,
+  styled: true,
+  useTheme: true,
+  withStyles: true,
+  withTheme: true,
+  createGenerateClassName: true,
+  jssPreset: true,
+  ServerStyleSheets: true,
+  StylesProvider: true,
+  MuiThemeProvider: true,
+  ThemeProvider: true
+};
+Object.defineProperty(exports, "createMuiTheme", {
+  enumerable: true,
+  get: function () {
+    return _createMuiTheme.default;
+  }
+});
+Object.defineProperty(exports, "createStyles", {
+  enumerable: true,
+  get: function () {
+    return _createStyles.default;
+  }
+});
+Object.defineProperty(exports, "makeStyles", {
+  enumerable: true,
+  get: function () {
+    return _makeStyles.default;
+  }
+});
+Object.defineProperty(exports, "responsiveFontSizes", {
+  enumerable: true,
+  get: function () {
+    return _responsiveFontSizes.default;
+  }
+});
+Object.defineProperty(exports, "styled", {
+  enumerable: true,
+  get: function () {
+    return _styled.default;
+  }
+});
+Object.defineProperty(exports, "useTheme", {
+  enumerable: true,
+  get: function () {
+    return _useTheme.default;
+  }
+});
+Object.defineProperty(exports, "withStyles", {
+  enumerable: true,
+  get: function () {
+    return _withStyles.default;
+  }
+});
+Object.defineProperty(exports, "withTheme", {
+  enumerable: true,
+  get: function () {
+    return _withTheme.default;
+  }
+});
+Object.defineProperty(exports, "createGenerateClassName", {
+  enumerable: true,
+  get: function () {
+    return _styles.createGenerateClassName;
+  }
+});
+Object.defineProperty(exports, "jssPreset", {
+  enumerable: true,
+  get: function () {
+    return _styles.jssPreset;
+  }
+});
+Object.defineProperty(exports, "ServerStyleSheets", {
+  enumerable: true,
+  get: function () {
+    return _styles.ServerStyleSheets;
+  }
+});
+Object.defineProperty(exports, "StylesProvider", {
+  enumerable: true,
+  get: function () {
+    return _styles.StylesProvider;
+  }
+});
+Object.defineProperty(exports, "MuiThemeProvider", {
+  enumerable: true,
+  get: function () {
+    return _styles.ThemeProvider;
+  }
+});
+Object.defineProperty(exports, "ThemeProvider", {
+  enumerable: true,
+  get: function () {
+    return _styles.ThemeProvider;
+  }
+});
+
+var _colorManipulator = require("./colorManipulator");
+
+Object.keys(_colorManipulator).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _colorManipulator[key];
+    }
+  });
+});
+
+var _createMuiTheme = _interopRequireDefault(require("./createMuiTheme"));
+
+var _createStyles = _interopRequireDefault(require("./createStyles"));
+
+var _makeStyles = _interopRequireDefault(require("./makeStyles"));
+
+var _responsiveFontSizes = _interopRequireDefault(require("./responsiveFontSizes"));
+
+var _styled = _interopRequireDefault(require("./styled"));
+
+var _transitions = require("./transitions");
+
+Object.keys(_transitions).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function () {
+      return _transitions[key];
+    }
+  });
+});
+
+var _useTheme = _interopRequireDefault(require("./useTheme"));
+
+var _withStyles = _interopRequireDefault(require("./withStyles"));
+
+var _withTheme = _interopRequireDefault(require("./withTheme"));
+
+var _styles = require("@material-ui/styles");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./colorManipulator":"../node_modules/@material-ui/core/esm/styles/colorManipulator.js","./createMuiTheme":"../node_modules/@material-ui/core/esm/styles/createMuiTheme.js","./createStyles":"../node_modules/@material-ui/core/esm/styles/createStyles.js","./makeStyles":"../node_modules/@material-ui/core/esm/styles/makeStyles.js","./responsiveFontSizes":"../node_modules/@material-ui/core/esm/styles/responsiveFontSizes.js","./styled":"../node_modules/@material-ui/core/esm/styles/styled.js","./transitions":"../node_modules/@material-ui/core/esm/styles/transitions.js","./useTheme":"../node_modules/@material-ui/core/esm/styles/useTheme.js","./withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","./withTheme":"../node_modules/@material-ui/core/esm/styles/withTheme.js","@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js"}],"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function requirePropFactory(componentNameInError) {
+  if ("development" === 'production') {
+    return function () {
+      return null;
+    };
+  }
+
+  var requireProp = function requireProp(requiredProp) {
+    return function (props, propName, componentName, location, propFullName) {
+      var propFullNameSafe = propFullName || propName;
+
+      if (typeof props[propName] !== 'undefined' && !props[requiredProp]) {
+        return new Error("The prop `".concat(propFullNameSafe, "` of ") + "`".concat(componentNameInError, "` must be used on `").concat(requiredProp, "`."));
+      }
+
+      return null;
+    };
+  };
+
+  return requireProp;
+}
+
+var _default = requirePropFactory;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/Grid/Grid.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _requirePropFactory = _interopRequireDefault(require("../utils/requirePropFactory"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// A grid component using the following libs as inspiration.
+//
+// For the implementation:
+// - https://getbootstrap.com/docs/4.3/layout/grid/
+// - https://github.com/kristoferjoseph/flexboxgrid/blob/master/src/css/flexboxgrid.css
+// - https://github.com/roylee0704/react-flexbox-grid
+// - https://material.angularjs.org/latest/layout/introduction
+//
+// Follow this flexbox Guide to better understand the underlying model:
+// - https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+var SPACINGS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+var GRID_SIZES = ['auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+function generateGrid(globalStyles, theme, breakpoint) {
+  var styles = {};
+  GRID_SIZES.forEach(function (size) {
+    var key = "grid-".concat(breakpoint, "-").concat(size);
+
+    if (size === true) {
+      // For the auto layouting
+      styles[key] = {
+        flexBasis: 0,
+        flexGrow: 1,
+        maxWidth: '100%'
+      };
+      return;
+    }
+
+    if (size === 'auto') {
+      styles[key] = {
+        flexBasis: 'auto',
+        flexGrow: 0,
+        maxWidth: 'none'
+      };
+      return;
+    } // Keep 7 significant numbers.
+
+
+    var width = "".concat(Math.round(size / 12 * 10e7) / 10e5, "%"); // Close to the bootstrap implementation:
+    // https://github.com/twbs/bootstrap/blob/8fccaa2439e97ec72a4b7dc42ccc1f649790adb0/scss/mixins/_grid.scss#L41
+
+    styles[key] = {
+      flexBasis: width,
+      flexGrow: 0,
+      maxWidth: width
+    };
+  }); // No need for a media query for the first size.
+
+  if (breakpoint === 'xs') {
+    (0, _extends2.default)(globalStyles, styles);
+  } else {
+    globalStyles[theme.breakpoints.up(breakpoint)] = styles;
+  }
+}
+
+function getOffset(val) {
+  var div = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var parse = parseFloat(val);
+  return "".concat(parse / div).concat(String(val).replace(String(parse), '') || 'px');
+}
+
+function generateGutter(theme, breakpoint) {
+  var styles = {};
+  SPACINGS.forEach(function (spacing) {
+    var themeSpacing = theme.spacing(spacing);
+
+    if (themeSpacing === 0) {
+      return;
+    }
+
+    styles["spacing-".concat(breakpoint, "-").concat(spacing)] = {
+      margin: "-".concat(getOffset(themeSpacing, 2)),
+      width: "calc(100% + ".concat(getOffset(themeSpacing), ")"),
+      '& > $item': {
+        padding: getOffset(themeSpacing, 2)
+      }
+    };
+  });
+  return styles;
+} // Default CSS values
+// flex: '0 1 auto',
+// flexDirection: 'row',
+// alignItems: 'flex-start',
+// flexWrap: 'nowrap',
+// justifyContent: 'flex-start',
+
+
+var styles = function styles(theme) {
+  return (0, _extends2.default)({
+    /* Styles applied to the root element */
+    root: {},
+
+    /* Styles applied to the root element if `container={true}`. */
+    container: {
+      boxSizing: 'border-box',
+      display: 'flex',
+      flexWrap: 'wrap',
+      width: '100%'
+    },
+
+    /* Styles applied to the root element if `item={true}`. */
+    item: {
+      boxSizing: 'border-box',
+      margin: '0' // For instance, it's useful when used with a `figure` element.
+
+    },
+
+    /* Styles applied to the root element if `zeroMinWidth={true}`. */
+    zeroMinWidth: {
+      minWidth: 0
+    },
+
+    /* Styles applied to the root element if `direction="column"`. */
+    'direction-xs-column': {
+      flexDirection: 'column'
+    },
+
+    /* Styles applied to the root element if `direction="column-reverse"`. */
+    'direction-xs-column-reverse': {
+      flexDirection: 'column-reverse'
+    },
+
+    /* Styles applied to the root element if `direction="rwo-reverse"`. */
+    'direction-xs-row-reverse': {
+      flexDirection: 'row-reverse'
+    },
+
+    /* Styles applied to the root element if `wrap="nowrap"`. */
+    'wrap-xs-nowrap': {
+      flexWrap: 'nowrap'
+    },
+
+    /* Styles applied to the root element if `wrap="reverse"`. */
+    'wrap-xs-wrap-reverse': {
+      flexWrap: 'wrap-reverse'
+    },
+
+    /* Styles applied to the root element if `alignItems="center"`. */
+    'align-items-xs-center': {
+      alignItems: 'center'
+    },
+
+    /* Styles applied to the root element if `alignItems="flex-start"`. */
+    'align-items-xs-flex-start': {
+      alignItems: 'flex-start'
+    },
+
+    /* Styles applied to the root element if `alignItems="flex-end"`. */
+    'align-items-xs-flex-end': {
+      alignItems: 'flex-end'
+    },
+
+    /* Styles applied to the root element if `alignItems="baseline"`. */
+    'align-items-xs-baseline': {
+      alignItems: 'baseline'
+    },
+
+    /* Styles applied to the root element if `alignContent="center"`. */
+    'align-content-xs-center': {
+      alignContent: 'center'
+    },
+
+    /* Styles applied to the root element if `alignContent="flex-start"`. */
+    'align-content-xs-flex-start': {
+      alignContent: 'flex-start'
+    },
+
+    /* Styles applied to the root element if `alignContent="flex-end"`. */
+    'align-content-xs-flex-end': {
+      alignContent: 'flex-end'
+    },
+
+    /* Styles applied to the root element if `alignContent="space-between"`. */
+    'align-content-xs-space-between': {
+      alignContent: 'space-between'
+    },
+
+    /* Styles applied to the root element if `alignContent="space-around"`. */
+    'align-content-xs-space-around': {
+      alignContent: 'space-around'
+    },
+
+    /* Styles applied to the root element if `justify="center"`. */
+    'justify-xs-center': {
+      justifyContent: 'center'
+    },
+
+    /* Styles applied to the root element if `justify="flex-end"`. */
+    'justify-xs-flex-end': {
+      justifyContent: 'flex-end'
+    },
+
+    /* Styles applied to the root element if `justify="space-between"`. */
+    'justify-xs-space-between': {
+      justifyContent: 'space-between'
+    },
+
+    /* Styles applied to the root element if `justify="space-around"`. */
+    'justify-xs-space-around': {
+      justifyContent: 'space-around'
+    },
+
+    /* Styles applied to the root element if `justify="space-evenly"`. */
+    'justify-xs-space-evenly': {
+      justifyContent: 'space-evenly'
+    }
+  }, generateGutter(theme, 'xs'), {}, theme.breakpoints.keys.reduce(function (accumulator, key) {
+    // Use side effect over immutability for better performance.
+    generateGrid(accumulator, theme, key);
+    return accumulator;
+  }, {}));
+};
+
+exports.styles = styles;
+
+var Grid = _react.default.forwardRef(function Grid(props, ref) {
+  var _props$alignContent = props.alignContent,
+      alignContent = _props$alignContent === void 0 ? 'stretch' : _props$alignContent,
+      _props$alignItems = props.alignItems,
+      alignItems = _props$alignItems === void 0 ? 'stretch' : _props$alignItems,
+      classes = props.classes,
+      classNameProp = props.className,
+      _props$component = props.component,
+      Component = _props$component === void 0 ? 'div' : _props$component,
+      _props$container = props.container,
+      container = _props$container === void 0 ? false : _props$container,
+      _props$direction = props.direction,
+      direction = _props$direction === void 0 ? 'row' : _props$direction,
+      _props$item = props.item,
+      item = _props$item === void 0 ? false : _props$item,
+      _props$justify = props.justify,
+      justify = _props$justify === void 0 ? 'flex-start' : _props$justify,
+      _props$lg = props.lg,
+      lg = _props$lg === void 0 ? false : _props$lg,
+      _props$md = props.md,
+      md = _props$md === void 0 ? false : _props$md,
+      _props$sm = props.sm,
+      sm = _props$sm === void 0 ? false : _props$sm,
+      _props$spacing = props.spacing,
+      spacing = _props$spacing === void 0 ? 0 : _props$spacing,
+      _props$wrap = props.wrap,
+      wrap = _props$wrap === void 0 ? 'wrap' : _props$wrap,
+      _props$xl = props.xl,
+      xl = _props$xl === void 0 ? false : _props$xl,
+      _props$xs = props.xs,
+      xs = _props$xs === void 0 ? false : _props$xs,
+      _props$zeroMinWidth = props.zeroMinWidth,
+      zeroMinWidth = _props$zeroMinWidth === void 0 ? false : _props$zeroMinWidth,
+      other = (0, _objectWithoutProperties2.default)(props, ["alignContent", "alignItems", "classes", "className", "component", "container", "direction", "item", "justify", "lg", "md", "sm", "spacing", "wrap", "xl", "xs", "zeroMinWidth"]);
+  var className = (0, _clsx.default)(classes.root, classNameProp, container && [classes.container, spacing !== 0 && classes["spacing-xs-".concat(String(spacing))]], item && classes.item, zeroMinWidth && classes.zeroMinWidth, direction !== 'row' && classes["direction-xs-".concat(String(direction))], wrap !== 'wrap' && classes["wrap-xs-".concat(String(wrap))], alignItems !== 'stretch' && classes["align-items-xs-".concat(String(alignItems))], alignContent !== 'stretch' && classes["align-content-xs-".concat(String(alignContent))], justify !== 'flex-start' && classes["justify-xs-".concat(String(justify))], xs !== false && classes["grid-xs-".concat(String(xs))], sm !== false && classes["grid-sm-".concat(String(sm))], md !== false && classes["grid-md-".concat(String(md))], lg !== false && classes["grid-lg-".concat(String(lg))], xl !== false && classes["grid-xl-".concat(String(xl))]);
+  return _react.default.createElement(Component, (0, _extends2.default)({
+    className: className,
+    ref: ref
+  }, other));
+});
+
+"development" !== "production" ? Grid.propTypes = {
+  /**
+   * Defines the `align-content` style property.
+   * It's applied for all screen sizes.
+   */
+  alignContent: _propTypes.default.oneOf(['stretch', 'center', 'flex-start', 'flex-end', 'space-between', 'space-around']),
+
+  /**
+   * Defines the `align-items` style property.
+   * It's applied for all screen sizes.
+   */
+  alignItems: _propTypes.default.oneOf(['flex-start', 'center', 'flex-end', 'stretch', 'baseline']),
+
+  /**
+   * The content of the component.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _propTypes.default.elementType,
+
+  /**
+   * If `true`, the component will have the flex *container* behavior.
+   * You should be wrapping *items* with a *container*.
+   */
+  container: _propTypes.default.bool,
+
+  /**
+   * Defines the `flex-direction` style property.
+   * It is applied for all screen sizes.
+   */
+  direction: _propTypes.default.oneOf(['row', 'row-reverse', 'column', 'column-reverse']),
+
+  /**
+   * If `true`, the component will have the flex *item* behavior.
+   * You should be wrapping *items* with a *container*.
+   */
+  item: _propTypes.default.bool,
+
+  /**
+   * Defines the `justify-content` style property.
+   * It is applied for all screen sizes.
+   */
+  justify: _propTypes.default.oneOf(['flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly']),
+
+  /**
+   * Defines the number of grids the component is going to use.
+   * It's applied for the `lg` breakpoint and wider screens if not overridden.
+   */
+  lg: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+
+  /**
+   * Defines the number of grids the component is going to use.
+   * It's applied for the `md` breakpoint and wider screens if not overridden.
+   */
+  md: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+
+  /**
+   * Defines the number of grids the component is going to use.
+   * It's applied for the `sm` breakpoint and wider screens if not overridden.
+   */
+  sm: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+
+  /**
+   * Defines the space between the type `item` component.
+   * It can only be used on a type `container` component.
+   */
+  spacing: _propTypes.default.oneOf(SPACINGS),
+
+  /**
+   * Defines the `flex-wrap` style property.
+   * It's applied for all screen sizes.
+   */
+  wrap: _propTypes.default.oneOf(['nowrap', 'wrap', 'wrap-reverse']),
+
+  /**
+   * Defines the number of grids the component is going to use.
+   * It's applied for the `xl` breakpoint and wider screens.
+   */
+  xl: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+
+  /**
+   * Defines the number of grids the component is going to use.
+   * It's applied for all the screen sizes with the lowest priority.
+   */
+  xs: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
+
+  /**
+   * If `true`, it sets `min-width: 0` on the item.
+   * Refer to the limitations section of the documentation to better understand the use case.
+   */
+  zeroMinWidth: _propTypes.default.bool
+} : void 0;
+var StyledGrid = (0, _withStyles.default)(styles, {
+  name: 'MuiGrid'
+})(Grid);
+
+if ("development" !== 'production') {
+  var requireProp = (0, _requirePropFactory.default)('Grid');
+  StyledGrid.propTypes = (0, _extends2.default)({}, StyledGrid.propTypes, {
+    alignContent: requireProp('container'),
+    alignItems: requireProp('container'),
+    direction: requireProp('container'),
+    justify: requireProp('container'),
+    lg: requireProp('item'),
+    md: requireProp('item'),
+    sm: requireProp('item'),
+    spacing: requireProp('container'),
+    wrap: requireProp('container'),
+    xs: requireProp('item'),
+    zeroMinWidth: requireProp('item')
+  });
+}
+
+var _default = StyledGrid;
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","../utils/requirePropFactory":"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js"}],"../node_modules/@material-ui/core/esm/Grid/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _Grid.default;
+  }
+});
+
+var _Grid = _interopRequireDefault(require("./Grid"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./Grid":"../node_modules/@material-ui/core/esm/Grid/Grid.js"}],"../node_modules/@material-ui/core/esm/utils/setRef.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -44752,932 +45677,7 @@ Object.defineProperty(exports, "default", {
 var _Button = _interopRequireDefault(require("./Button"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Button":"../node_modules/@material-ui/core/esm/Button/Button.js"}],"../node_modules/@material-ui/core/esm/styles/createStyles.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = createStyles;
-
-var _styles = require("@material-ui/styles");
-
-// let warnOnce = false;
-// To remove in v5
-function createStyles(styles) {
-  // warning(
-  //   warnOnce,
-  //   [
-  //     'Material-UI: createStyles from @material-ui/core/styles is deprecated.',
-  //     'Please use @material-ui/styles/createStyles',
-  //   ].join('\n'),
-  // );
-  // warnOnce = true;
-  return (0, _styles.createStyles)(styles);
-}
-},{"@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js"}],"../node_modules/@material-ui/core/esm/styles/makeStyles.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
-
-var _styles = require("@material-ui/styles");
-
-var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function makeStyles(stylesOrCreator) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  return (0, _styles.makeStyles)(stylesOrCreator, (0, _extends2.default)({
-    defaultTheme: _defaultTheme.default
-  }, options));
-}
-
-var _default = makeStyles;
-exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/convert-css-length/dist/index.esm.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = _default;
-
-var e = function (e) {
-  return parseFloat(e);
-};
-
-function _default(r) {
-  return null == r && (r = r), function (n, t, i, f) {
-    null == i && (i = r), null == f && (f = i);
-    var l = String(n).match(/[\d.\-\+]*\s*(.*)/)[1] || "";
-    if (l === t) return n;
-    var u = e(n);
-    if ("px" !== l) if ("em" === l) u = e(n) * e(i);else if ("rem" === l) u = e(n) * e(r);else {
-      if ("ex" !== l) return n;
-      u = e(n) * e(i) * 2;
-    }
-    var a = u;
-    if ("px" !== t) if ("em" === t) a = u / e(f);else if ("rem" === t) a = u / e(r);else {
-      if ("ex" !== t) return n;
-      a = u / e(f) / 2;
-    }
-    return parseFloat(a.toFixed(5)) + t;
-  };
-}
-},{}],"../node_modules/@material-ui/core/esm/styles/cssUtils.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.alignProperty = alignProperty;
-exports.fontGrid = fontGrid;
-exports.responsiveProperty = responsiveProperty;
-
-var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function alignProperty(_ref) {
-  var size = _ref.size,
-      grid = _ref.grid;
-  var sizeBelow = size - size % grid;
-  var sizeAbove = sizeBelow + grid;
-  return size - sizeBelow < sizeAbove - size ? sizeBelow : sizeAbove;
-} // fontGrid finds a minimal grid (in rem) for the fontSize values so that the
-// lineHeight falls under a x pixels grid, 4px in the case of Material Design,
-// without changing the relative line height
-
-
-function fontGrid(_ref2) {
-  var lineHeight = _ref2.lineHeight,
-      pixels = _ref2.pixels,
-      htmlFontSize = _ref2.htmlFontSize;
-  return pixels / (lineHeight * htmlFontSize);
-}
-/**
- * generate a responsive version of a given CSS property
- * @example
- * responsiveProperty({
- *   cssProperty: 'fontSize',
- *   min: 15,
- *   max: 20,
- *   unit: 'px',
- *   breakpoints: [300, 600],
- * })
- *
- * // this returns
- *
- * {
- *   fontSize: '15px',
- *   '@media (min-width:300px)': {
- *     fontSize: '17.5px',
- *   },
- *   '@media (min-width:600px)': {
- *     fontSize: '20px',
- *   },
- * }
- *
- * @param {Object} params
- * @param {string} params.cssProperty - The CSS property to be made responsive
- * @param {number} params.min - The smallest value of the CSS property
- * @param {number} params.max - The largest value of the CSS property
- * @param {string} [params.unit] - The unit to be used for the CSS property
- * @param {Array.number} [params.breakpoints]  - An array of breakpoints
- * @param {number} [params.alignStep] - Round scaled value to fall under this grid
- * @returns {Object} responsive styles for {params.cssProperty}
- */
-
-
-function responsiveProperty(_ref3) {
-  var cssProperty = _ref3.cssProperty,
-      min = _ref3.min,
-      max = _ref3.max,
-      _ref3$unit = _ref3.unit,
-      unit = _ref3$unit === void 0 ? 'rem' : _ref3$unit,
-      _ref3$breakpoints = _ref3.breakpoints,
-      breakpoints = _ref3$breakpoints === void 0 ? [600, 960, 1280] : _ref3$breakpoints,
-      _ref3$transform = _ref3.transform,
-      transform = _ref3$transform === void 0 ? null : _ref3$transform;
-  var output = (0, _defineProperty2.default)({}, cssProperty, "".concat(min).concat(unit));
-  var factor = (max - min) / breakpoints[breakpoints.length - 1];
-  breakpoints.forEach(function (breakpoint) {
-    var value = min + factor * breakpoint;
-
-    if (transform !== null) {
-      value = transform(value);
-    }
-
-    output["@media (min-width:".concat(breakpoint, "px)")] = (0, _defineProperty2.default)({}, cssProperty, "".concat(Math.round(value * 10000) / 10000).concat(unit));
-  });
-  return output;
-}
-},{"@babel/runtime/helpers/esm/defineProperty":"../node_modules/@babel/runtime/helpers/esm/defineProperty.js"}],"../node_modules/@material-ui/core/esm/styles/responsiveFontSizes.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = responsiveFontSizes;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
-
-var _convertCssLength = _interopRequireDefault(require("convert-css-length"));
-
-var _cssUtils = require("./cssUtils");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function isUnitless(value) {
-  return String(parseFloat(value)).length === String(value).length;
-}
-
-function responsiveFontSizes(themeInput) {
-  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var _options$breakpoints = options.breakpoints,
-      breakpoints = _options$breakpoints === void 0 ? ['sm', 'md', 'lg'] : _options$breakpoints,
-      _options$disableAlign = options.disableAlign,
-      disableAlign = _options$disableAlign === void 0 ? false : _options$disableAlign,
-      _options$factor = options.factor,
-      factor = _options$factor === void 0 ? 2 : _options$factor,
-      _options$variants = options.variants,
-      variants = _options$variants === void 0 ? ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'subtitle1', 'subtitle2', 'body1', 'body2', 'caption', 'button', 'overline'] : _options$variants;
-  var theme = (0, _extends2.default)({}, themeInput);
-  theme.typography = (0, _extends2.default)({}, theme.typography);
-  var typography = theme.typography; // Convert between css lengths e.g. em->px or px->rem
-  // Set the baseFontSize for your project. Defaults to 16px (also the browser default).
-
-  var convert = (0, _convertCssLength.default)(typography.htmlFontSize);
-  var breakpointValues = breakpoints.map(function (x) {
-    return theme.breakpoints.values[x];
-  });
-  variants.forEach(function (variant) {
-    var style = typography[variant];
-    var remFontSize = parseFloat(convert(style.fontSize, 'rem'));
-
-    if (remFontSize <= 1) {
-      return;
-    }
-
-    var maxFontSize = remFontSize;
-    var minFontSize = 1 + (maxFontSize - 1) / factor;
-    var lineHeight = style.lineHeight;
-
-    if (!isUnitless(lineHeight) && !disableAlign) {
-      throw new Error(["Material-UI: unsupported non-unitless line height with grid alignment.", 'Use unitless line heights instead.'].join('\n'));
-    }
-
-    if (!isUnitless(lineHeight)) {
-      // make it unitless
-      lineHeight = parseFloat(convert(lineHeight, 'rem')) / parseFloat(remFontSize);
-    }
-
-    var transform = null;
-
-    if (!disableAlign) {
-      transform = function transform(value) {
-        return (0, _cssUtils.alignProperty)({
-          size: value,
-          grid: (0, _cssUtils.fontGrid)({
-            pixels: 4,
-            lineHeight: lineHeight,
-            htmlFontSize: typography.htmlFontSize
-          })
-        });
-      };
-    }
-
-    typography[variant] = (0, _extends2.default)({}, style, {}, (0, _cssUtils.responsiveProperty)({
-      cssProperty: 'fontSize',
-      min: minFontSize,
-      max: maxFontSize,
-      unit: 'rem',
-      breakpoints: breakpointValues,
-      transform: transform
-    }));
-  });
-  return theme;
-}
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","convert-css-length":"../node_modules/convert-css-length/dist/index.esm.js","./cssUtils":"../node_modules/@material-ui/core/esm/styles/cssUtils.js"}],"../node_modules/@material-ui/core/esm/styles/styled.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
-
-var _styles = require("@material-ui/styles");
-
-var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var styled = function styled(Component) {
-  var componentCreator = (0, _styles.styled)(Component);
-  return function (style, options) {
-    return componentCreator(style, (0, _extends2.default)({
-      defaultTheme: _defaultTheme.default
-    }, options));
-  };
-};
-
-var _default = styled;
-exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/@material-ui/core/esm/styles/useTheme.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = useTheme;
-
-var _styles = require("@material-ui/styles");
-
-var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function useTheme() {
-  return (0, _styles.useTheme)() || _defaultTheme.default;
-}
-},{"@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/@material-ui/core/esm/styles/withTheme.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _styles = require("@material-ui/styles");
-
-var _defaultTheme = _interopRequireDefault(require("./defaultTheme"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var withTheme = (0, _styles.withThemeCreator)({
-  defaultTheme: _defaultTheme.default
-});
-var _default = withTheme;
-exports.default = _default;
-},{"@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js","./defaultTheme":"../node_modules/@material-ui/core/esm/styles/defaultTheme.js"}],"../node_modules/@material-ui/core/esm/styles/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-var _exportNames = {
-  createMuiTheme: true,
-  createStyles: true,
-  makeStyles: true,
-  responsiveFontSizes: true,
-  styled: true,
-  useTheme: true,
-  withStyles: true,
-  withTheme: true,
-  createGenerateClassName: true,
-  jssPreset: true,
-  ServerStyleSheets: true,
-  StylesProvider: true,
-  MuiThemeProvider: true,
-  ThemeProvider: true
-};
-Object.defineProperty(exports, "createMuiTheme", {
-  enumerable: true,
-  get: function () {
-    return _createMuiTheme.default;
-  }
-});
-Object.defineProperty(exports, "createStyles", {
-  enumerable: true,
-  get: function () {
-    return _createStyles.default;
-  }
-});
-Object.defineProperty(exports, "makeStyles", {
-  enumerable: true,
-  get: function () {
-    return _makeStyles.default;
-  }
-});
-Object.defineProperty(exports, "responsiveFontSizes", {
-  enumerable: true,
-  get: function () {
-    return _responsiveFontSizes.default;
-  }
-});
-Object.defineProperty(exports, "styled", {
-  enumerable: true,
-  get: function () {
-    return _styled.default;
-  }
-});
-Object.defineProperty(exports, "useTheme", {
-  enumerable: true,
-  get: function () {
-    return _useTheme.default;
-  }
-});
-Object.defineProperty(exports, "withStyles", {
-  enumerable: true,
-  get: function () {
-    return _withStyles.default;
-  }
-});
-Object.defineProperty(exports, "withTheme", {
-  enumerable: true,
-  get: function () {
-    return _withTheme.default;
-  }
-});
-Object.defineProperty(exports, "createGenerateClassName", {
-  enumerable: true,
-  get: function () {
-    return _styles.createGenerateClassName;
-  }
-});
-Object.defineProperty(exports, "jssPreset", {
-  enumerable: true,
-  get: function () {
-    return _styles.jssPreset;
-  }
-});
-Object.defineProperty(exports, "ServerStyleSheets", {
-  enumerable: true,
-  get: function () {
-    return _styles.ServerStyleSheets;
-  }
-});
-Object.defineProperty(exports, "StylesProvider", {
-  enumerable: true,
-  get: function () {
-    return _styles.StylesProvider;
-  }
-});
-Object.defineProperty(exports, "MuiThemeProvider", {
-  enumerable: true,
-  get: function () {
-    return _styles.ThemeProvider;
-  }
-});
-Object.defineProperty(exports, "ThemeProvider", {
-  enumerable: true,
-  get: function () {
-    return _styles.ThemeProvider;
-  }
-});
-
-var _colorManipulator = require("./colorManipulator");
-
-Object.keys(_colorManipulator).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _colorManipulator[key];
-    }
-  });
-});
-
-var _createMuiTheme = _interopRequireDefault(require("./createMuiTheme"));
-
-var _createStyles = _interopRequireDefault(require("./createStyles"));
-
-var _makeStyles = _interopRequireDefault(require("./makeStyles"));
-
-var _responsiveFontSizes = _interopRequireDefault(require("./responsiveFontSizes"));
-
-var _styled = _interopRequireDefault(require("./styled"));
-
-var _transitions = require("./transitions");
-
-Object.keys(_transitions).forEach(function (key) {
-  if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
-  Object.defineProperty(exports, key, {
-    enumerable: true,
-    get: function () {
-      return _transitions[key];
-    }
-  });
-});
-
-var _useTheme = _interopRequireDefault(require("./useTheme"));
-
-var _withStyles = _interopRequireDefault(require("./withStyles"));
-
-var _withTheme = _interopRequireDefault(require("./withTheme"));
-
-var _styles = require("@material-ui/styles");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./colorManipulator":"../node_modules/@material-ui/core/esm/styles/colorManipulator.js","./createMuiTheme":"../node_modules/@material-ui/core/esm/styles/createMuiTheme.js","./createStyles":"../node_modules/@material-ui/core/esm/styles/createStyles.js","./makeStyles":"../node_modules/@material-ui/core/esm/styles/makeStyles.js","./responsiveFontSizes":"../node_modules/@material-ui/core/esm/styles/responsiveFontSizes.js","./styled":"../node_modules/@material-ui/core/esm/styles/styled.js","./transitions":"../node_modules/@material-ui/core/esm/styles/transitions.js","./useTheme":"../node_modules/@material-ui/core/esm/styles/useTheme.js","./withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","./withTheme":"../node_modules/@material-ui/core/esm/styles/withTheme.js","@material-ui/styles":"../node_modules/@material-ui/styles/esm/index.js"}],"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-function requirePropFactory(componentNameInError) {
-  if ("development" === 'production') {
-    return function () {
-      return null;
-    };
-  }
-
-  var requireProp = function requireProp(requiredProp) {
-    return function (props, propName, componentName, location, propFullName) {
-      var propFullNameSafe = propFullName || propName;
-
-      if (typeof props[propName] !== 'undefined' && !props[requiredProp]) {
-        return new Error("The prop `".concat(propFullNameSafe, "` of ") + "`".concat(componentNameInError, "` must be used on `").concat(requiredProp, "`."));
-      }
-
-      return null;
-    };
-  };
-
-  return requireProp;
-}
-
-var _default = requirePropFactory;
-exports.default = _default;
-},{}],"../node_modules/@material-ui/core/esm/Grid/Grid.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = exports.styles = void 0;
-
-var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
-
-var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
-
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _clsx = _interopRequireDefault(require("clsx"));
-
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-var _requirePropFactory = _interopRequireDefault(require("../utils/requirePropFactory"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-// A grid component using the following libs as inspiration.
-//
-// For the implementation:
-// - https://getbootstrap.com/docs/4.3/layout/grid/
-// - https://github.com/kristoferjoseph/flexboxgrid/blob/master/src/css/flexboxgrid.css
-// - https://github.com/roylee0704/react-flexbox-grid
-// - https://material.angularjs.org/latest/layout/introduction
-//
-// Follow this flexbox Guide to better understand the underlying model:
-// - https://css-tricks.com/snippets/css/a-guide-to-flexbox/
-var SPACINGS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-var GRID_SIZES = ['auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-function generateGrid(globalStyles, theme, breakpoint) {
-  var styles = {};
-  GRID_SIZES.forEach(function (size) {
-    var key = "grid-".concat(breakpoint, "-").concat(size);
-
-    if (size === true) {
-      // For the auto layouting
-      styles[key] = {
-        flexBasis: 0,
-        flexGrow: 1,
-        maxWidth: '100%'
-      };
-      return;
-    }
-
-    if (size === 'auto') {
-      styles[key] = {
-        flexBasis: 'auto',
-        flexGrow: 0,
-        maxWidth: 'none'
-      };
-      return;
-    } // Keep 7 significant numbers.
-
-
-    var width = "".concat(Math.round(size / 12 * 10e7) / 10e5, "%"); // Close to the bootstrap implementation:
-    // https://github.com/twbs/bootstrap/blob/8fccaa2439e97ec72a4b7dc42ccc1f649790adb0/scss/mixins/_grid.scss#L41
-
-    styles[key] = {
-      flexBasis: width,
-      flexGrow: 0,
-      maxWidth: width
-    };
-  }); // No need for a media query for the first size.
-
-  if (breakpoint === 'xs') {
-    (0, _extends2.default)(globalStyles, styles);
-  } else {
-    globalStyles[theme.breakpoints.up(breakpoint)] = styles;
-  }
-}
-
-function getOffset(val) {
-  var div = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  var parse = parseFloat(val);
-  return "".concat(parse / div).concat(String(val).replace(String(parse), '') || 'px');
-}
-
-function generateGutter(theme, breakpoint) {
-  var styles = {};
-  SPACINGS.forEach(function (spacing) {
-    var themeSpacing = theme.spacing(spacing);
-
-    if (themeSpacing === 0) {
-      return;
-    }
-
-    styles["spacing-".concat(breakpoint, "-").concat(spacing)] = {
-      margin: "-".concat(getOffset(themeSpacing, 2)),
-      width: "calc(100% + ".concat(getOffset(themeSpacing), ")"),
-      '& > $item': {
-        padding: getOffset(themeSpacing, 2)
-      }
-    };
-  });
-  return styles;
-} // Default CSS values
-// flex: '0 1 auto',
-// flexDirection: 'row',
-// alignItems: 'flex-start',
-// flexWrap: 'nowrap',
-// justifyContent: 'flex-start',
-
-
-var styles = function styles(theme) {
-  return (0, _extends2.default)({
-    /* Styles applied to the root element */
-    root: {},
-
-    /* Styles applied to the root element if `container={true}`. */
-    container: {
-      boxSizing: 'border-box',
-      display: 'flex',
-      flexWrap: 'wrap',
-      width: '100%'
-    },
-
-    /* Styles applied to the root element if `item={true}`. */
-    item: {
-      boxSizing: 'border-box',
-      margin: '0' // For instance, it's useful when used with a `figure` element.
-
-    },
-
-    /* Styles applied to the root element if `zeroMinWidth={true}`. */
-    zeroMinWidth: {
-      minWidth: 0
-    },
-
-    /* Styles applied to the root element if `direction="column"`. */
-    'direction-xs-column': {
-      flexDirection: 'column'
-    },
-
-    /* Styles applied to the root element if `direction="column-reverse"`. */
-    'direction-xs-column-reverse': {
-      flexDirection: 'column-reverse'
-    },
-
-    /* Styles applied to the root element if `direction="rwo-reverse"`. */
-    'direction-xs-row-reverse': {
-      flexDirection: 'row-reverse'
-    },
-
-    /* Styles applied to the root element if `wrap="nowrap"`. */
-    'wrap-xs-nowrap': {
-      flexWrap: 'nowrap'
-    },
-
-    /* Styles applied to the root element if `wrap="reverse"`. */
-    'wrap-xs-wrap-reverse': {
-      flexWrap: 'wrap-reverse'
-    },
-
-    /* Styles applied to the root element if `alignItems="center"`. */
-    'align-items-xs-center': {
-      alignItems: 'center'
-    },
-
-    /* Styles applied to the root element if `alignItems="flex-start"`. */
-    'align-items-xs-flex-start': {
-      alignItems: 'flex-start'
-    },
-
-    /* Styles applied to the root element if `alignItems="flex-end"`. */
-    'align-items-xs-flex-end': {
-      alignItems: 'flex-end'
-    },
-
-    /* Styles applied to the root element if `alignItems="baseline"`. */
-    'align-items-xs-baseline': {
-      alignItems: 'baseline'
-    },
-
-    /* Styles applied to the root element if `alignContent="center"`. */
-    'align-content-xs-center': {
-      alignContent: 'center'
-    },
-
-    /* Styles applied to the root element if `alignContent="flex-start"`. */
-    'align-content-xs-flex-start': {
-      alignContent: 'flex-start'
-    },
-
-    /* Styles applied to the root element if `alignContent="flex-end"`. */
-    'align-content-xs-flex-end': {
-      alignContent: 'flex-end'
-    },
-
-    /* Styles applied to the root element if `alignContent="space-between"`. */
-    'align-content-xs-space-between': {
-      alignContent: 'space-between'
-    },
-
-    /* Styles applied to the root element if `alignContent="space-around"`. */
-    'align-content-xs-space-around': {
-      alignContent: 'space-around'
-    },
-
-    /* Styles applied to the root element if `justify="center"`. */
-    'justify-xs-center': {
-      justifyContent: 'center'
-    },
-
-    /* Styles applied to the root element if `justify="flex-end"`. */
-    'justify-xs-flex-end': {
-      justifyContent: 'flex-end'
-    },
-
-    /* Styles applied to the root element if `justify="space-between"`. */
-    'justify-xs-space-between': {
-      justifyContent: 'space-between'
-    },
-
-    /* Styles applied to the root element if `justify="space-around"`. */
-    'justify-xs-space-around': {
-      justifyContent: 'space-around'
-    },
-
-    /* Styles applied to the root element if `justify="space-evenly"`. */
-    'justify-xs-space-evenly': {
-      justifyContent: 'space-evenly'
-    }
-  }, generateGutter(theme, 'xs'), {}, theme.breakpoints.keys.reduce(function (accumulator, key) {
-    // Use side effect over immutability for better performance.
-    generateGrid(accumulator, theme, key);
-    return accumulator;
-  }, {}));
-};
-
-exports.styles = styles;
-
-var Grid = _react.default.forwardRef(function Grid(props, ref) {
-  var _props$alignContent = props.alignContent,
-      alignContent = _props$alignContent === void 0 ? 'stretch' : _props$alignContent,
-      _props$alignItems = props.alignItems,
-      alignItems = _props$alignItems === void 0 ? 'stretch' : _props$alignItems,
-      classes = props.classes,
-      classNameProp = props.className,
-      _props$component = props.component,
-      Component = _props$component === void 0 ? 'div' : _props$component,
-      _props$container = props.container,
-      container = _props$container === void 0 ? false : _props$container,
-      _props$direction = props.direction,
-      direction = _props$direction === void 0 ? 'row' : _props$direction,
-      _props$item = props.item,
-      item = _props$item === void 0 ? false : _props$item,
-      _props$justify = props.justify,
-      justify = _props$justify === void 0 ? 'flex-start' : _props$justify,
-      _props$lg = props.lg,
-      lg = _props$lg === void 0 ? false : _props$lg,
-      _props$md = props.md,
-      md = _props$md === void 0 ? false : _props$md,
-      _props$sm = props.sm,
-      sm = _props$sm === void 0 ? false : _props$sm,
-      _props$spacing = props.spacing,
-      spacing = _props$spacing === void 0 ? 0 : _props$spacing,
-      _props$wrap = props.wrap,
-      wrap = _props$wrap === void 0 ? 'wrap' : _props$wrap,
-      _props$xl = props.xl,
-      xl = _props$xl === void 0 ? false : _props$xl,
-      _props$xs = props.xs,
-      xs = _props$xs === void 0 ? false : _props$xs,
-      _props$zeroMinWidth = props.zeroMinWidth,
-      zeroMinWidth = _props$zeroMinWidth === void 0 ? false : _props$zeroMinWidth,
-      other = (0, _objectWithoutProperties2.default)(props, ["alignContent", "alignItems", "classes", "className", "component", "container", "direction", "item", "justify", "lg", "md", "sm", "spacing", "wrap", "xl", "xs", "zeroMinWidth"]);
-  var className = (0, _clsx.default)(classes.root, classNameProp, container && [classes.container, spacing !== 0 && classes["spacing-xs-".concat(String(spacing))]], item && classes.item, zeroMinWidth && classes.zeroMinWidth, direction !== 'row' && classes["direction-xs-".concat(String(direction))], wrap !== 'wrap' && classes["wrap-xs-".concat(String(wrap))], alignItems !== 'stretch' && classes["align-items-xs-".concat(String(alignItems))], alignContent !== 'stretch' && classes["align-content-xs-".concat(String(alignContent))], justify !== 'flex-start' && classes["justify-xs-".concat(String(justify))], xs !== false && classes["grid-xs-".concat(String(xs))], sm !== false && classes["grid-sm-".concat(String(sm))], md !== false && classes["grid-md-".concat(String(md))], lg !== false && classes["grid-lg-".concat(String(lg))], xl !== false && classes["grid-xl-".concat(String(xl))]);
-  return _react.default.createElement(Component, (0, _extends2.default)({
-    className: className,
-    ref: ref
-  }, other));
-});
-
-"development" !== "production" ? Grid.propTypes = {
-  /**
-   * Defines the `align-content` style property.
-   * It's applied for all screen sizes.
-   */
-  alignContent: _propTypes.default.oneOf(['stretch', 'center', 'flex-start', 'flex-end', 'space-between', 'space-around']),
-
-  /**
-   * Defines the `align-items` style property.
-   * It's applied for all screen sizes.
-   */
-  alignItems: _propTypes.default.oneOf(['flex-start', 'center', 'flex-end', 'stretch', 'baseline']),
-
-  /**
-   * The content of the component.
-   */
-  children: _propTypes.default.node,
-
-  /**
-   * Override or extend the styles applied to the component.
-   * See [CSS API](#css) below for more details.
-   */
-  classes: _propTypes.default.object.isRequired,
-
-  /**
-   * @ignore
-   */
-  className: _propTypes.default.string,
-
-  /**
-   * The component used for the root node.
-   * Either a string to use a DOM element or a component.
-   */
-  component: _propTypes.default.elementType,
-
-  /**
-   * If `true`, the component will have the flex *container* behavior.
-   * You should be wrapping *items* with a *container*.
-   */
-  container: _propTypes.default.bool,
-
-  /**
-   * Defines the `flex-direction` style property.
-   * It is applied for all screen sizes.
-   */
-  direction: _propTypes.default.oneOf(['row', 'row-reverse', 'column', 'column-reverse']),
-
-  /**
-   * If `true`, the component will have the flex *item* behavior.
-   * You should be wrapping *items* with a *container*.
-   */
-  item: _propTypes.default.bool,
-
-  /**
-   * Defines the `justify-content` style property.
-   * It is applied for all screen sizes.
-   */
-  justify: _propTypes.default.oneOf(['flex-start', 'center', 'flex-end', 'space-between', 'space-around', 'space-evenly']),
-
-  /**
-   * Defines the number of grids the component is going to use.
-   * It's applied for the `lg` breakpoint and wider screens if not overridden.
-   */
-  lg: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-
-  /**
-   * Defines the number of grids the component is going to use.
-   * It's applied for the `md` breakpoint and wider screens if not overridden.
-   */
-  md: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-
-  /**
-   * Defines the number of grids the component is going to use.
-   * It's applied for the `sm` breakpoint and wider screens if not overridden.
-   */
-  sm: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-
-  /**
-   * Defines the space between the type `item` component.
-   * It can only be used on a type `container` component.
-   */
-  spacing: _propTypes.default.oneOf(SPACINGS),
-
-  /**
-   * Defines the `flex-wrap` style property.
-   * It's applied for all screen sizes.
-   */
-  wrap: _propTypes.default.oneOf(['nowrap', 'wrap', 'wrap-reverse']),
-
-  /**
-   * Defines the number of grids the component is going to use.
-   * It's applied for the `xl` breakpoint and wider screens.
-   */
-  xl: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-
-  /**
-   * Defines the number of grids the component is going to use.
-   * It's applied for all the screen sizes with the lowest priority.
-   */
-  xs: _propTypes.default.oneOf([false, 'auto', true, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]),
-
-  /**
-   * If `true`, it sets `min-width: 0` on the item.
-   * Refer to the limitations section of the documentation to better understand the use case.
-   */
-  zeroMinWidth: _propTypes.default.bool
-} : void 0;
-var StyledGrid = (0, _withStyles.default)(styles, {
-  name: 'MuiGrid'
-})(Grid);
-
-if ("development" !== 'production') {
-  var requireProp = (0, _requirePropFactory.default)('Grid');
-  StyledGrid.propTypes = (0, _extends2.default)({}, StyledGrid.propTypes, {
-    alignContent: requireProp('container'),
-    alignItems: requireProp('container'),
-    direction: requireProp('container'),
-    justify: requireProp('container'),
-    lg: requireProp('item'),
-    md: requireProp('item'),
-    sm: requireProp('item'),
-    spacing: requireProp('container'),
-    wrap: requireProp('container'),
-    xs: requireProp('item'),
-    zeroMinWidth: requireProp('item')
-  });
-}
-
-var _default = StyledGrid;
-exports.default = _default;
-},{"@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","../utils/requirePropFactory":"../node_modules/@material-ui/core/esm/utils/requirePropFactory.js"}],"../node_modules/@material-ui/core/esm/Grid/index.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-Object.defineProperty(exports, "default", {
-  enumerable: true,
-  get: function () {
-    return _Grid.default;
-  }
-});
-
-var _Grid = _interopRequireDefault(require("./Grid"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Grid":"../node_modules/@material-ui/core/esm/Grid/Grid.js"}],"../node_modules/@material-ui/core/esm/ButtonGroup/ButtonGroup.js":[function(require,module,exports) {
+},{"./Button":"../node_modules/@material-ui/core/esm/Button/Button.js"}],"../node_modules/@material-ui/core/esm/ButtonGroup/ButtonGroup.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -47765,20 +47765,26 @@ var styles_1 = require("@material-ui/core/styles"); // to do pass the styles fro
 
 var useStyles = styles_1.makeStyles({
   label: {
-    paddingTop: "15px"
-  }
+    //paddingTop: "15px",
+    paddingRight: "20px"
+  },
+  alignment: {}
 });
 
 function GroupedButtons() {
   // there is a bug in Typescript so workaround is to pass an empty object
   var classes = useStyles({});
   return react_1.default.createElement(Grid_1.default, {
+    container: true
+  }, react_1.default.createElement(Grid_1.default, {
+    item: true,
+    xs: 4
+  }), react_1.default.createElement(Grid_1.default, {
     container: true,
-    spacing: 0,
-    justify: "flex-start",
-    alignItems: "flex-end",
-    direction: "row"
-  }, react_1.default.createElement(ButtonGroup_1.default, {
+    item: true,
+    xs: 4,
+    justify: "center"
+  }, react_1.default.createElement("div", null, react_1.default.createElement(ButtonGroup_1.default, {
     variant: "text",
     color: "inherit",
     size: "medium",
@@ -47792,7 +47798,62 @@ function GroupedButtons() {
   }, "SCHEDULE"), react_1.default.createElement(Button_1.default, {
     component: router_1.Link,
     to: "/students"
-  }, "STUDENTS")));
+  }, "STUDENTS")))), react_1.default.createElement(Grid_1.default, {
+    container: true,
+    item: true,
+    xs: 4,
+    justify: "flex-end"
+  }, react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
+    component: router_1.Link,
+    to: "/login",
+    className: classes.alignment,
+    color: "inherit",
+    size: "medium",
+    variant: "text"
+  }, "Login")))) // <div>
+  //   <Grid container={true}>
+  //     <Grid item xs={4}>
+  //       {/* <h1>hi</h1> */}
+  //     </Grid>
+  //     <Grid container={true} item={true} justify="center" xs={4}>
+  //       <div>
+  //         <ButtonGroup
+  //           variant="text"
+  //           color="inherit"
+  //           size="medium"
+  //           className={classes.label}
+  //         >
+  //           <Button component={Link} to="/">
+  //             ADD STUDENT
+  //           </Button>
+  //           <Button component={Link} to="/schedule">
+  //             SCHEDULE
+  //           </Button>
+  //           <Button component={Link} to="/students">
+  //             STUDENTS
+  //           </Button>
+  //         </ButtonGroup>
+  //       </div>
+  //     </Grid>
+  //     <Grid container={true} item={true} justify="flex-end" xs={4}>
+  //       <div>
+  //         <ButtonGroup>
+  //           <Button
+  //             component={Link}
+  //             to="/login"
+  //             className={classes.alignment}
+  //             color="inherit"
+  //             size="medium"
+  //             variant="text"
+  //           >
+  //             Login
+  //           </Button>
+  //         </ButtonGroup>
+  //       </div>
+  //     </Grid>
+  //   </Grid>
+  // </div>
+  ;
 }
 
 exports.default = GroupedButtons;
@@ -47819,13 +47880,9 @@ var Toolbar_1 = __importDefault(require("@material-ui/core/Toolbar"));
 
 var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 
-var Button_1 = __importDefault(require("@material-ui/core/Button"));
-
 var styles_1 = require("@material-ui/core/styles");
 
 var buttongroups_1 = __importDefault(require("./buttongroups"));
-
-var router_1 = require("@reach/router");
 
 var kumon_png_1 = __importDefault(require("../../media/kumon.png"));
 
@@ -47858,16 +47915,11 @@ var NavBar = function NavBar() {
     align: "left",
     variant: "h6",
     className: classes.title
-  }, "Kumon"), react_1.default.createElement(buttongroups_1.default, null), react_1.default.createElement(Button_1.default, {
-    color: "inherit",
-    className: classes.label,
-    component: router_1.Link,
-    to: "/login"
-  }, "Login"))));
+  }, "Kumon"), react_1.default.createElement(buttongroups_1.default, null))));
 };
 
 exports.default = NavBar;
-},{"react":"../node_modules/react/index.js","@material-ui/core/AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","@material-ui/core/Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","./buttongroups":"../src/components/buttongroups.tsx","@reach/router":"../node_modules/@reach/router/es/index.js","../../media/kumon.png":"../media/kumon.png"}],"../node_modules/@material-ui/core/esm/FormControl/formControlState.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/AppBar":"../node_modules/@material-ui/core/esm/AppBar/index.js","@material-ui/core/Toolbar":"../node_modules/@material-ui/core/esm/Toolbar/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","./buttongroups":"../src/components/buttongroups.tsx","../../media/kumon.png":"../media/kumon.png"}],"../node_modules/@material-ui/core/esm/FormControl/formControlState.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58719,7 +58771,7 @@ var react_1 = require("react"); // export const loggedIn = {
 
 var LoginContext = react_1.createContext([false, function () {}]);
 exports.default = LoginContext;
-},{"react":"../node_modules/react/index.js"}],"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js"}],"../node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58733,189 +58785,88 @@ var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/h
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _clsx = _interopRequireDefault(require("clsx"));
 
-var _utils = require("@material-ui/utils");
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
-
-var _capitalize = _interopRequireDefault(require("../utils/capitalize"));
+var _styles = require("@material-ui/core/styles");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var SIZE = 44;
-
-function getRelativeValue(value, min, max) {
-  return (Math.min(Math.max(min, value), max) - min) / (max - min);
-}
-
-function easeOut(t) {
-  t = getRelativeValue(t, 0, 1); // https://gist.github.com/gre/1650294
-
-  t = (t -= 1) * t * t + 1;
-  return t;
-}
-
-function easeIn(t) {
-  return t * t;
-}
 
 var styles = function styles(theme) {
   return {
     /* Styles applied to the root element. */
     root: {
-      display: 'inline-block'
+      display: 'block',
+      backgroundColor: theme.palette.action.hover,
+      height: '1.2em'
     },
 
-    /* Styles applied to the root element if `variant="static"`. */
-    static: {
-      transition: theme.transitions.create('transform')
-    },
-
-    /* Styles applied to the root element if `variant="indeterminate"`. */
-    indeterminate: {
-      animation: '$circular-rotate 1.4s linear infinite'
-    },
-
-    /* Styles applied to the root element if `color="primary"`. */
-    colorPrimary: {
-      color: theme.palette.primary.main
-    },
-
-    /* Styles applied to the root element if `color="secondary"`. */
-    colorSecondary: {
-      color: theme.palette.secondary.main
-    },
-
-    /* Styles applied to the `svg` element. */
-    svg: {
-      display: 'block' // Keeps the progress centered
-
-    },
-
-    /* Styles applied to the `circle` svg path. */
-    circle: {
-      stroke: 'currentColor' // Use butt to follow the specification, by chance, it's already the default CSS value.
-      // strokeLinecap: 'butt',
-
-    },
-
-    /* Styles applied to the `circle` svg path if `variant="static"`. */
-    circleStatic: {
-      transition: theme.transitions.create('stroke-dashoffset')
-    },
-
-    /* Styles applied to the `circle` svg path if `variant="indeterminate"`. */
-    circleIndeterminate: {
-      animation: '$circular-dash 1.4s ease-in-out infinite',
-      // Some default value that looks fine waiting for the animation to kicks in.
-      strokeDasharray: '80px, 200px',
-      strokeDashoffset: '0px' // Add the unit to fix a Edge 16 and below bug.
-
-    },
-    '@keyframes circular-rotate': {
-      '100%': {
-        transform: 'rotate(360deg)'
+    /* Styles applied to the root element if `variant="text"`. */
+    text: {
+      marginTop: 0,
+      marginBottom: 0,
+      height: 'auto',
+      transformOrigin: '0 60%',
+      transform: 'scale(1, 0.60)',
+      borderRadius: theme.shape.borderRadius,
+      '&:empty:before': {
+        content: '"\\00a0"'
       }
     },
-    '@keyframes circular-dash': {
+
+    /* Styles applied to the root element if `variant="rect"`. */
+    rect: {},
+
+    /* Styles applied to the root element if `variant="circle"`. */
+    circle: {
+      borderRadius: '50%'
+    },
+
+    /* Styles applied to the root element if `disabledAnimate={false}`. */
+    animate: {
+      animation: '$animate 1.5s ease-in-out infinite'
+    },
+    '@keyframes animate': {
       '0%': {
-        strokeDasharray: '1px, 200px',
-        strokeDashoffset: '0px'
+        opacity: 1
       },
       '50%': {
-        strokeDasharray: '100px, 200px',
-        strokeDashoffset: '-15px'
+        opacity: 0.4
       },
       '100%': {
-        strokeDasharray: '100px, 200px',
-        strokeDashoffset: '-125px'
+        opacity: 1
       }
-    },
-
-    /* Styles applied to the `circle` svg path if `disableShrink={true}`. */
-    circleDisableShrink: {
-      animation: 'none'
     }
   };
 };
-/**
- * ## ARIA
- *
- * If the progress bar is describing the loading progress of a particular region of a page,
- * you should use `aria-describedby` to point to the progress bar, and set the `aria-busy`
- * attribute to `true` on that region until it has finished loading.
- */
-
 
 exports.styles = styles;
 
-var CircularProgress = _react.default.forwardRef(function CircularProgress(props, ref) {
+var Skeleton = _react.default.forwardRef(function Skeleton(props, ref) {
   var classes = props.classes,
       className = props.className,
-      _props$color = props.color,
-      color = _props$color === void 0 ? 'primary' : _props$color,
-      _props$disableShrink = props.disableShrink,
-      disableShrink = _props$disableShrink === void 0 ? false : _props$disableShrink,
-      _props$size = props.size,
-      size = _props$size === void 0 ? 40 : _props$size,
-      style = props.style,
-      _props$thickness = props.thickness,
-      thickness = _props$thickness === void 0 ? 3.6 : _props$thickness,
-      _props$value = props.value,
-      value = _props$value === void 0 ? 0 : _props$value,
+      _props$component = props.component,
+      Component = _props$component === void 0 ? 'div' : _props$component,
+      _props$disableAnimate = props.disableAnimate,
+      disableAnimate = _props$disableAnimate === void 0 ? false : _props$disableAnimate,
+      height = props.height,
       _props$variant = props.variant,
-      variant = _props$variant === void 0 ? 'indeterminate' : _props$variant,
-      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "color", "disableShrink", "size", "style", "thickness", "value", "variant"]);
-  var circleStyle = {};
-  var rootStyle = {};
-  var rootProps = {};
-
-  if (variant === 'determinate' || variant === 'static') {
-    var circumference = 2 * Math.PI * ((SIZE - thickness) / 2);
-    circleStyle.strokeDasharray = circumference.toFixed(3);
-    rootProps['aria-valuenow'] = Math.round(value);
-
-    if (variant === 'static') {
-      circleStyle.strokeDashoffset = "".concat(((100 - value) / 100 * circumference).toFixed(3), "px");
-      rootStyle.transform = 'rotate(-90deg)';
-    } else {
-      circleStyle.strokeDashoffset = "".concat((easeIn((100 - value) / 100) * circumference).toFixed(3), "px");
-      rootStyle.transform = "rotate(".concat((easeOut(value / 70) * 270).toFixed(3), "deg)");
-    }
-  }
-
-  return _react.default.createElement("div", (0, _extends2.default)({
-    className: (0, _clsx.default)(classes.root, className, color !== 'inherit' && classes["color".concat((0, _capitalize.default)(color))], {
-      indeterminate: classes.indeterminate,
-      static: classes.static
-    }[variant]),
-    style: (0, _extends2.default)({
-      width: size,
-      height: size
-    }, rootStyle, {}, style),
+      variant = _props$variant === void 0 ? 'text' : _props$variant,
+      width = props.width,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component", "disableAnimate", "height", "variant", "width"]);
+  return _react.default.createElement(Component, (0, _extends2.default)({
     ref: ref,
-    role: "progressbar"
-  }, rootProps, other), _react.default.createElement("svg", {
-    className: classes.svg,
-    viewBox: "".concat(SIZE / 2, " ").concat(SIZE / 2, " ").concat(SIZE, " ").concat(SIZE)
-  }, _react.default.createElement("circle", {
-    className: (0, _clsx.default)(classes.circle, disableShrink && classes.circleDisableShrink, {
-      indeterminate: classes.circleIndeterminate,
-      static: classes.circleStatic
-    }[variant]),
-    style: circleStyle,
-    cx: SIZE,
-    cy: SIZE,
-    r: (SIZE - thickness) / 2,
-    fill: "none",
-    strokeWidth: thickness
-  })));
+    className: (0, _clsx.default)(classes.root, classes[variant], className, !disableAnimate && classes.animate)
+  }, other, {
+    style: (0, _extends2.default)({
+      width: width,
+      height: height
+    }, other.style)
+  }));
 });
 
-"development" !== "production" ? CircularProgress.propTypes = {
+"development" !== "production" ? Skeleton.propTypes = {
   /**
    * Override or extend the styles applied to the component.
    * See [CSS API](#css) below for more details.
@@ -58928,59 +58879,40 @@ var CircularProgress = _react.default.forwardRef(function CircularProgress(props
   className: _propTypes.default.string,
 
   /**
-   * The color of the component. It supports those theme colors that make sense for this component.
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
    */
-  color: _propTypes.default.oneOf(['primary', 'secondary', 'inherit']),
+  component: _propTypes.default.elementType,
 
   /**
-   * If `true`, the shrink animation is disabled.
-   * This only works if variant is `indeterminate`.
+   * If `true` the animation effect is disabled.
    */
-  disableShrink: (0, _utils.chainPropTypes)(_propTypes.default.bool, function (props) {
-    if (props.disableShrink && props.variant && props.variant !== 'indeterminate') {
-      return new Error('Material-UI: you have provided the `disableShrink` prop ' + 'with a variant other than `indeterminate`. This will have no effect.');
-    }
-
-    return null;
-  }),
+  disableAnimate: _propTypes.default.bool,
 
   /**
-   * The size of the circle.
-   * If using a number, the pixel unit is assumed.
-   * If using a string, you need to provide the CSS unit, e.g '3rem'.
+   * Height of the skeleton.
+   * Useful when you don't want to adapt the skeleton to a text element but for instance a card.
    */
-  size: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
+  height: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
 
   /**
-   * @ignore
+   * The type of content that will be rendered.
    */
-  style: _propTypes.default.object,
+  variant: _propTypes.default.oneOf(['text', 'rect', 'circle']),
 
   /**
-   * The thickness of the circle.
+   * Width of the skeleton.
+   * Useful when the skeleton is inside an inline element with no width of its own.
    */
-  thickness: _propTypes.default.number,
-
-  /**
-   * The value of the progress indicator for the determinate and static variants.
-   * Value between 0 and 100.
-   */
-  value: _propTypes.default.number,
-
-  /**
-   * The variant to use.
-   * Use indeterminate when there is no progress value.
-   */
-  variant: _propTypes.default.oneOf(['determinate', 'indeterminate', 'static'])
+  width: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string])
 } : void 0;
 
-var _default = (0, _withStyles.default)(styles, {
-  name: 'MuiCircularProgress',
-  flip: false
-})(CircularProgress);
+var _default = (0, _styles.withStyles)(styles, {
+  name: 'MuiSkeleton'
+})(Skeleton);
 
 exports.default = _default;
-},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../node_modules/@material-ui/utils/esm/index.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","../utils/capitalize":"../node_modules/@material-ui/core/esm/utils/capitalize.js"}],"../node_modules/@material-ui/core/esm/CircularProgress/index.js":[function(require,module,exports) {
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","react":"../node_modules/react/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","prop-types":"../node_modules/prop-types/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"../node_modules/@material-ui/lab/esm/Skeleton/index.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -58989,15 +58921,33 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function () {
-    return _CircularProgress.default;
+    return _Skeleton.default;
   }
 });
 
-var _CircularProgress = _interopRequireDefault(require("./CircularProgress"));
+var _Skeleton = _interopRequireDefault(require("./Skeleton"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js"}],"../src/components/notLoggedIn.tsx":[function(require,module,exports) {
+},{"./Skeleton":"../node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js"}],"../src/components/notLoggedIn.tsx":[function(require,module,exports) {
 "use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -59009,32 +58959,82 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importDefault(require("react"));
+var react_1 = __importStar(require("react"));
 
 var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
 
 var styles_1 = require("@material-ui/core/styles");
 
-var CircularProgress_1 = __importDefault(require("@material-ui/core/CircularProgress")); // This component will be rendered if a user has not signed in yet.
+var Skeleton_1 = __importDefault(require("@material-ui/lab/Skeleton"));
 
+var Grid_1 = __importDefault(require("@material-ui/core/Grid")); // The purpose of this component is to render a generic animation for all users who have not signed in yet
+// Since there is no CSS vh in React, I find out the current window height + width manually whenever it changesg to resize my skeleton accordingly.
+// Found this idea from https://stackoverflow.com/questions/36862334/get-viewport-window-height-in-reactjs
+
+
+function getWindowDimensions() {
+  var _window = window,
+      currentHeight = _window.innerWidth,
+      currentWidth = _window.innerHeight;
+  return {
+    currentHeight: currentHeight,
+    currentWidth: currentWidth
+  };
+}
 
 var useStyles = styles_1.makeStyles({
   root: {
     width: "100%",
-    maxWidth: 500
+    maxWidth: 500 //
+
   }
 });
 
+function useWindowDimensions() {
+  var _react_1$useState = react_1.useState(getWindowDimensions()),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      windowDimensions = _react_1$useState2[0],
+      setWindowDimensions = _react_1$useState2[1];
+
+  react_1.useEffect(function () {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    window.addEventListener("resize", handleResize);
+    return function () {
+      return window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+  return windowDimensions;
+}
+
+exports.default = useWindowDimensions;
+
 function notLoggedIn() {
-  var classes = useStyles({});
-  return react_1.default.createElement("div", null, react_1.default.createElement(Typography_1.default, {
+  var _useWindowDimensions = useWindowDimensions(),
+      currentHeight = _useWindowDimensions.currentHeight,
+      currentWidth = _useWindowDimensions.currentWidth;
+
+  console.log("CUrrent height is " + currentHeight + " currentWidth is " + currentWidth);
+  return react_1.default.createElement(Grid_1.default, {
+    container: true,
+    justify: "center",
+    alignContent: "center"
+  }, react_1.default.createElement(Grid_1.default, {
+    item: true
+  }, react_1.default.createElement(Skeleton_1.default, {
+    variant: "rect",
+    height: 538,
+    width: 500
+  }, react_1.default.createElement(Typography_1.default, {
     variant: "h5",
-    gutterBottom: true
-  }, "Please log in ", react_1.default.createElement(CircularProgress_1.default, null)));
+    gutterBottom: false
+  }, "Please log in"))));
 }
 
 exports.default = notLoggedIn;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/index.js"}],"../src/components/addstudent.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/lab/Skeleton":"../node_modules/@material-ui/lab/esm/Skeleton/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js"}],"../src/components/addstudent.tsx":[function(require,module,exports) {
 "use strict";
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -59644,7 +59644,284 @@ function _interopRequireWildcard(obj) {
 }
 
 module.exports = _interopRequireWildcard;
-},{"../helpers/typeof":"../node_modules/@babel/runtime/helpers/typeof.js"}],"../node_modules/@material-ui/core/esm/Icon/Icon.js":[function(require,module,exports) {
+},{"../helpers/typeof":"../node_modules/@babel/runtime/helpers/typeof.js"}],"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _utils = require("@material-ui/utils");
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _capitalize = _interopRequireDefault(require("../utils/capitalize"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var SIZE = 44;
+
+function getRelativeValue(value, min, max) {
+  return (Math.min(Math.max(min, value), max) - min) / (max - min);
+}
+
+function easeOut(t) {
+  t = getRelativeValue(t, 0, 1); // https://gist.github.com/gre/1650294
+
+  t = (t -= 1) * t * t + 1;
+  return t;
+}
+
+function easeIn(t) {
+  return t * t;
+}
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      display: 'inline-block'
+    },
+
+    /* Styles applied to the root element if `variant="static"`. */
+    static: {
+      transition: theme.transitions.create('transform')
+    },
+
+    /* Styles applied to the root element if `variant="indeterminate"`. */
+    indeterminate: {
+      animation: '$circular-rotate 1.4s linear infinite'
+    },
+
+    /* Styles applied to the root element if `color="primary"`. */
+    colorPrimary: {
+      color: theme.palette.primary.main
+    },
+
+    /* Styles applied to the root element if `color="secondary"`. */
+    colorSecondary: {
+      color: theme.palette.secondary.main
+    },
+
+    /* Styles applied to the `svg` element. */
+    svg: {
+      display: 'block' // Keeps the progress centered
+
+    },
+
+    /* Styles applied to the `circle` svg path. */
+    circle: {
+      stroke: 'currentColor' // Use butt to follow the specification, by chance, it's already the default CSS value.
+      // strokeLinecap: 'butt',
+
+    },
+
+    /* Styles applied to the `circle` svg path if `variant="static"`. */
+    circleStatic: {
+      transition: theme.transitions.create('stroke-dashoffset')
+    },
+
+    /* Styles applied to the `circle` svg path if `variant="indeterminate"`. */
+    circleIndeterminate: {
+      animation: '$circular-dash 1.4s ease-in-out infinite',
+      // Some default value that looks fine waiting for the animation to kicks in.
+      strokeDasharray: '80px, 200px',
+      strokeDashoffset: '0px' // Add the unit to fix a Edge 16 and below bug.
+
+    },
+    '@keyframes circular-rotate': {
+      '100%': {
+        transform: 'rotate(360deg)'
+      }
+    },
+    '@keyframes circular-dash': {
+      '0%': {
+        strokeDasharray: '1px, 200px',
+        strokeDashoffset: '0px'
+      },
+      '50%': {
+        strokeDasharray: '100px, 200px',
+        strokeDashoffset: '-15px'
+      },
+      '100%': {
+        strokeDasharray: '100px, 200px',
+        strokeDashoffset: '-125px'
+      }
+    },
+
+    /* Styles applied to the `circle` svg path if `disableShrink={true}`. */
+    circleDisableShrink: {
+      animation: 'none'
+    }
+  };
+};
+/**
+ * ## ARIA
+ *
+ * If the progress bar is describing the loading progress of a particular region of a page,
+ * you should use `aria-describedby` to point to the progress bar, and set the `aria-busy`
+ * attribute to `true` on that region until it has finished loading.
+ */
+
+
+exports.styles = styles;
+
+var CircularProgress = _react.default.forwardRef(function CircularProgress(props, ref) {
+  var classes = props.classes,
+      className = props.className,
+      _props$color = props.color,
+      color = _props$color === void 0 ? 'primary' : _props$color,
+      _props$disableShrink = props.disableShrink,
+      disableShrink = _props$disableShrink === void 0 ? false : _props$disableShrink,
+      _props$size = props.size,
+      size = _props$size === void 0 ? 40 : _props$size,
+      style = props.style,
+      _props$thickness = props.thickness,
+      thickness = _props$thickness === void 0 ? 3.6 : _props$thickness,
+      _props$value = props.value,
+      value = _props$value === void 0 ? 0 : _props$value,
+      _props$variant = props.variant,
+      variant = _props$variant === void 0 ? 'indeterminate' : _props$variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "color", "disableShrink", "size", "style", "thickness", "value", "variant"]);
+  var circleStyle = {};
+  var rootStyle = {};
+  var rootProps = {};
+
+  if (variant === 'determinate' || variant === 'static') {
+    var circumference = 2 * Math.PI * ((SIZE - thickness) / 2);
+    circleStyle.strokeDasharray = circumference.toFixed(3);
+    rootProps['aria-valuenow'] = Math.round(value);
+
+    if (variant === 'static') {
+      circleStyle.strokeDashoffset = "".concat(((100 - value) / 100 * circumference).toFixed(3), "px");
+      rootStyle.transform = 'rotate(-90deg)';
+    } else {
+      circleStyle.strokeDashoffset = "".concat((easeIn((100 - value) / 100) * circumference).toFixed(3), "px");
+      rootStyle.transform = "rotate(".concat((easeOut(value / 70) * 270).toFixed(3), "deg)");
+    }
+  }
+
+  return _react.default.createElement("div", (0, _extends2.default)({
+    className: (0, _clsx.default)(classes.root, className, color !== 'inherit' && classes["color".concat((0, _capitalize.default)(color))], {
+      indeterminate: classes.indeterminate,
+      static: classes.static
+    }[variant]),
+    style: (0, _extends2.default)({
+      width: size,
+      height: size
+    }, rootStyle, {}, style),
+    ref: ref,
+    role: "progressbar"
+  }, rootProps, other), _react.default.createElement("svg", {
+    className: classes.svg,
+    viewBox: "".concat(SIZE / 2, " ").concat(SIZE / 2, " ").concat(SIZE, " ").concat(SIZE)
+  }, _react.default.createElement("circle", {
+    className: (0, _clsx.default)(classes.circle, disableShrink && classes.circleDisableShrink, {
+      indeterminate: classes.circleIndeterminate,
+      static: classes.circleStatic
+    }[variant]),
+    style: circleStyle,
+    cx: SIZE,
+    cy: SIZE,
+    r: (SIZE - thickness) / 2,
+    fill: "none",
+    strokeWidth: thickness
+  })));
+});
+
+"development" !== "production" ? CircularProgress.propTypes = {
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The color of the component. It supports those theme colors that make sense for this component.
+   */
+  color: _propTypes.default.oneOf(['primary', 'secondary', 'inherit']),
+
+  /**
+   * If `true`, the shrink animation is disabled.
+   * This only works if variant is `indeterminate`.
+   */
+  disableShrink: (0, _utils.chainPropTypes)(_propTypes.default.bool, function (props) {
+    if (props.disableShrink && props.variant && props.variant !== 'indeterminate') {
+      return new Error('Material-UI: you have provided the `disableShrink` prop ' + 'with a variant other than `indeterminate`. This will have no effect.');
+    }
+
+    return null;
+  }),
+
+  /**
+   * The size of the circle.
+   * If using a number, the pixel unit is assumed.
+   * If using a string, you need to provide the CSS unit, e.g '3rem'.
+   */
+  size: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.string]),
+
+  /**
+   * @ignore
+   */
+  style: _propTypes.default.object,
+
+  /**
+   * The thickness of the circle.
+   */
+  thickness: _propTypes.default.number,
+
+  /**
+   * The value of the progress indicator for the determinate and static variants.
+   * Value between 0 and 100.
+   */
+  value: _propTypes.default.number,
+
+  /**
+   * The variant to use.
+   * Use indeterminate when there is no progress value.
+   */
+  variant: _propTypes.default.oneOf(['determinate', 'indeterminate', 'static'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiCircularProgress',
+  flip: false
+})(CircularProgress);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","@material-ui/utils":"../node_modules/@material-ui/utils/esm/index.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","../utils/capitalize":"../node_modules/@material-ui/core/esm/utils/capitalize.js"}],"../node_modules/@material-ui/core/esm/CircularProgress/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _CircularProgress.default;
+  }
+});
+
+var _CircularProgress = _interopRequireDefault(require("./CircularProgress"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./CircularProgress":"../node_modules/@material-ui/core/esm/CircularProgress/CircularProgress.js"}],"../node_modules/@material-ui/core/esm/Icon/Icon.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -100824,7 +101101,8 @@ var axios_1 = __importDefault(require("axios"));
 
 var login_context_1 = __importDefault(require("./login-context"));
 
-var notLoggedIn_1 = __importDefault(require("./notLoggedIn"));
+var notLoggedIn_1 = __importDefault(require("./notLoggedIn")); // A function to create student object
+
 
 function Student(fName, lName, subjects, days, startTime) {
   this.fname = fName;
@@ -100832,36 +101110,29 @@ function Student(fName, lName, subjects, days, startTime) {
   this.subjects = subjects;
   this.days = days;
   this.dayStart = startTime;
-}
+} // This is data direct from the DB pull request, I use it to grab __id of the item prior to update / delete operations
 
-var pData = [];
+
+var pData = []; // This is essentially a place holder for when there is no data
+
 var ogData = []; // This function will edit the student in the DB who's value was just changed in the schedule component
 // Basically it will make the change permanent
 
 function updateStudent(index, studentToUpdate) {
   var currentStudent = pData[index];
   var idOfStudent = currentStudent._id;
-  console.log(studentToUpdate);
-  console.log("Student above was updated ^");
-  var changedStudent = convertStudentList2Student(studentToUpdate);
-  console.log("Changed ");
-  console.log(changedStudent); // Put the newly updated student into the database
+  var changedStudent = convertStudentList2Student(studentToUpdate); // Put the newly updated student into the database
 
   axios_1.default.put("/students/update-student/" + idOfStudent, changedStudent).then(function (res) {
     console.log(res.data);
-    console.log("Update complete");
   }).catch(function (error) {
     console.log(error + "fail reason " + error.response.data);
   });
-} // I look at the index of the item that was deleted and then use that to find it's ID
-// Which I use with axios to delete it from the database
-// a normal object so I can retrive it's id to delete from the database.
+} // This function looks at the index of the item that was deleted and then use that to find it's ID to delete from DB
 
 
 function removeStudent(index) {
-  var idOfStudent = pData[index]._id; // let student = convertStudentList2Student(studentToRemove);
-
-  console.log("checking ");
+  var idOfStudent = pData[index]._id;
   console.log(pData[index]._id);
   axios_1.default.delete("/students/delete-student/" + idOfStudent).then(function (res) {
     console.log("Student successfully deleted!");
@@ -100944,7 +101215,7 @@ function convertStudentList2Student(studentList) {
     lname = studentList.name.split(" ")[1];
   }
 
-  var subjects = []; // console.log("we're checkinig  " + studentList.subjects);
+  var subjects = [];
 
   switch (studentList.subjects) {
     case "1":
@@ -100959,8 +101230,7 @@ function convertStudentList2Student(studentList) {
       subjects.push("Math");
       subjects.push("Reading");
       break;
-  } // console.log("We have :" + subjects);
-  // Check if it has 2 days
+  } // Check if it has 2 days
 
 
   var days = [];
@@ -101020,27 +101290,22 @@ function convertStudentList2Student(studentList) {
       }
 
       dayStart.push(+studentList.day1);
-    } // console.log(
-  //   fname + " " + lname + "  " + subjects + " " + days + " " + dayStart
-  // );
-
+    }
 
   return new Student(fname, lname, subjects, days, dayStart);
 } // I need to add the student to the DB however the input is different in this component vs how it is normally in the form
-// So I convert this object into the appropriate model so that I can store in the DB and then store it.
+// So I convert this object into the appropriate model so that I can store in the DB.
 
 
 function postStudentToDb(student) {
-  // Might need some error handling here over potential names, default seperated by space.
-  // Will add what if someone enters in a ""
+  // Should add more error handling here especially with obscure names in tests
   ogData.push(student);
-  var newStudent = convertStudentList2Student(student);
-  console.log(newStudent); // Send the newly created student to the database
+  var newStudent = convertStudentList2Student(student); // Send the newly created student to the database
 
   axios_1.default.post("/students/create-student", newStudent).then(function (res) {
     return console.log(res.data);
   });
-} // This function returns an index corresponding to the accurate day
+} // This function returns an index corresponding to the accurate day the student is in
 
 
 function findDayIndex(day) {
@@ -101065,45 +101330,21 @@ function findDayIndex(day) {
 
 
 function Students() {
-  var _react_1$default$useS = react_1.default.useState({}),
-      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
-      postData = _react_1$default$useS2[0],
-      setPostData = _react_1$default$useS2[1];
-
   var _react_1$default$useC = react_1.default.useContext(login_context_1.default),
       _react_1$default$useC2 = _slicedToArray(_react_1$default$useC, 1),
       loginData = _react_1$default$useC2[0];
 
   function getData() {
     axios_1.default.get("/students/").then(function (res) {
-      // console.log(res.data);
-      setPostData(res.data);
       pData = res.data;
       setState(function (prevState) {
-        // let data = [...prevState.data];
-        // data.push(createDataFromPost(res.data));
-        var data = createDataFromPost(res.data); // ogData.push(newData);
-        // console.log(ogData);
-        // postStudentToDb(createDataFromPost(res.data));
-
+        var data = createDataFromPost(res.data);
         return _objectSpread({}, prevState, {
           data: data
         });
       });
-      var st = state; // return res.data;
-
+      var st = state;
       st.data = createDataFromPost(res.data);
-      console.log(st); // Make a copy of old state
-      // let newState = state;
-      // newState.data = createDataFromPost(res.data);
-      // ogData = createDataFromPost(res.data);
-      // setState(st);
-      // setState(newState);
-      // console.log(state);
-      // setState(ogData);
-      // console.log(res.data);
-      // ogData = createDataFromPost(res.data);
-      // setState(state);
     }).catch(function (error) {
       console.log(error + " axios error");
     });
@@ -101111,10 +101352,10 @@ function Students() {
 
 
   react_1.useEffect(function () {
-    getData();
-  }, []); // For making the changes to the table stick
-  // const [rows, setRows] = useState(10);
-  // const [count, setCount] = useState(10);
+    if (loginData) {
+      getData();
+    }
+  }, []); // Table key
 
   var _react_1$useState = react_1.useState({
     columns: [{
@@ -101171,12 +101412,10 @@ function Students() {
         "6": "5 : 00 PM",
         "7": "5 : 30 PM",
         "8": "6 : 00 PM",
-        // So the 9 is there if it's hit by accident
         "9": ""
       },
       type: "time"
     }],
-    // data: createDataFromPost(postData)
     data: ogData
   }),
       _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
@@ -101187,24 +101426,7 @@ function Students() {
     title: "Student List",
     columns: state.columns,
     data: state.data,
-    // onChangeRowsPerPage={(pageSize: number) => {
-    //   setRows(pageSize);
-    // }}
-    // components= {
-    //   {<TablePagination
-    //     rowsPerPage={rows}
-    //   />}
-    // }
-    // components={{
-    //   Pagination: (props: any) => (
-    //     <TablePagination {...props} rowsPerPage={rows} count={count} />
-    //   )
-    // }}
-    // components={
-    //   {Pagination:(props:any) =>
-    //   (TablePagination  rowsPerPage={rows})}
-    // }
-    // For add, edit delete functions
+    // For add, edit delete functions of students
     editable: {
       onRowAdd: function onRowAdd(newData) {
         return new Promise(function (resolve) {
@@ -101253,9 +101475,8 @@ function Students() {
           setTimeout(function () {
             resolve();
             setState(function (prevState) {
-              var data = _toConsumableArray(prevState.data);
+              var data = _toConsumableArray(prevState.data); // Remove student from Database
 
-              console.log(oldData); // Remove student from Database
 
               removeStudent(data.indexOf(oldData)); // Remove student from table ( this happens quickly by this even though on new read from DB it will be gone)
 
@@ -101507,7 +101728,12 @@ var useStyles = styles_1.makeStyles(function (theme) {
       backgroundColor: theme.palette.background.paper
     }
   };
-});
+}); // const httpsAgent = new https.Agent({
+//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
+//   cert: fs.readFileSync("./usercert.pem"),
+//   key: fs.readFileSync("./key.pem"),
+//   passphrase: "YYY"
+// });
 
 function NavTabs() {
   var classes = useStyles({});
@@ -101541,7 +101767,10 @@ function NavTabs() {
   }
 
   react_1.useEffect(function () {
-    getData();
+    // Only fetch data if we're logged in (due to security concerns), otherwise don't.
+    if (loginHook) {
+      getData();
+    }
   }, []);
 
   var handleChange = function handleChange(event, newValue) {
@@ -103534,7 +103763,1404 @@ Object.defineProperty(exports, "default", {
 var _Container = _interopRequireDefault(require("./Container"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-},{"./Container":"../node_modules/@material-ui/core/esm/Container/Container.js"}],"../src/components/login.tsx":[function(require,module,exports) {
+},{"./Container":"../node_modules/@material-ui/core/esm/Container/Container.js"}],"../node_modules/@material-ui/core/esm/colors/purple.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var purple = {
+  50: '#f3e5f5',
+  100: '#e1bee7',
+  200: '#ce93d8',
+  300: '#ba68c8',
+  400: '#ab47bc',
+  500: '#9c27b0',
+  600: '#8e24aa',
+  700: '#7b1fa2',
+  800: '#6a1b9a',
+  900: '#4a148c',
+  A100: '#ea80fc',
+  A200: '#e040fb',
+  A400: '#d500f9',
+  A700: '#aa00ff'
+};
+var _default = purple;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/deepPurple.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var deepPurple = {
+  50: '#ede7f6',
+  100: '#d1c4e9',
+  200: '#b39ddb',
+  300: '#9575cd',
+  400: '#7e57c2',
+  500: '#673ab7',
+  600: '#5e35b1',
+  700: '#512da8',
+  800: '#4527a0',
+  900: '#311b92',
+  A100: '#b388ff',
+  A200: '#7c4dff',
+  A400: '#651fff',
+  A700: '#6200ea'
+};
+var _default = deepPurple;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/blue.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var blue = {
+  50: '#e3f2fd',
+  100: '#bbdefb',
+  200: '#90caf9',
+  300: '#64b5f6',
+  400: '#42a5f5',
+  500: '#2196f3',
+  600: '#1e88e5',
+  700: '#1976d2',
+  800: '#1565c0',
+  900: '#0d47a1',
+  A100: '#82b1ff',
+  A200: '#448aff',
+  A400: '#2979ff',
+  A700: '#2962ff'
+};
+var _default = blue;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/lightBlue.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var lightBlue = {
+  50: '#e1f5fe',
+  100: '#b3e5fc',
+  200: '#81d4fa',
+  300: '#4fc3f7',
+  400: '#29b6f6',
+  500: '#03a9f4',
+  600: '#039be5',
+  700: '#0288d1',
+  800: '#0277bd',
+  900: '#01579b',
+  A100: '#80d8ff',
+  A200: '#40c4ff',
+  A400: '#00b0ff',
+  A700: '#0091ea'
+};
+var _default = lightBlue;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/cyan.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var cyan = {
+  50: '#e0f7fa',
+  100: '#b2ebf2',
+  200: '#80deea',
+  300: '#4dd0e1',
+  400: '#26c6da',
+  500: '#00bcd4',
+  600: '#00acc1',
+  700: '#0097a7',
+  800: '#00838f',
+  900: '#006064',
+  A100: '#84ffff',
+  A200: '#18ffff',
+  A400: '#00e5ff',
+  A700: '#00b8d4'
+};
+var _default = cyan;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/teal.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var teal = {
+  50: '#e0f2f1',
+  100: '#b2dfdb',
+  200: '#80cbc4',
+  300: '#4db6ac',
+  400: '#26a69a',
+  500: '#009688',
+  600: '#00897b',
+  700: '#00796b',
+  800: '#00695c',
+  900: '#004d40',
+  A100: '#a7ffeb',
+  A200: '#64ffda',
+  A400: '#1de9b6',
+  A700: '#00bfa5'
+};
+var _default = teal;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/green.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var green = {
+  50: '#e8f5e9',
+  100: '#c8e6c9',
+  200: '#a5d6a7',
+  300: '#81c784',
+  400: '#66bb6a',
+  500: '#4caf50',
+  600: '#43a047',
+  700: '#388e3c',
+  800: '#2e7d32',
+  900: '#1b5e20',
+  A100: '#b9f6ca',
+  A200: '#69f0ae',
+  A400: '#00e676',
+  A700: '#00c853'
+};
+var _default = green;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/lightGreen.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var lightGreen = {
+  50: '#f1f8e9',
+  100: '#dcedc8',
+  200: '#c5e1a5',
+  300: '#aed581',
+  400: '#9ccc65',
+  500: '#8bc34a',
+  600: '#7cb342',
+  700: '#689f38',
+  800: '#558b2f',
+  900: '#33691e',
+  A100: '#ccff90',
+  A200: '#b2ff59',
+  A400: '#76ff03',
+  A700: '#64dd17'
+};
+var _default = lightGreen;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/lime.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var lime = {
+  50: '#f9fbe7',
+  100: '#f0f4c3',
+  200: '#e6ee9c',
+  300: '#dce775',
+  400: '#d4e157',
+  500: '#cddc39',
+  600: '#c0ca33',
+  700: '#afb42b',
+  800: '#9e9d24',
+  900: '#827717',
+  A100: '#f4ff81',
+  A200: '#eeff41',
+  A400: '#c6ff00',
+  A700: '#aeea00'
+};
+var _default = lime;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/yellow.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var yellow = {
+  50: '#fffde7',
+  100: '#fff9c4',
+  200: '#fff59d',
+  300: '#fff176',
+  400: '#ffee58',
+  500: '#ffeb3b',
+  600: '#fdd835',
+  700: '#fbc02d',
+  800: '#f9a825',
+  900: '#f57f17',
+  A100: '#ffff8d',
+  A200: '#ffff00',
+  A400: '#ffea00',
+  A700: '#ffd600'
+};
+var _default = yellow;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/amber.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var amber = {
+  50: '#fff8e1',
+  100: '#ffecb3',
+  200: '#ffe082',
+  300: '#ffd54f',
+  400: '#ffca28',
+  500: '#ffc107',
+  600: '#ffb300',
+  700: '#ffa000',
+  800: '#ff8f00',
+  900: '#ff6f00',
+  A100: '#ffe57f',
+  A200: '#ffd740',
+  A400: '#ffc400',
+  A700: '#ffab00'
+};
+var _default = amber;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/orange.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var orange = {
+  50: '#fff3e0',
+  100: '#ffe0b2',
+  200: '#ffcc80',
+  300: '#ffb74d',
+  400: '#ffa726',
+  500: '#ff9800',
+  600: '#fb8c00',
+  700: '#f57c00',
+  800: '#ef6c00',
+  900: '#e65100',
+  A100: '#ffd180',
+  A200: '#ffab40',
+  A400: '#ff9100',
+  A700: '#ff6d00'
+};
+var _default = orange;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/deepOrange.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var deepOrange = {
+  50: '#fbe9e7',
+  100: '#ffccbc',
+  200: '#ffab91',
+  300: '#ff8a65',
+  400: '#ff7043',
+  500: '#ff5722',
+  600: '#f4511e',
+  700: '#e64a19',
+  800: '#d84315',
+  900: '#bf360c',
+  A100: '#ff9e80',
+  A200: '#ff6e40',
+  A400: '#ff3d00',
+  A700: '#dd2c00'
+};
+var _default = deepOrange;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/brown.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var brown = {
+  50: '#efebe9',
+  100: '#d7ccc8',
+  200: '#bcaaa4',
+  300: '#a1887f',
+  400: '#8d6e63',
+  500: '#795548',
+  600: '#6d4c41',
+  700: '#5d4037',
+  800: '#4e342e',
+  900: '#3e2723',
+  A100: '#d7ccc8',
+  A200: '#bcaaa4',
+  A400: '#8d6e63',
+  A700: '#5d4037'
+};
+var _default = brown;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/blueGrey.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var blueGrey = {
+  50: '#eceff1',
+  100: '#cfd8dc',
+  200: '#b0bec5',
+  300: '#90a4ae',
+  400: '#78909c',
+  500: '#607d8b',
+  600: '#546e7a',
+  700: '#455a64',
+  800: '#37474f',
+  900: '#263238',
+  A100: '#cfd8dc',
+  A200: '#b0bec5',
+  A400: '#78909c',
+  A700: '#455a64'
+};
+var _default = blueGrey;
+exports.default = _default;
+},{}],"../node_modules/@material-ui/core/esm/colors/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "common", {
+  enumerable: true,
+  get: function () {
+    return _common.default;
+  }
+});
+Object.defineProperty(exports, "red", {
+  enumerable: true,
+  get: function () {
+    return _red.default;
+  }
+});
+Object.defineProperty(exports, "pink", {
+  enumerable: true,
+  get: function () {
+    return _pink.default;
+  }
+});
+Object.defineProperty(exports, "purple", {
+  enumerable: true,
+  get: function () {
+    return _purple.default;
+  }
+});
+Object.defineProperty(exports, "deepPurple", {
+  enumerable: true,
+  get: function () {
+    return _deepPurple.default;
+  }
+});
+Object.defineProperty(exports, "indigo", {
+  enumerable: true,
+  get: function () {
+    return _indigo.default;
+  }
+});
+Object.defineProperty(exports, "blue", {
+  enumerable: true,
+  get: function () {
+    return _blue.default;
+  }
+});
+Object.defineProperty(exports, "lightBlue", {
+  enumerable: true,
+  get: function () {
+    return _lightBlue.default;
+  }
+});
+Object.defineProperty(exports, "cyan", {
+  enumerable: true,
+  get: function () {
+    return _cyan.default;
+  }
+});
+Object.defineProperty(exports, "teal", {
+  enumerable: true,
+  get: function () {
+    return _teal.default;
+  }
+});
+Object.defineProperty(exports, "green", {
+  enumerable: true,
+  get: function () {
+    return _green.default;
+  }
+});
+Object.defineProperty(exports, "lightGreen", {
+  enumerable: true,
+  get: function () {
+    return _lightGreen.default;
+  }
+});
+Object.defineProperty(exports, "lime", {
+  enumerable: true,
+  get: function () {
+    return _lime.default;
+  }
+});
+Object.defineProperty(exports, "yellow", {
+  enumerable: true,
+  get: function () {
+    return _yellow.default;
+  }
+});
+Object.defineProperty(exports, "amber", {
+  enumerable: true,
+  get: function () {
+    return _amber.default;
+  }
+});
+Object.defineProperty(exports, "orange", {
+  enumerable: true,
+  get: function () {
+    return _orange.default;
+  }
+});
+Object.defineProperty(exports, "deepOrange", {
+  enumerable: true,
+  get: function () {
+    return _deepOrange.default;
+  }
+});
+Object.defineProperty(exports, "brown", {
+  enumerable: true,
+  get: function () {
+    return _brown.default;
+  }
+});
+Object.defineProperty(exports, "grey", {
+  enumerable: true,
+  get: function () {
+    return _grey.default;
+  }
+});
+Object.defineProperty(exports, "blueGrey", {
+  enumerable: true,
+  get: function () {
+    return _blueGrey.default;
+  }
+});
+
+var _common = _interopRequireDefault(require("./common"));
+
+var _red = _interopRequireDefault(require("./red"));
+
+var _pink = _interopRequireDefault(require("./pink"));
+
+var _purple = _interopRequireDefault(require("./purple"));
+
+var _deepPurple = _interopRequireDefault(require("./deepPurple"));
+
+var _indigo = _interopRequireDefault(require("./indigo"));
+
+var _blue = _interopRequireDefault(require("./blue"));
+
+var _lightBlue = _interopRequireDefault(require("./lightBlue"));
+
+var _cyan = _interopRequireDefault(require("./cyan"));
+
+var _teal = _interopRequireDefault(require("./teal"));
+
+var _green = _interopRequireDefault(require("./green"));
+
+var _lightGreen = _interopRequireDefault(require("./lightGreen"));
+
+var _lime = _interopRequireDefault(require("./lime"));
+
+var _yellow = _interopRequireDefault(require("./yellow"));
+
+var _amber = _interopRequireDefault(require("./amber"));
+
+var _orange = _interopRequireDefault(require("./orange"));
+
+var _deepOrange = _interopRequireDefault(require("./deepOrange"));
+
+var _brown = _interopRequireDefault(require("./brown"));
+
+var _grey = _interopRequireDefault(require("./grey"));
+
+var _blueGrey = _interopRequireDefault(require("./blueGrey"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./common":"../node_modules/@material-ui/core/esm/colors/common.js","./red":"../node_modules/@material-ui/core/esm/colors/red.js","./pink":"../node_modules/@material-ui/core/esm/colors/pink.js","./purple":"../node_modules/@material-ui/core/esm/colors/purple.js","./deepPurple":"../node_modules/@material-ui/core/esm/colors/deepPurple.js","./indigo":"../node_modules/@material-ui/core/esm/colors/indigo.js","./blue":"../node_modules/@material-ui/core/esm/colors/blue.js","./lightBlue":"../node_modules/@material-ui/core/esm/colors/lightBlue.js","./cyan":"../node_modules/@material-ui/core/esm/colors/cyan.js","./teal":"../node_modules/@material-ui/core/esm/colors/teal.js","./green":"../node_modules/@material-ui/core/esm/colors/green.js","./lightGreen":"../node_modules/@material-ui/core/esm/colors/lightGreen.js","./lime":"../node_modules/@material-ui/core/esm/colors/lime.js","./yellow":"../node_modules/@material-ui/core/esm/colors/yellow.js","./amber":"../node_modules/@material-ui/core/esm/colors/amber.js","./orange":"../node_modules/@material-ui/core/esm/colors/orange.js","./deepOrange":"../node_modules/@material-ui/core/esm/colors/deepOrange.js","./brown":"../node_modules/@material-ui/core/esm/colors/brown.js","./grey":"../node_modules/@material-ui/core/esm/colors/grey.js","./blueGrey":"../node_modules/@material-ui/core/esm/colors/blueGrey.js"}],"../node_modules/@material-ui/icons/CheckCircle.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _createSvgIcon = _interopRequireDefault(require("./utils/createSvgIcon"));
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
+  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
+}), 'CheckCircle');
+
+exports.default = _default;
+},{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../node_modules/@material-ui/icons/Error.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _createSvgIcon = _interopRequireDefault(require("./utils/createSvgIcon"));
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
+  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"
+}), 'Error');
+
+exports.default = _default;
+},{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../node_modules/@material-ui/icons/Info.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _createSvgIcon = _interopRequireDefault(require("./utils/createSvgIcon"));
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
+  d: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"
+}), 'Info');
+
+exports.default = _default;
+},{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../node_modules/@material-ui/icons/Close.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _createSvgIcon = _interopRequireDefault(require("./utils/createSvgIcon"));
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
+  d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+}), 'Close');
+
+exports.default = _default;
+},{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../node_modules/@material-ui/core/esm/ClickAwayListener/ClickAwayListener.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _reactDom = _interopRequireDefault(require("react-dom"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _ownerDocument = _interopRequireDefault(require("../utils/ownerDocument"));
+
+var _useForkRef = _interopRequireDefault(require("../utils/useForkRef"));
+
+var _setRef = _interopRequireDefault(require("../utils/setRef"));
+
+var _useEventCallback = _interopRequireDefault(require("../utils/useEventCallback"));
+
+var _utils = require("@material-ui/utils");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function mapEventPropToEvent(eventProp) {
+  return eventProp.substring(2).toLowerCase();
+}
+/**
+ * Listen for click events that occur somewhere in the document, outside of the element itself.
+ * For instance, if you need to hide a menu when people click anywhere else on your page.
+ */
+
+
+var ClickAwayListener = _react.default.forwardRef(function ClickAwayListener(props, ref) {
+  var children = props.children,
+      _props$mouseEvent = props.mouseEvent,
+      mouseEvent = _props$mouseEvent === void 0 ? 'onClick' : _props$mouseEvent,
+      _props$touchEvent = props.touchEvent,
+      touchEvent = _props$touchEvent === void 0 ? 'onTouchEnd' : _props$touchEvent,
+      onClickAway = props.onClickAway;
+
+  var movedRef = _react.default.useRef(false);
+
+  var nodeRef = _react.default.useRef(null);
+
+  var mountedRef = _react.default.useRef(false);
+
+  _react.default.useEffect(function () {
+    mountedRef.current = true;
+    return function () {
+      mountedRef.current = false;
+    };
+  }, []);
+
+  var handleNodeRef = (0, _useForkRef.default)(nodeRef, ref); // can be removed once we drop support for non ref forwarding class components
+
+  var handleOwnRef = _react.default.useCallback(function (instance) {
+    // #StrictMode ready
+    (0, _setRef.default)(handleNodeRef, _reactDom.default.findDOMNode(instance));
+  }, [handleNodeRef]);
+
+  var handleRef = (0, _useForkRef.default)(children.ref, handleOwnRef);
+  var handleClickAway = (0, _useEventCallback.default)(function (event) {
+    // The handler doesn't take event.defaultPrevented into account:
+    //
+    // event.preventDefault() is meant to stop default behaviours like
+    // clicking a checkbox to check it, hitting a button to submit a form,
+    // and hitting left arrow to move the cursor in a text input etc.
+    // Only special HTML elements have these default behaviors.
+    // IE 11 support, which trigger the handleClickAway even after the unbind
+    if (!mountedRef.current) {
+      return;
+    } // Do not act if user performed touchmove
+
+
+    if (movedRef.current) {
+      movedRef.current = false;
+      return;
+    } // The child might render null.
+
+
+    if (!nodeRef.current) {
+      return;
+    } // Multi window support
+
+
+    var doc = (0, _ownerDocument.default)(nodeRef.current);
+
+    if (doc.documentElement && doc.documentElement.contains(event.target) && !nodeRef.current.contains(event.target)) {
+      onClickAway(event);
+    }
+  });
+
+  var handleTouchMove = _react.default.useCallback(function () {
+    movedRef.current = true;
+  }, []);
+
+  _react.default.useEffect(function () {
+    if (touchEvent !== false) {
+      var mappedTouchEvent = mapEventPropToEvent(touchEvent);
+      var doc = (0, _ownerDocument.default)(nodeRef.current);
+      doc.addEventListener(mappedTouchEvent, handleClickAway);
+      doc.addEventListener('touchmove', handleTouchMove);
+      return function () {
+        doc.removeEventListener(mappedTouchEvent, handleClickAway);
+        doc.removeEventListener('touchmove', handleTouchMove);
+      };
+    }
+
+    return undefined;
+  }, [handleClickAway, handleTouchMove, touchEvent]);
+
+  _react.default.useEffect(function () {
+    if (mouseEvent !== false) {
+      var mappedMouseEvent = mapEventPropToEvent(mouseEvent);
+      var doc = (0, _ownerDocument.default)(nodeRef.current);
+      doc.addEventListener(mappedMouseEvent, handleClickAway);
+      return function () {
+        doc.removeEventListener(mappedMouseEvent, handleClickAway);
+      };
+    }
+
+    return undefined;
+  }, [handleClickAway, mouseEvent]);
+
+  return _react.default.createElement(_react.default.Fragment, null, _react.default.cloneElement(children, {
+    ref: handleRef
+  }));
+});
+
+"development" !== "production" ? ClickAwayListener.propTypes = {
+  /**
+   * The wrapped element.
+   */
+  children: _utils.elementAcceptingRef.isRequired,
+
+  /**
+   * The mouse event to listen to. You can disable the listener by providing `false`.
+   */
+  mouseEvent: _propTypes.default.oneOf(['onClick', 'onMouseDown', 'onMouseUp', false]),
+
+  /**
+   * Callback fired when a "click away" event is detected.
+   */
+  onClickAway: _propTypes.default.func.isRequired,
+
+  /**
+   * The touch event to listen to. You can disable the listener by providing `false`.
+   */
+  touchEvent: _propTypes.default.oneOf(['onTouchStart', 'onTouchEnd', false])
+} : void 0;
+
+if ("development" !== 'production') {
+  // eslint-disable-next-line
+  ClickAwayListener['propTypes' + ''] = (0, _utils.exactProp)(ClickAwayListener.propTypes);
+}
+
+var _default = ClickAwayListener;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","prop-types":"../node_modules/prop-types/index.js","../utils/ownerDocument":"../node_modules/@material-ui/core/esm/utils/ownerDocument.js","../utils/useForkRef":"../node_modules/@material-ui/core/esm/utils/useForkRef.js","../utils/setRef":"../node_modules/@material-ui/core/esm/utils/setRef.js","../utils/useEventCallback":"../node_modules/@material-ui/core/esm/utils/useEventCallback.js","@material-ui/utils":"../node_modules/@material-ui/utils/esm/index.js"}],"../node_modules/@material-ui/core/esm/ClickAwayListener/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _ClickAwayListener.default;
+  }
+});
+
+var _ClickAwayListener = _interopRequireDefault(require("./ClickAwayListener"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./ClickAwayListener":"../node_modules/@material-ui/core/esm/ClickAwayListener/ClickAwayListener.js"}],"../node_modules/@material-ui/core/esm/SnackbarContent/SnackbarContent.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _Paper = _interopRequireDefault(require("../Paper"));
+
+var _Typography = _interopRequireDefault(require("../Typography"));
+
+var _colorManipulator = require("../styles/colorManipulator");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  var emphasis = theme.palette.type === 'light' ? 0.8 : 0.98;
+  var backgroundColor = (0, _colorManipulator.emphasize)(theme.palette.background.default, emphasis);
+  return {
+    /* Styles applied to the root element. */
+    root: (0, _defineProperty2.default)({
+      color: theme.palette.getContrastText(backgroundColor),
+      backgroundColor: backgroundColor,
+      display: 'flex',
+      alignItems: 'center',
+      flexWrap: 'wrap',
+      padding: '6px 16px',
+      borderRadius: theme.shape.borderRadius,
+      flexGrow: 1
+    }, theme.breakpoints.up('sm'), {
+      flexGrow: 'initial',
+      minWidth: 288
+    }),
+
+    /* Styles applied to the message wrapper element. */
+    message: {
+      padding: '8px 0'
+    },
+
+    /* Styles applied to the action wrapper element if `action` is provided. */
+    action: {
+      display: 'flex',
+      alignItems: 'center',
+      marginLeft: 'auto',
+      paddingLeft: 16,
+      marginRight: -8
+    }
+  };
+};
+
+exports.styles = styles;
+
+var SnackbarContent = _react.default.forwardRef(function SnackbarContent(props, ref) {
+  var action = props.action,
+      classes = props.classes,
+      className = props.className,
+      message = props.message,
+      _props$role = props.role,
+      role = _props$role === void 0 ? 'alert' : _props$role,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "classes", "className", "message", "role"]);
+  return _react.default.createElement(_Paper.default, (0, _extends2.default)({
+    component: _Typography.default,
+    variant: "body2",
+    variantMapping: {
+      body1: 'div',
+      body2: 'div'
+    },
+    role: role,
+    square: true,
+    elevation: 6,
+    className: (0, _clsx.default)(classes.root, className),
+    ref: ref
+  }, other), _react.default.createElement("div", {
+    className: classes.message
+  }, message), action ? _react.default.createElement("div", {
+    className: classes.action
+  }, action) : null);
+});
+
+"development" !== "production" ? SnackbarContent.propTypes = {
+  /**
+   * The action to display.
+   */
+  action: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The message to display.
+   */
+  message: _propTypes.default.node,
+
+  /**
+   * The role of the SnackbarContent. If the Snackbar requires focus
+   * to be closed, the `alertdialog` role should be used instead.
+   */
+  role: _propTypes.default.oneOf(['alert', 'alertdialog'])
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiSnackbarContent'
+})(SnackbarContent);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","@babel/runtime/helpers/esm/defineProperty":"../node_modules/@babel/runtime/helpers/esm/defineProperty.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","../Paper":"../node_modules/@material-ui/core/esm/Paper/index.js","../Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","../styles/colorManipulator":"../node_modules/@material-ui/core/esm/styles/colorManipulator.js"}],"../node_modules/@material-ui/core/esm/SnackbarContent/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _SnackbarContent.default;
+  }
+});
+
+var _SnackbarContent = _interopRequireDefault(require("./SnackbarContent"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/SnackbarContent.js"}],"../node_modules/@material-ui/core/esm/Snackbar/Snackbar.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _objectWithoutProperties2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/objectWithoutProperties"));
+
+var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/defineProperty"));
+
+var _extends2 = _interopRequireDefault(require("@babel/runtime/helpers/esm/extends"));
+
+var _react = _interopRequireDefault(require("react"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _clsx = _interopRequireDefault(require("clsx"));
+
+var _withStyles = _interopRequireDefault(require("../styles/withStyles"));
+
+var _transitions = require("../styles/transitions");
+
+var _ClickAwayListener = _interopRequireDefault(require("../ClickAwayListener"));
+
+var _useEventCallback = _interopRequireDefault(require("../utils/useEventCallback"));
+
+var _capitalize = _interopRequireDefault(require("../utils/capitalize"));
+
+var _createChainedFunction = _interopRequireDefault(require("../utils/createChainedFunction"));
+
+var _Grow = _interopRequireDefault(require("../Grow"));
+
+var _SnackbarContent = _interopRequireDefault(require("../SnackbarContent"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var styles = function styles(theme) {
+  var top1 = {
+    top: 8
+  };
+  var bottom1 = {
+    bottom: 8
+  };
+  var right = {
+    justifyContent: 'flex-end'
+  };
+  var left = {
+    justifyContent: 'flex-start'
+  };
+  var top3 = {
+    top: 24
+  };
+  var bottom3 = {
+    bottom: 24
+  };
+  var right3 = {
+    right: 24
+  };
+  var left3 = {
+    left: 24
+  };
+  var center = {
+    left: '50%',
+    right: 'auto',
+    transform: 'translateX(-50%)'
+  };
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      zIndex: theme.zIndex.snackbar,
+      position: 'fixed',
+      display: 'flex',
+      left: 8,
+      right: 8,
+      justifyContent: 'center',
+      alignItems: 'center'
+    },
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'center' }}`. */
+    anchorOriginTopCenter: (0, _extends2.default)({}, top1, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({}, top3, {}, center))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'center' }}`. */
+    anchorOriginBottomCenter: (0, _extends2.default)({}, bottom1, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({}, bottom3, {}, center))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'right' }}`. */
+    anchorOriginTopRight: (0, _extends2.default)({}, top1, {}, right, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      left: 'auto'
+    }, top3, {}, right3))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'right' }}`. */
+    anchorOriginBottomRight: (0, _extends2.default)({}, bottom1, {}, right, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      left: 'auto'
+    }, bottom3, {}, right3))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'top', 'left' }}`. */
+    anchorOriginTopLeft: (0, _extends2.default)({}, top1, {}, left, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      right: 'auto'
+    }, top3, {}, left3))),
+
+    /* Styles applied to the root element if `anchorOrigin={{ 'bottom', 'left' }}`. */
+    anchorOriginBottomLeft: (0, _extends2.default)({}, bottom1, {}, left, (0, _defineProperty2.default)({}, theme.breakpoints.up('sm'), (0, _extends2.default)({
+      right: 'auto'
+    }, bottom3, {}, left3)))
+  };
+};
+
+exports.styles = styles;
+
+var Snackbar = _react.default.forwardRef(function Snackbar(props, ref) {
+  var action = props.action,
+      _props$anchorOrigin = props.anchorOrigin;
+  _props$anchorOrigin = _props$anchorOrigin === void 0 ? {
+    vertical: 'bottom',
+    horizontal: 'center'
+  } : _props$anchorOrigin;
+  var vertical = _props$anchorOrigin.vertical,
+      horizontal = _props$anchorOrigin.horizontal,
+      autoHideDuration = props.autoHideDuration,
+      children = props.children,
+      classes = props.classes,
+      className = props.className,
+      ClickAwayListenerProps = props.ClickAwayListenerProps,
+      ContentProps = props.ContentProps,
+      _props$disableWindowB = props.disableWindowBlurListener,
+      disableWindowBlurListener = _props$disableWindowB === void 0 ? false : _props$disableWindowB,
+      message = props.message,
+      onClose = props.onClose,
+      onEnter = props.onEnter,
+      onEntered = props.onEntered,
+      onEntering = props.onEntering,
+      onExit = props.onExit,
+      onExited = props.onExited,
+      onExiting = props.onExiting,
+      onMouseEnter = props.onMouseEnter,
+      onMouseLeave = props.onMouseLeave,
+      open = props.open,
+      resumeHideDuration = props.resumeHideDuration,
+      _props$TransitionComp = props.TransitionComponent,
+      TransitionComponent = _props$TransitionComp === void 0 ? _Grow.default : _props$TransitionComp,
+      _props$transitionDura = props.transitionDuration,
+      transitionDuration = _props$transitionDura === void 0 ? {
+    enter: _transitions.duration.enteringScreen,
+    exit: _transitions.duration.leavingScreen
+  } : _props$transitionDura,
+      TransitionProps = props.TransitionProps,
+      other = (0, _objectWithoutProperties2.default)(props, ["action", "anchorOrigin", "autoHideDuration", "children", "classes", "className", "ClickAwayListenerProps", "ContentProps", "disableWindowBlurListener", "message", "onClose", "onEnter", "onEntered", "onEntering", "onExit", "onExited", "onExiting", "onMouseEnter", "onMouseLeave", "open", "resumeHideDuration", "TransitionComponent", "transitionDuration", "TransitionProps"]);
+
+  var timerAutoHide = _react.default.useRef();
+
+  var _React$useState = _react.default.useState(true),
+      exited = _React$useState[0],
+      setExited = _React$useState[1];
+
+  var handleClose = (0, _useEventCallback.default)(function () {
+    onClose.apply(void 0, arguments);
+  });
+  var setAutoHideTimer = (0, _useEventCallback.default)(function (autoHideDurationParam) {
+    if (!handleClose || autoHideDurationParam == null) {
+      return;
+    }
+
+    clearTimeout(timerAutoHide.current);
+    timerAutoHide.current = setTimeout(function () {
+      handleClose(null, 'timeout');
+    }, autoHideDurationParam);
+  });
+
+  _react.default.useEffect(function () {
+    if (open) {
+      setAutoHideTimer(autoHideDuration);
+    }
+
+    return function () {
+      clearTimeout(timerAutoHide.current);
+    };
+  }, [open, autoHideDuration, setAutoHideTimer]); // Pause the timer when the user is interacting with the Snackbar
+  // or when the user hide the window.
+
+
+  var handlePause = function handlePause() {
+    clearTimeout(timerAutoHide.current);
+  }; // Restart the timer when the user is no longer interacting with the Snackbar
+  // or when the window is shown back.
+
+
+  var handleResume = _react.default.useCallback(function () {
+    if (autoHideDuration != null) {
+      setAutoHideTimer(resumeHideDuration != null ? resumeHideDuration : autoHideDuration * 0.5);
+    }
+  }, [autoHideDuration, resumeHideDuration, setAutoHideTimer]);
+
+  var handleMouseEnter = function handleMouseEnter(event) {
+    if (onMouseEnter) {
+      onMouseEnter(event);
+    }
+
+    handlePause();
+  };
+
+  var handleMouseLeave = function handleMouseLeave(event) {
+    if (onMouseLeave) {
+      onMouseLeave(event);
+    }
+
+    handleResume();
+  };
+
+  var handleClickAway = function handleClickAway(event) {
+    if (onClose) {
+      onClose(event, 'clickaway');
+    }
+  };
+
+  var handleExited = function handleExited() {
+    setExited(true);
+  };
+
+  var handleEnter = function handleEnter() {
+    setExited(false);
+  };
+
+  _react.default.useEffect(function () {
+    if (!disableWindowBlurListener && open) {
+      window.addEventListener('focus', handleResume);
+      window.addEventListener('blur', handlePause);
+      return function () {
+        window.removeEventListener('focus', handleResume);
+        window.removeEventListener('blur', handlePause);
+      };
+    }
+
+    return undefined;
+  }, [disableWindowBlurListener, handleResume, open]); // So we only render active snackbars.
+
+
+  if (!open && exited) {
+    return null;
+  }
+
+  return _react.default.createElement(_ClickAwayListener.default, (0, _extends2.default)({
+    onClickAway: handleClickAway
+  }, ClickAwayListenerProps), _react.default.createElement("div", (0, _extends2.default)({
+    className: (0, _clsx.default)(classes.root, classes["anchorOrigin".concat((0, _capitalize.default)(vertical)).concat((0, _capitalize.default)(horizontal))], className),
+    onMouseEnter: handleMouseEnter,
+    onMouseLeave: handleMouseLeave,
+    ref: ref
+  }, other), _react.default.createElement(TransitionComponent, (0, _extends2.default)({
+    appear: true,
+    in: open,
+    onEnter: (0, _createChainedFunction.default)(handleEnter, onEnter),
+    onEntered: onEntered,
+    onEntering: onEntering,
+    onExit: onExit,
+    onExited: (0, _createChainedFunction.default)(handleExited, onExited),
+    onExiting: onExiting,
+    timeout: transitionDuration,
+    direction: vertical === 'top' ? 'down' : 'up'
+  }, TransitionProps), children || _react.default.createElement(_SnackbarContent.default, (0, _extends2.default)({
+    message: message,
+    action: action
+  }, ContentProps)))));
+});
+
+"development" !== "production" ? Snackbar.propTypes = {
+  /**
+   * The action to display.
+   */
+  action: _propTypes.default.node,
+
+  /**
+   * The anchor of the `Snackbar`.
+   */
+  anchorOrigin: _propTypes.default.shape({
+    horizontal: _propTypes.default.oneOf(['left', 'center', 'right']).isRequired,
+    vertical: _propTypes.default.oneOf(['top', 'bottom']).isRequired
+  }),
+
+  /**
+   * The number of milliseconds to wait before automatically calling the
+   * `onClose` function. `onClose` should then set the state of the `open`
+   * prop to hide the Snackbar. This behavior is disabled by default with
+   * the `null` value.
+   */
+  autoHideDuration: _propTypes.default.number,
+
+  /**
+   * Replace the `SnackbarContent` component.
+   */
+  children: _propTypes.default.element,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * Props applied to the `ClickAwayListener` element.
+   */
+  ClickAwayListenerProps: _propTypes.default.object,
+
+  /**
+   * Props applied to the [`SnackbarContent`](/api/snackbar-content/) element.
+   */
+  ContentProps: _propTypes.default.object,
+
+  /**
+   * If `true`, the `autoHideDuration` timer will expire even if the window is not focused.
+   */
+  disableWindowBlurListener: _propTypes.default.bool,
+
+  /**
+   * When displaying multiple consecutive Snackbars from a parent rendering a single
+   * <Snackbar/>, add the key prop to ensure independent treatment of each message.
+   * e.g. <Snackbar key={message} />, otherwise, the message may update-in-place and
+   * features such as autoHideDuration may be canceled.
+   */
+  key: _propTypes.default.any,
+
+  /**
+   * The message to display.
+   */
+  message: _propTypes.default.node,
+
+  /**
+   * Callback fired when the component requests to be closed.
+   * Typically `onClose` is used to set state in the parent component,
+   * which is used to control the `Snackbar` `open` prop.
+   * The `reason` parameter can optionally be used to control the response to `onClose`,
+   * for example ignoring `clickaway`.
+   *
+   * @param {object} event The event source of the callback.
+   * @param {string} reason Can be:`"timeout"` (`autoHideDuration` expired) or: `"clickaway"`.
+   */
+  onClose: _propTypes.default.func,
+
+  /**
+   * Callback fired before the transition is entering.
+   */
+  onEnter: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition has entered.
+   */
+  onEntered: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition is entering.
+   */
+  onEntering: _propTypes.default.func,
+
+  /**
+   * Callback fired before the transition is exiting.
+   */
+  onExit: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition has exited.
+   */
+  onExited: _propTypes.default.func,
+
+  /**
+   * Callback fired when the transition is exiting.
+   */
+  onExiting: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseEnter: _propTypes.default.func,
+
+  /**
+   * @ignore
+   */
+  onMouseLeave: _propTypes.default.func,
+
+  /**
+   * If `true`, `Snackbar` is open.
+   */
+  open: _propTypes.default.bool,
+
+  /**
+   * The number of milliseconds to wait before dismissing after user interaction.
+   * If `autoHideDuration` prop isn't specified, it does nothing.
+   * If `autoHideDuration` prop is specified but `resumeHideDuration` isn't,
+   * we default to `autoHideDuration / 2` ms.
+   */
+  resumeHideDuration: _propTypes.default.number,
+
+  /**
+   * The component used for the transition.
+   */
+  TransitionComponent: _propTypes.default.elementType,
+
+  /**
+   * The duration for the transition, in milliseconds.
+   * You may specify a single timeout for all transitions, or individually with an object.
+   */
+  transitionDuration: _propTypes.default.oneOfType([_propTypes.default.number, _propTypes.default.shape({
+    enter: _propTypes.default.number,
+    exit: _propTypes.default.number
+  })]),
+
+  /**
+   * Props applied to the `Transition` element.
+   */
+  TransitionProps: _propTypes.default.object
+} : void 0;
+
+var _default = (0, _withStyles.default)(styles, {
+  flip: false,
+  name: 'MuiSnackbar'
+})(Snackbar);
+
+exports.default = _default;
+},{"@babel/runtime/helpers/esm/objectWithoutProperties":"../node_modules/@babel/runtime/helpers/esm/objectWithoutProperties.js","@babel/runtime/helpers/esm/defineProperty":"../node_modules/@babel/runtime/helpers/esm/defineProperty.js","@babel/runtime/helpers/esm/extends":"../node_modules/@babel/runtime/helpers/esm/extends.js","react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","../styles/withStyles":"../node_modules/@material-ui/core/esm/styles/withStyles.js","../styles/transitions":"../node_modules/@material-ui/core/esm/styles/transitions.js","../ClickAwayListener":"../node_modules/@material-ui/core/esm/ClickAwayListener/index.js","../utils/useEventCallback":"../node_modules/@material-ui/core/esm/utils/useEventCallback.js","../utils/capitalize":"../node_modules/@material-ui/core/esm/utils/capitalize.js","../utils/createChainedFunction":"../node_modules/@material-ui/core/esm/utils/createChainedFunction.js","../Grow":"../node_modules/@material-ui/core/esm/Grow/index.js","../SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js"}],"../node_modules/@material-ui/core/esm/Snackbar/index.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function () {
+    return _Snackbar.default;
+  }
+});
+
+var _Snackbar = _interopRequireDefault(require("./Snackbar"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+},{"./Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/Snackbar.js"}],"../node_modules/@material-ui/icons/Warning.js":[function(require,module,exports) {
+"use strict";
+
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _createSvgIcon = _interopRequireDefault(require("./utils/createSvgIcon"));
+
+var _default = (0, _createSvgIcon.default)(_react.default.createElement("path", {
+  d: "M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"
+}), 'Warning');
+
+exports.default = _default;
+},{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../src/components/login.tsx":[function(require,module,exports) {
 "use strict";
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -103544,6 +105170,10 @@ function _nonIterableRest() { throw new TypeError("Invalid attempt to destructur
 function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 var __importStar = this && this.__importStar || function (mod) {
   if (mod && mod.__esModule) return mod;
@@ -103587,9 +105217,37 @@ var styles_1 = require("@material-ui/core/styles");
 
 var Container_1 = __importDefault(require("@material-ui/core/Container"));
 
-var login_context_1 = __importDefault(require("./login-context")); // This login page is a template provided by material-ui that I modified.
+var colors_1 = require("@material-ui/core/colors");
+
+var clsx_1 = __importDefault(require("clsx"));
+
+var login_context_1 = __importDefault(require("./login-context")); // For snackbar
+
+
+var CheckCircle_1 = __importDefault(require("@material-ui/icons/CheckCircle"));
+
+var Error_1 = __importDefault(require("@material-ui/icons/Error"));
+
+var Info_1 = __importDefault(require("@material-ui/icons/Info"));
+
+var Close_1 = __importDefault(require("@material-ui/icons/Close"));
+
+var IconButton_1 = __importDefault(require("@material-ui/core/IconButton"));
+
+var Snackbar_1 = __importDefault(require("@material-ui/core/Snackbar"));
+
+var SnackbarContent_1 = __importDefault(require("@material-ui/core/SnackbarContent"));
+
+var Warning_1 = __importDefault(require("@material-ui/icons/Warning")); // This login page is a template provided by material-ui that I modified.
 // Link https://github.com/mui-org/material-ui/blob/master/docs/src/pages/getting-started/templates/sign-in/SignIn.js
 
+
+var variantIcon = {
+  success: CheckCircle_1.default,
+  warning: Warning_1.default,
+  error: Error_1.default,
+  info: Info_1.default
+}; // Link https://codesandbox.io/s/7pjyl
 
 function Copyright() {
   return react_1.default.createElement(Typography_1.default, {
@@ -103620,9 +105278,82 @@ var useStyles = styles_1.makeStyles(function (theme) {
     },
     submit: {
       margin: theme.spacing(3, 0, 2)
+    },
+    close: {
+      padding: theme.spacing(0.5)
+    },
+    success: {
+      backgroundColor: colors_1.green[600]
+    },
+    error: {
+      backgroundColor: theme.palette.error.dark
+    },
+    message: {
+      display: "flex",
+      alignItems: "center"
+    },
+    margin: {
+      margin: theme.spacing(1)
     }
   };
 });
+var useStyles1 = styles_1.makeStyles(function (theme) {
+  return {
+    success: {
+      backgroundColor: colors_1.green[600]
+    },
+    error: {
+      backgroundColor: theme.palette.error.dark
+    },
+    info: {
+      backgroundColor: theme.palette.primary.main
+    },
+    warning: {
+      backgroundColor: colors_1.amber[700]
+    },
+    icon: {
+      fontSize: 20
+    },
+    iconVariant: {
+      opacity: 0.9,
+      marginRight: theme.spacing(1)
+    },
+    message: {
+      display: "flex",
+      alignItems: "center"
+    }
+  };
+});
+
+function MySnackbarContentWrapper(props) {
+  var classes = useStyles1({});
+
+  var className = props.className,
+      message = props.message,
+      onClose = props.onClose,
+      variant = props.variant,
+      other = _objectWithoutProperties(props, ["className", "message", "onClose", "variant"]);
+
+  var Icon = variantIcon[variant];
+  return react_1.default.createElement(SnackbarContent_1.default, Object.assign({
+    className: clsx_1.default(classes[variant], className),
+    "aria-describedby": "client-snackbar",
+    message: react_1.default.createElement("span", {
+      id: "client-snackbar",
+      className: classes.message
+    }, react_1.default.createElement(Icon, {
+      className: clsx_1.default(classes.icon, classes.iconVariant)
+    }), message),
+    action: [react_1.default.createElement(IconButton_1.default, {
+      key: "close",
+      "aria-label": "close",
+      color: "inherit",
+      onClick: onClose
+    }, react_1.default.createElement(Close_1.default, {
+      className: classes.icon
+    }))]
+  }, other));
+}
 
 function SignIn() {
   var classes = useStyles({});
@@ -103641,7 +105372,42 @@ function SignIn() {
       _react_1$useContext2 = _slicedToArray(_react_1$useContext, 2),
       login = _react_1$useContext2[0],
       setLogin = _react_1$useContext2[1]; // This function will check to see if the values submitted are correct
+  // For the snackbar
 
+
+  var _react_1$default$useS = react_1.default.useState(false),
+      _react_1$default$useS2 = _slicedToArray(_react_1$default$useS, 2),
+      open = _react_1$default$useS2[0],
+      setOpen = _react_1$default$useS2[1];
+
+  var _react_1$default$useS3 = react_1.default.useState(false),
+      _react_1$default$useS4 = _slicedToArray(_react_1$default$useS3, 2),
+      openError = _react_1$default$useS4[0],
+      setOpenError = _react_1$default$useS4[1];
+
+  var handleClick = function handleClick() {
+    setOpen(true);
+  };
+
+  var handleClickL = function handleClickL() {
+    setOpenError(true);
+  };
+
+  var handleClose = function handleClose(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  var handleCloseError = function handleCloseError(event, reason) {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenError(false);
+  };
 
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
@@ -103649,20 +105415,17 @@ function SignIn() {
     console.log(password);
 
     if (user !== "12" || password !== "12") {
-      alert("Incorrect password");
-    } // That means they have implemented the login correctly.
+      // alert("Incorrect password");
+      // handleClick();
+      handleClickL();
+    } // If they have the right password.
 
 
     if (user === "12" && password === "12") {
       setLogin(true);
+      handleClick();
       console.log("here");
     }
-
-    console.log(login);
-  };
-
-  var setLog = function setLog() {
-    setLogin(true);
   };
 
   return react_1.default.createElement(Container_1.default, {
@@ -103712,11 +105475,36 @@ function SignIn() {
     className: classes.submit
   }, "Sign In"))), react_1.default.createElement(Box_1.default, {
     mt: 8
-  }, react_1.default.createElement(Copyright, null)));
+  }, react_1.default.createElement(Copyright, null)), react_1.default.createElement(Snackbar_1.default, {
+    anchorOrigin: {
+      vertical: "bottom",
+      horizontal: "left"
+    },
+    open: open,
+    autoHideDuration: 6000,
+    onClose: handleClose
+  }, react_1.default.createElement(MySnackbarContentWrapper, {
+    onClose: handleClose,
+    variant: "success",
+    message: "Logged in succesfully!"
+  })), react_1.default.createElement(Snackbar_1.default, {
+    anchorOrigin: {
+      vertical: "bottom",
+      horizontal: "left"
+    },
+    open: openError,
+    autoHideDuration: 6000,
+    onClose: handleClose
+  }, react_1.default.createElement(MySnackbarContentWrapper, {
+    variant: "error",
+    onClose: handleCloseError,
+    className: classes.margin,
+    message: "Incorrect login, please try again!"
+  })));
 }
 
 exports.default = SignIn;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","./login-context":"../src/components/login-context.tsx"}],"../src/App.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/colors":"../node_modules/@material-ui/core/esm/colors/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","./login-context":"../src/components/login-context.tsx","@material-ui/icons/CheckCircle":"../node_modules/@material-ui/icons/CheckCircle.js","@material-ui/icons/Error":"../node_modules/@material-ui/icons/Error.js","@material-ui/icons/Info":"../node_modules/@material-ui/icons/Info.js","@material-ui/icons/Close":"../node_modules/@material-ui/icons/Close.js","@material-ui/core/IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","@material-ui/core/Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/index.js","@material-ui/core/SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js","@material-ui/icons/Warning":"../node_modules/@material-ui/icons/Warning.js"}],"../src/App.tsx":[function(require,module,exports) {
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -103755,6 +105543,8 @@ var login_1 = __importDefault(require("./components/login"));
 
 var router_1 = require("@reach/router");
 
+var CssBaseline_1 = __importDefault(require("@material-ui/core/CssBaseline"));
+
 var login_context_1 = __importDefault(require("./components/login-context"));
 
 var App = function App() {
@@ -103766,7 +105556,7 @@ var App = function App() {
     value: loginHook
   }, react_1.default.createElement("div", {
     id: "menuSelection"
-  }, react_1.default.createElement(navbar_1.default, null), react_1.default.createElement(router_1.Router, null, react_1.default.createElement(RouterPage, {
+  }, react_1.default.createElement(CssBaseline_1.default, null), react_1.default.createElement(navbar_1.default, null), react_1.default.createElement(router_1.Router, null, react_1.default.createElement(RouterPage, {
     path: "/",
     pageComponent: react_1.default.createElement(addstudent_1.default, null)
   }), react_1.default.createElement(RouterPage, {
@@ -103788,7 +105578,7 @@ var RouterPage = function RouterPage(props) {
 };
 
 react_dom_1.render(react_1.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","./components/login":"../src/components/login.tsx","@reach/router":"../node_modules/@reach/router/es/index.js","./components/login-context":"../src/components/login-context.tsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","./components/login":"../src/components/login.tsx","@reach/router":"../node_modules/@reach/router/es/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","./components/login-context":"../src/components/login-context.tsx"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -103816,7 +105606,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53951" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54334" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
 import MaterialTable, { Column } from "material-table";
 import axios from "axios";
-import { TablePagination } from "@material-ui/core";
 
 import loginContext from "./login-context";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Loading from "./notLoggedIn";
 
 interface ITableState {
@@ -21,6 +19,8 @@ interface IRow {
   day2Time: string;
 }
 
+// A function to create student object
+
 function Student(
   fName: string,
   lName: string,
@@ -35,7 +35,10 @@ function Student(
   this.dayStart = startTime;
 }
 
+// This is data direct from the DB pull request, I use it to grab __id of the item prior to update / delete operations
 let pData = [];
+
+// This is essentially a place holder for when there is no data
 let ogData = [];
 
 // This function will edit the student in the DB who's value was just changed in the schedule component
@@ -43,33 +46,24 @@ let ogData = [];
 function updateStudent(index: number, studentToUpdate) {
   const currentStudent = pData[index];
   const idOfStudent = currentStudent._id;
-  console.log(studentToUpdate);
-  console.log("Student above was updated ^");
 
   const changedStudent = convertStudentList2Student(studentToUpdate);
-
-  console.log("Changed ");
-  console.log(changedStudent);
 
   // Put the newly updated student into the database
   axios
     .put("/students/update-student/" + idOfStudent, changedStudent)
     .then(res => {
       console.log(res.data);
-      console.log("Update complete");
     })
     .catch(error => {
       console.log(error + "fail reason " + error.response.data);
     });
 }
-// I look at the index of the item that was deleted and then use that to find it's ID
-// Which I use with axios to delete it from the database
-// a normal object so I can retrive it's id to delete from the database.
+
+// This function looks at the index of the item that was deleted and then use that to find it's ID to delete from DB
 
 function removeStudent(index: number) {
   const idOfStudent = pData[index]._id;
-  // let student = convertStudentList2Student(studentToRemove);
-  console.log("checking ");
 
   console.log(pData[index]._id);
   axios
@@ -167,7 +161,6 @@ function convertStudentList2Student(studentList) {
   }
   const subjects = [];
 
-  // console.log("we're checkinig  " + studentList.subjects);
   switch (studentList.subjects) {
     case "1":
       subjects.push("Math");
@@ -180,7 +173,6 @@ function convertStudentList2Student(studentList) {
       subjects.push("Reading");
       break;
   }
-  // console.log("We have :" + subjects);
   // Check if it has 2 days
   const days = [];
   const dayStart = [];
@@ -235,30 +227,22 @@ function convertStudentList2Student(studentList) {
 
     dayStart.push(+studentList.day1);
   }
-
-  // console.log(
-  //   fname + " " + lname + "  " + subjects + " " + days + " " + dayStart
-  // );
-
   return new Student(fname, lname, subjects, days, dayStart);
 }
 
 // I need to add the student to the DB however the input is different in this component vs how it is normally in the form
-// So I convert this object into the appropriate model so that I can store in the DB and then store it.
+// So I convert this object into the appropriate model so that I can store in the DB.
 function postStudentToDb(student) {
-  // Might need some error handling here over potential names, default seperated by space.
-  // Will add what if someone enters in a ""
+  // Should add more error handling here especially with obscure names in tests
   ogData.push(student);
-
   const newStudent = convertStudentList2Student(student);
-
-  console.log(newStudent);
   // Send the newly created student to the database
   axios
     .post("/students/create-student", newStudent)
     .then(res => console.log(res.data));
 }
-// This function returns an index corresponding to the accurate day
+
+// This function returns an index corresponding to the accurate day the student is in
 function findDayIndex(day: string) {
   let index: string;
   switch (day) {
@@ -277,44 +261,18 @@ function findDayIndex(day: string) {
 
 // This function will push the data as it's changed back into the database for next time!
 export default function Students() {
-  const [postData, setPostData] = React.useState({});
-
   const [loginData] = React.useContext(loginContext);
   function getData() {
     axios
       .get("/students/")
       .then(res => {
-        // console.log(res.data);
-        setPostData(res.data);
         pData = res.data;
         setState(prevState => {
-          // let data = [...prevState.data];
-          // data.push(createDataFromPost(res.data));
           const data = createDataFromPost(res.data);
-          // ogData.push(newData);
-          // console.log(ogData);
-          // postStudentToDb(createDataFromPost(res.data));
-
           return { ...prevState, data };
         });
         const st = state;
-        // return res.data;
         st.data = createDataFromPost(res.data);
-
-        console.log(st);
-
-        // Make a copy of old state
-        // let newState = state;
-        // newState.data = createDataFromPost(res.data);
-        // ogData = createDataFromPost(res.data);
-
-        // setState(st);
-        // setState(newState);
-        // console.log(state);
-        // setState(ogData);
-        // console.log(res.data);
-        // ogData = createDataFromPost(res.data);
-        // setState(state);
       })
       .catch(error => {
         console.log(error + " axios error");
@@ -322,12 +280,12 @@ export default function Students() {
   }
   // Import data
   useEffect(() => {
-    getData();
+    if (loginData) {
+      getData();
+    }
   }, []);
-  // For making the changes to the table stick
-  // const [rows, setRows] = useState(10);
-  // const [count, setCount] = useState(10);
 
+  // Table key
   const [state, setState] = useState<ITableState>({
     columns: [
       { title: "Name", field: "name" },
@@ -377,13 +335,11 @@ export default function Students() {
           "6": "5 : 00 PM",
           "7": "5 : 30 PM",
           "8": "6 : 00 PM",
-          // So the 9 is there if it's hit by accident
           "9": ""
         },
         type: "time"
       }
     ],
-    // data: createDataFromPost(postData)
     data: ogData
   });
   return loginData ? (
@@ -391,25 +347,7 @@ export default function Students() {
       title="Student List"
       columns={state.columns}
       data={state.data}
-      // onChangeRowsPerPage={(pageSize: number) => {
-      //   setRows(pageSize);
-      // }}
-      // components= {
-      //   {<TablePagination
-      //     rowsPerPage={rows}
-      //   />}
-      // }
-      // components={{
-      //   Pagination: (props: any) => (
-      //     <TablePagination {...props} rowsPerPage={rows} count={count} />
-      //   )
-      // }}
-      // components={
-      //   {Pagination:(props:any) =>
-      //   (TablePagination  rowsPerPage={rows})}
-      // }
-
-      // For add, edit delete functions
+      // For add, edit delete functions of students
       editable={{
         onRowAdd: newData =>
           new Promise(resolve => {
@@ -439,7 +377,6 @@ export default function Students() {
                   console.log(newData);
                   // Want to update the data after it has changed.
                   updateStudent(dataIndex, newData);
-
                   return { ...prevState, data };
                 });
               }
@@ -451,7 +388,6 @@ export default function Students() {
               resolve();
               setState(prevState => {
                 const data = [...prevState.data];
-                console.log(oldData);
                 // Remove student from Database
                 removeStudent(data.indexOf(oldData));
                 // Remove student from table ( this happens quickly by this even though on new read from DB it will be gone)
