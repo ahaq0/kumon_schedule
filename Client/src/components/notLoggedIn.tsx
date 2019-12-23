@@ -14,8 +14,8 @@ import Grid, { GridSpacing } from "@material-ui/core/Grid";
 
 export default function notLoggedIn() {
   return (
-    <Grid container justify="center" alignContent="center">
-      <Grid item>
+    <Grid container={true} justify="center" alignContent="center">
+      <Grid item={true}>
         {/* It may look arbritrary but I found that length to eliminate scrolling on mobile*/}
         <Skeleton variant="rect" height={538} width={500}>
           <Typography variant="h5" gutterBottom={false}>

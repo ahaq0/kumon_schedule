@@ -35,6 +35,7 @@ const variantIcon = {
   error: ErrorIcon,
   info: InfoIcon
 };
+
 // Link https://codesandbox.io/s/7pjyl
 function Copyright() {
   return (
@@ -88,7 +89,7 @@ const useStyles = makeStyles(theme => ({
 export interface IProps {
   className?: string;
   message?: string;
-  onClose?: () => void;
+  onClose?: () => {};
   variant: keyof typeof variantIcon;
 }
 const useStyles1 = makeStyles((theme: Theme) => ({
@@ -189,23 +190,25 @@ export default function SignIn() {
   const handleSubmit = (event: React.ChangeEvent<{}>) => {
     event.preventDefault();
 
-    console.log(user);
-    console.log(password);
-    let userName = 1;
-    let userPass = 15;
-    // const userName = process.env.user;
-    // const userPass = process.env.pass;
+    const userName = process.env.userN || 14; // Local testing not production
+    const userPass = process.env.userP || 14;
 
-    console.log(process.env.userName);
-    console.log(process.env.userPass);
+    console.log(userName + "  " + typeof userName);
 
-    // If either username or login password is incorrect
-    if (user !== userName || password !== userPass) {
+    console.log(userPass);
+
+    console.log(user + "  " + password + " " + typeof user);
+
+    // If either username or login password is incorrect, I use double ='s on purpose as I don't care
+    // whether it is a number or string due to the way the enviroment variables are passed via heroku
+    // tslint:disable-next-line: triple-equals
+    if (user != userName || password != userPass) {
       handleClickL();
     }
 
     // If they have the right password.
-    if (user === userName && password === userPass) {
+    // tslint:disable-next-line: triple-equals
+    if (user == userName && password == userPass) {
       setLogin(true);
       handleClick();
       console.log("here");

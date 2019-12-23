@@ -19,12 +19,7 @@ dotenv.config();
 
 const App = () => {
   // Hook
-
   const loginHook = useState(false); // Default value
-  console.log(loginHook[0]);
-  console.log(process.env.REACT_APP_API_KEY);
-
-  console.log(`process.env`, process.env);
 
   return (
     <LoginContext.Provider value={loginHook}>

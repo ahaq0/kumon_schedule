@@ -47737,8 +47737,43 @@ var createRoute = function createRoute(basepath) {
 var shouldNavigate = function shouldNavigate(event) {
   return !event.defaultPrevented && event.button === 0 && !(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }; ////////////////////////////////////////////////////////////////////////
-},{"react":"../node_modules/react/index.js","warning":"../node_modules/warning/browser.js","prop-types":"../node_modules/prop-types/index.js","invariant":"../node_modules/invariant/browser.js","create-react-context":"../node_modules/create-react-context/lib/index.js","react-lifecycles-compat":"../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js","./lib/utils":"../node_modules/@reach/router/es/lib/utils.js","./lib/history":"../node_modules/@reach/router/es/lib/history.js"}],"../src/components/buttongroups.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","warning":"../node_modules/warning/browser.js","prop-types":"../node_modules/prop-types/index.js","invariant":"../node_modules/invariant/browser.js","create-react-context":"../node_modules/create-react-context/lib/index.js","react-lifecycles-compat":"../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js","./lib/utils":"../node_modules/@reach/router/es/lib/utils.js","./lib/history":"../node_modules/@reach/router/es/lib/history.js"}],"../src/components/login-context.tsx":[function(require,module,exports) {
 "use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = require("react"); // export const loggedIn = {
+//   status: false
+// };
+// export const LoginContext = React.createContext(
+//   loggedIn.status // default value
+// );
+
+
+var LoginContext = react_1.createContext([false, function () {}]);
+exports.default = LoginContext;
+},{"react":"../node_modules/react/index.js"}],"../src/components/buttongroups.tsx":[function(require,module,exports) {
+"use strict";
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
+
+function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+var __importStar = this && this.__importStar || function (mod) {
+  if (mod && mod.__esModule) return mod;
+  var result = {};
+  if (mod != null) for (var k in mod) {
+    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+  }
+  result["default"] = mod;
+  return result;
+};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -47750,7 +47785,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importDefault(require("react"));
+var react_1 = __importStar(require("react"));
 
 var Grid_1 = __importDefault(require("@material-ui/core/Grid"));
 
@@ -47761,7 +47796,10 @@ var ButtonGroup_1 = __importDefault(require("@material-ui/core/ButtonGroup"));
 var router_1 = require("@reach/router");
 
 var styles_1 = require("@material-ui/core/styles"); // to do pass the styles from the top, basicall ymake it once and then just pass it around
+// I use this to determine whether the button is login or logout
 
+
+var login_context_1 = __importDefault(require("./login-context"));
 
 var useStyles = styles_1.makeStyles({
   label: {
@@ -47774,6 +47812,23 @@ var useStyles = styles_1.makeStyles({
 function GroupedButtons() {
   // there is a bug in Typescript so workaround is to pass an empty object
   var classes = useStyles({});
+
+  var _react_1$useContext = react_1.useContext(login_context_1.default),
+      _react_1$useContext2 = _slicedToArray(_react_1$useContext, 2),
+      login = _react_1$useContext2[0],
+      setLogin = _react_1$useContext2[1];
+
+  var _react_1$useState = react_1.useState("Login"),
+      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
+      word = _react_1$useState2[0],
+      setWord = _react_1$useState2[1];
+
+  function loginOrLogout() {
+    if (login === true) {
+      setWord("Logout");
+    }
+  }
+
   return react_1.default.createElement(Grid_1.default, {
     container: true
   }, react_1.default.createElement(Grid_1.default, {
@@ -47810,7 +47865,7 @@ function GroupedButtons() {
     color: "inherit",
     size: "medium",
     variant: "text"
-  }, "Login")))) // <div>
+  }, word)))) // <div>
   //   <Grid container={true}>
   //     <Grid item xs={4}>
   //       {/* <h1>hi</h1> */}
@@ -47857,7 +47912,7 @@ function GroupedButtons() {
 }
 
 exports.default = GroupedButtons;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/ButtonGroup":"../node_modules/@material-ui/core/esm/ButtonGroup/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"../media/kumon.png":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/ButtonGroup":"../node_modules/@material-ui/core/esm/ButtonGroup/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","./login-context":"../src/components/login-context.tsx"}],"../media/kumon.png":[function(require,module,exports) {
 module.exports = "/kumon.5cafcec8.png";
 },{}],"../src/components/navbar.tsx":[function(require,module,exports) {
 "use strict";
@@ -58754,24 +58809,7 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../src/components/login-context.tsx":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var react_1 = require("react"); // export const loggedIn = {
-//   status: false
-// };
-// export const LoginContext = React.createContext(
-//   loggedIn.status // default value
-// );
-
-
-var LoginContext = react_1.createContext([false, function () {}]);
-exports.default = LoginContext;
-},{"react":"../node_modules/react/index.js"}],"../node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -105098,6 +105136,8 @@ exports.default = _default;
 },{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../src/components/login.tsx":[function(require,module,exports) {
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -105346,21 +105386,22 @@ function SignIn() {
 
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
-    console.log(user);
-    console.log(password);
-    var userName = 1;
-    var userPass = 15; // const userName = process.env.user;
-    // const userPass = process.env.pass;
+    var userName = undefined || 14; // Local testing not production
 
-    console.log("money_woes");
-    console.log(undefined); // If either username or login password is incorrect
+    var userPass = undefined || 14;
+    console.log(userName + "  " + _typeof(userName));
+    console.log(userPass);
+    console.log(user + "  " + password + " " + _typeof(user)); // If either username or login password is incorrect, I use double ='s on purpose as I don't care
+    // whether it is a number or string due to the way the enviroment variables are passed via heroku
+    // tslint:disable-next-line: triple-equals
 
-    if (user !== userName || password !== userPass) {
+    if (user != userName || password != userPass) {
       handleClickL();
     } // If they have the right password.
+    // tslint:disable-next-line: triple-equals
 
 
-    if (user === userName && password === userPass) {
+    if (user == userName && password == userPass) {
       setLogin(true);
       handleClick();
       console.log("here");
@@ -105836,7 +105877,6 @@ module.exports.config = config;
 module.exports.load = config;
 module.exports.parse = parse;
 },{"fs":"../node_modules/parcel-bundler/src/builtins/_empty.js","path":"../node_modules/path-browserify/index.js","process":"../node_modules/process/browser.js"}],"../src/App.tsx":[function(require,module,exports) {
-var process = require("process");
 "use strict";
 
 var __importStar = this && this.__importStar || function (mod) {
@@ -105887,9 +105927,6 @@ var App = function App() {
   // Hook
   var loginHook = react_1.useState(false); // Default value
 
-  console.log(loginHook[0]);
-  console.log(undefined);
-  console.log("process.env", process.env);
   return react_1.default.createElement(login_context_1.default.Provider, {
     value: loginHook
   }, react_1.default.createElement("div", {
@@ -105916,7 +105953,7 @@ var RouterPage = function RouterPage(props) {
 };
 
 react_dom_1.render(react_1.default.createElement(App, null), document.getElementById("root"));
-},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","./components/login":"../src/components/login.tsx","@reach/router":"../node_modules/@reach/router/es/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","./components/login-context":"../src/components/login-context.tsx","dotenv":"../node_modules/dotenv/lib/main.js","process":"../node_modules/process/browser.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-dom":"../node_modules/react-dom/index.js","./components/navbar":"../src/components/navbar.tsx","./components/addstudent":"../src/components/addstudent.tsx","./components/students":"../src/components/students.tsx","./components/schedule":"../src/components/schedule.tsx","./components/login":"../src/components/login.tsx","@reach/router":"../node_modules/@reach/router/es/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","./components/login-context":"../src/components/login-context.tsx","dotenv":"../node_modules/dotenv/lib/main.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -105944,7 +105981,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54589" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62588" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
