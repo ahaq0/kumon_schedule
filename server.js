@@ -30,12 +30,11 @@ app.all("/*", function(req, res, next) {
 
 // Connect the database to schema
 mongoose
-  .connect(dbConfig.db, {
+  .connect(process.env.MONGODB_URL || dbConfig.db, {
     useNewUrlParser: true
   })
   .then(
     () => {
-      console.log(process.env.MONGODB_URL);
       console.log("Database sucessfully connected!");
     },
     error => {

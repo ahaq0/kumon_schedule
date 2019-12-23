@@ -191,15 +191,21 @@ export default function SignIn() {
 
     console.log(user);
     console.log(password);
+    let userName = 1;
+    let userPass = 15;
+    // const userName = process.env.user;
+    // const userPass = process.env.pass;
 
-    if (user !== "12" || password !== "12") {
-      // alert("Incorrect password");
-      // handleClick();
+    console.log(process.env.userName);
+    console.log(process.env.userPass);
+
+    // If either username or login password is incorrect
+    if (user !== userName || password !== userPass) {
       handleClickL();
     }
 
     // If they have the right password.
-    if (user === "12" && password === "12") {
+    if (user === userName && password === userPass) {
       setLogin(true);
       handleClick();
       console.log("here");
