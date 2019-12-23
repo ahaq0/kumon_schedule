@@ -58931,24 +58931,6 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 },{"./Skeleton":"../node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js"}],"../src/components/notLoggedIn.tsx":[function(require,module,exports) {
 "use strict";
 
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
-
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
     "default": mod
@@ -58959,64 +58941,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importStar(require("react"));
+var react_1 = __importDefault(require("react"));
 
 var Typography_1 = __importDefault(require("@material-ui/core/Typography"));
-
-var styles_1 = require("@material-ui/core/styles");
 
 var Skeleton_1 = __importDefault(require("@material-ui/lab/Skeleton"));
 
 var Grid_1 = __importDefault(require("@material-ui/core/Grid")); // The purpose of this component is to render a generic animation for all users who have not signed in yet
-// Since there is no CSS vh in React, I find out the current window height + width manually whenever it changesg to resize my skeleton accordingly.
-// Found this idea from https://stackoverflow.com/questions/36862334/get-viewport-window-height-in-reactjs
+// From an Idea I had before https://stackoverflow.com/questions/36862334/get-viewport-window-height-in-reactjs
 
-
-function getWindowDimensions() {
-  var _window = window,
-      currentHeight = _window.innerWidth,
-      currentWidth = _window.innerHeight;
-  return {
-    currentHeight: currentHeight,
-    currentWidth: currentWidth
-  };
-}
-
-var useStyles = styles_1.makeStyles({
-  root: {
-    width: "100%",
-    maxWidth: 500 //
-
-  }
-});
-
-function useWindowDimensions() {
-  var _react_1$useState = react_1.useState(getWindowDimensions()),
-      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
-      windowDimensions = _react_1$useState2[0],
-      setWindowDimensions = _react_1$useState2[1];
-
-  react_1.useEffect(function () {
-    function handleResize() {
-      setWindowDimensions(getWindowDimensions());
-    }
-
-    window.addEventListener("resize", handleResize);
-    return function () {
-      return window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-  return windowDimensions;
-}
-
-exports.default = useWindowDimensions;
 
 function notLoggedIn() {
-  var _useWindowDimensions = useWindowDimensions(),
-      currentHeight = _useWindowDimensions.currentHeight,
-      currentWidth = _useWindowDimensions.currentWidth;
-
-  console.log("CUrrent height is " + currentHeight + " currentWidth is " + currentWidth);
   return react_1.default.createElement(Grid_1.default, {
     container: true,
     justify: "center",
@@ -59034,7 +58969,7 @@ function notLoggedIn() {
 }
 
 exports.default = notLoggedIn;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/lab/Skeleton":"../node_modules/@material-ui/lab/esm/Skeleton/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js"}],"../src/components/addstudent.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/lab/Skeleton":"../node_modules/@material-ui/lab/esm/Skeleton/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js"}],"../src/components/addstudent.tsx":[function(require,module,exports) {
 "use strict";
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
@@ -105606,7 +105541,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54334" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54589" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
