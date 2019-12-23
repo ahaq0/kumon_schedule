@@ -59019,10 +59019,10 @@ function notLoggedIn() {
   console.log("CUrrent height is " + currentHeight + " currentWidth is " + currentWidth);
   return react_1.default.createElement(Grid_1.default, {
     container: true,
-    justify: "center"
+    justify: "center",
+    alignContent: "center"
   }, react_1.default.createElement(Grid_1.default, {
-    item: true,
-    xs: 12
+    item: true
   }, react_1.default.createElement(Skeleton_1.default, {
     variant: "rect",
     height: 538,
@@ -105606,7 +105606,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52183" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54334" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

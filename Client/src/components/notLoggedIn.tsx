@@ -53,8 +53,8 @@ export default function notLoggedIn() {
     "CUrrent height is " + currentHeight + " currentWidth is " + currentWidth
   );
   return (
-    <Grid container justify="center">
-      <Grid item xs={12}>
+    <Grid container justify="center" alignContent="center">
+      <Grid item>
         {/* It may look arbritrary but I found that length to eliminate scrolling on mobile*/}
         <Skeleton variant="rect" height={538} width={500}>
           <Typography variant="h5" gutterBottom={false}>
