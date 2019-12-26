@@ -15,6 +15,8 @@ import Container from "@material-ui/core/Container";
 import { green, amber } from "@material-ui/core/colors";
 import clsx from "clsx";
 
+import { navigate } from "@reach/router";
+
 import LoginContext from "./login-context";
 
 // For snackbar
@@ -162,6 +164,11 @@ export default function SignIn() {
   const [openError, setOpenError] = React.useState(false);
   const handleClick = () => {
     setOpen(true);
+
+    // This allows me to add the navigate function to the Call Stack in 1.4 seconds
+    // Since I have nothing else that adds to the Call Stack, it will execute in 1.4 seconds
+    // Learnt this from https://blog.sessionstack.com/how-javascript-works-event-loop-and-the-rise-of-async-programming-5-ways-to-better-coding-with-2f077c4438b5
+    setTimeout(() => navigate(`/`), 1400);
   };
   const handleClickL = () => {
     setOpenError(true);
@@ -193,12 +200,6 @@ export default function SignIn() {
     const userName = process.env.userN || 14; // Local testing not production
     const userPass = process.env.userP || 14;
 
-    console.log(userName + "  " + typeof userName);
-
-    console.log(userPass);
-
-    console.log(user + "  " + password + " " + typeof user);
-
     // If either username or login password is incorrect, I use double ='s on purpose as I don't care
     // whether it is a number or string due to the way the enviroment variables are passed via heroku
     // tslint:disable-next-line: triple-equals
@@ -211,7 +212,6 @@ export default function SignIn() {
     if (user == userName && password == userPass) {
       setLogin(true);
       handleClick();
-      console.log("here");
     }
   };
 

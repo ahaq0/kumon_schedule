@@ -47818,26 +47818,21 @@ function GroupedButtons() {
       login = _react_1$useContext2[0],
       setLogin = _react_1$useContext2[1];
 
-  var _react_1$useState = react_1.useState("Login"),
-      _react_1$useState2 = _slicedToArray(_react_1$useState, 2),
-      word = _react_1$useState2[0],
-      setWord = _react_1$useState2[1];
+  var locations = "/login";
 
   function loginOrLogout() {
-    if (login === true) {
-      setWord("Logout");
-    }
+    location.reload();
   }
 
   return react_1.default.createElement(Grid_1.default, {
     container: true
   }, react_1.default.createElement(Grid_1.default, {
     item: true,
-    xs: 4
+    xs: 1
   }), react_1.default.createElement(Grid_1.default, {
     container: true,
     item: true,
-    xs: 4,
+    xs: 6,
     justify: "center"
   }, react_1.default.createElement("div", null, react_1.default.createElement(ButtonGroup_1.default, {
     variant: "text",
@@ -47860,55 +47855,25 @@ function GroupedButtons() {
     justify: "flex-end"
   }, react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
     component: router_1.Link,
-    to: "/login",
+    to: locations,
     className: classes.alignment,
     color: "inherit",
     size: "medium",
     variant: "text"
-  }, word)))) // <div>
-  //   <Grid container={true}>
-  //     <Grid item xs={4}>
-  //       {/* <h1>hi</h1> */}
-  //     </Grid>
-  //     <Grid container={true} item={true} justify="center" xs={4}>
-  //       <div>
-  //         <ButtonGroup
-  //           variant="text"
-  //           color="inherit"
-  //           size="medium"
-  //           className={classes.label}
-  //         >
-  //           <Button component={Link} to="/">
-  //             ADD STUDENT
-  //           </Button>
-  //           <Button component={Link} to="/schedule">
-  //             SCHEDULE
-  //           </Button>
-  //           <Button component={Link} to="/students">
-  //             STUDENTS
-  //           </Button>
-  //         </ButtonGroup>
-  //       </div>
-  //     </Grid>
-  //     <Grid container={true} item={true} justify="flex-end" xs={4}>
-  //       <div>
-  //         <ButtonGroup>
-  //           <Button
-  //             component={Link}
-  //             to="/login"
-  //             className={classes.alignment}
-  //             color="inherit"
-  //             size="medium"
-  //             variant="text"
-  //           >
-  //             Login
-  //           </Button>
-  //         </ButtonGroup>
-  //       </div>
-  //     </Grid>
-  //   </Grid>
-  // </div>
-  ;
+  }, "Login")), react_1.default.createElement(Grid_1.default, {
+    container: true,
+    item: true,
+    xs: 7,
+    justify: "flex-end"
+  }, react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
+    onClick: loginOrLogout,
+    component: router_1.Link,
+    to: "/",
+    className: classes.alignment,
+    color: "inherit",
+    size: "medium",
+    variant: "text"
+  }, "Logout")))));
 }
 
 exports.default = GroupedButtons;
@@ -58998,7 +58963,7 @@ function notLoggedIn() {
     item: true
   }, react_1.default.createElement(Skeleton_1.default, {
     variant: "rect",
-    height: 538,
+    height: 500,
     width: 500
   }, react_1.default.createElement(Typography_1.default, {
     variant: "h5",
@@ -105136,8 +105101,6 @@ exports.default = _default;
 },{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../src/components/login.tsx":[function(require,module,exports) {
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -105195,6 +105158,8 @@ var Container_1 = __importDefault(require("@material-ui/core/Container"));
 var colors_1 = require("@material-ui/core/colors");
 
 var clsx_1 = __importDefault(require("clsx"));
+
+var router_1 = require("@reach/router");
 
 var login_context_1 = __importDefault(require("./login-context")); // For snackbar
 
@@ -105361,7 +105326,13 @@ function SignIn() {
       setOpenError = _react_1$default$useS4[1];
 
   var handleClick = function handleClick() {
-    setOpen(true);
+    setOpen(true); // This allows me to add the navigate function to the Call Stack in 1.4 seconds
+    // Since I have nothing else that adds to the Call Stack, it will execute in 1.4 seconds
+    // Learnt this from https://blog.sessionstack.com/how-javascript-works-event-loop-and-the-rise-of-async-programming-5-ways-to-better-coding-with-2f077c4438b5
+
+    setTimeout(function () {
+      return router_1.navigate("/");
+    }, 1400);
   };
 
   var handleClickL = function handleClickL() {
@@ -105388,10 +105359,7 @@ function SignIn() {
     event.preventDefault();
     var userName = undefined || 14; // Local testing not production
 
-    var userPass = undefined || 14;
-    console.log(userName + "  " + _typeof(userName));
-    console.log(userPass);
-    console.log(user + "  " + password + " " + _typeof(user)); // If either username or login password is incorrect, I use double ='s on purpose as I don't care
+    var userPass = undefined || 14; // If either username or login password is incorrect, I use double ='s on purpose as I don't care
     // whether it is a number or string due to the way the enviroment variables are passed via heroku
     // tslint:disable-next-line: triple-equals
 
@@ -105404,7 +105372,6 @@ function SignIn() {
     if (user == userName && password == userPass) {
       setLogin(true);
       handleClick();
-      console.log("here");
     }
   };
 
@@ -105484,7 +105451,7 @@ function SignIn() {
 }
 
 exports.default = SignIn;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/colors":"../node_modules/@material-ui/core/esm/colors/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","./login-context":"../src/components/login-context.tsx","@material-ui/icons/CheckCircle":"../node_modules/@material-ui/icons/CheckCircle.js","@material-ui/icons/Error":"../node_modules/@material-ui/icons/Error.js","@material-ui/icons/Info":"../node_modules/@material-ui/icons/Info.js","@material-ui/icons/Close":"../node_modules/@material-ui/icons/Close.js","@material-ui/core/IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","@material-ui/core/Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/index.js","@material-ui/core/SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js","@material-ui/icons/Warning":"../node_modules/@material-ui/icons/Warning.js"}],"../node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Avatar":"../node_modules/@material-ui/core/esm/Avatar/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/CssBaseline":"../node_modules/@material-ui/core/esm/CssBaseline/index.js","@material-ui/core/TextField":"../node_modules/@material-ui/core/esm/TextField/index.js","@material-ui/core/Link":"../node_modules/@material-ui/core/esm/Link/index.js","@material-ui/core/Box":"../node_modules/@material-ui/core/esm/Box/index.js","@material-ui/icons/LockOutlined":"../node_modules/@material-ui/icons/LockOutlined.js","@material-ui/core/Typography":"../node_modules/@material-ui/core/esm/Typography/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","@material-ui/core/Container":"../node_modules/@material-ui/core/esm/Container/index.js","@material-ui/core/colors":"../node_modules/@material-ui/core/esm/colors/index.js","clsx":"../node_modules/clsx/dist/clsx.m.js","@reach/router":"../node_modules/@reach/router/es/index.js","./login-context":"../src/components/login-context.tsx","@material-ui/icons/CheckCircle":"../node_modules/@material-ui/icons/CheckCircle.js","@material-ui/icons/Error":"../node_modules/@material-ui/icons/Error.js","@material-ui/icons/Info":"../node_modules/@material-ui/icons/Info.js","@material-ui/icons/Close":"../node_modules/@material-ui/icons/Close.js","@material-ui/core/IconButton":"../node_modules/@material-ui/core/esm/IconButton/index.js","@material-ui/core/Snackbar":"../node_modules/@material-ui/core/esm/Snackbar/index.js","@material-ui/core/SnackbarContent":"../node_modules/@material-ui/core/esm/SnackbarContent/index.js","@material-ui/icons/Warning":"../node_modules/@material-ui/icons/Warning.js"}],"../node_modules/parcel-bundler/src/builtins/_empty.js":[function(require,module,exports) {
 
 },{}],"../node_modules/path-browserify/index.js":[function(require,module,exports) {
 var process = require("process");
@@ -105981,7 +105948,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62588" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50316" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

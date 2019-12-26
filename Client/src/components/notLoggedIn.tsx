@@ -17,7 +17,7 @@ export default function notLoggedIn() {
     <Grid container={true} justify="center" alignContent="center">
       <Grid item={true}>
         {/* It may look arbritrary but I found that length to eliminate scrolling on mobile*/}
-        <Skeleton variant="rect" height={538} width={500}>
+        <Skeleton variant="rect" height={500} width={500}>
           <Typography variant="h5" gutterBottom={false}>
             Please log in
           </Typography>
