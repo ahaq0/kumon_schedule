@@ -11,7 +11,7 @@ import LoginContext from "./login-context";
 
 const useStyles = makeStyles({
   label: {
-    //paddingTop: "15px",
+    // paddingTop: "15px",
     paddingRight: "20px"
   },
   alignment: {}
@@ -21,10 +21,7 @@ export default function GroupedButtons() {
   // there is a bug in Typescript so workaround is to pass an empty object
   const classes = useStyles({});
 
-  const [login, setLogin] = useContext(LoginContext);
-  let locations = "/login";
-
-  function loginOrLogout() {
+  function logout() {
     location.reload();
   }
 
@@ -33,7 +30,7 @@ export default function GroupedButtons() {
       <Grid item={true} xs={1}>
         {/* Left this empty on purpose to align things  */}
       </Grid>
-      <Grid container={true} item={true} xs={6} justify="center">
+      <Grid container={true} item={true} xs={6} justify="space-evenly">
         <div>
           <ButtonGroup
             variant="text"
@@ -54,11 +51,11 @@ export default function GroupedButtons() {
         </div>
       </Grid>
 
-      <Grid container={true} item={true} xs={4} justify="flex-end">
+      <Grid container={true} item={true} xs={3} justify="flex-end">
         <div>
           <Button
             component={Link}
-            to={locations}
+            to="/login"
             className={classes.alignment}
             color="inherit"
             size="medium"
@@ -70,7 +67,7 @@ export default function GroupedButtons() {
         <Grid container={true} item={true} xs={7} justify="flex-end">
           <div>
             <Button
-              onClick={loginOrLogout}
+              onClick={logout}
               component={Link}
               to="/"
               className={classes.alignment}

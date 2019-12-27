@@ -88,11 +88,7 @@ const initialState = {
 export default function PaperSheet() {
   const classes = useStyles({});
 
-  // so state variable is called fname
-  // function that updates it is
-  // Since updating a state variable always replaces it vs merging it when using hooks vs a class
   // I separated hooks for each input
-
   // Potential improvement of using one state, https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
 
   // Name
@@ -173,7 +169,6 @@ export default function PaperSheet() {
     // Add student to database
     axios
       .post("/students/create-student", newStudent)
-
       .then(res => console.log(res.data));
 
     const copy = {
@@ -246,6 +241,7 @@ export default function PaperSheet() {
               label="First Name"
               margin="normal"
               value={fname}
+              required={true}
               onChange={e => setFname(e.target.value)}
             />
           </div>
@@ -261,14 +257,14 @@ export default function PaperSheet() {
           </div>
           <div className={classes.checks}>
             <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">Subjects</FormLabel>
+              <FormLabel required={true} component="legend">
+                Subjects
+              </FormLabel>
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox value="Math" checked={math} />}
                   label="Math"
-                  // Looks like this fix doesn't work https://stackoverflow.com/questions/42066421/property-value-does-not-exist-on-type-eventtarget
                   onChange={e =>
-                    // setMath((event.target as HTMLTextAreaElement).checked)
                     handleDaySubject(
                       (event.target as HTMLInputElement).checked,
                       "math"
@@ -279,7 +275,6 @@ export default function PaperSheet() {
                   control={<Checkbox value="Reading" checked={reading} />}
                   label="Reading"
                   onChange={e =>
-                    // setReading((event.target as HTMLTextAreaElement).checked)
                     handleDaySubject(
                       (event.target as HTMLInputElement).checked,
                       "reading"
@@ -290,13 +285,14 @@ export default function PaperSheet() {
             </FormControl>
 
             <FormControl component="fieldset" className={classes.formControl}>
-              <FormLabel component="legend">Days</FormLabel>
+              <FormLabel required={true} component="legend">
+                Days
+              </FormLabel>
               <FormGroup>
                 <FormControlLabel
                   control={<Checkbox value="Tuesday" checked={tuesday} />}
                   label="Tuesday"
                   onChange={e =>
-                    // setMath((event.target as HTMLTextAreaElement).checked)
                     handleDaySubject(
                       (event.target as HTMLInputElement).checked,
                       "tuesday"
@@ -307,7 +303,6 @@ export default function PaperSheet() {
                   control={<Checkbox value="Wednesday" checked={wednesday} />}
                   label="Wednesday"
                   onChange={e =>
-                    // setMath((event.target as HTMLTextAreaElement).checked)
                     handleDaySubject(
                       (event.target as HTMLInputElement).checked,
                       "wednesday"
@@ -318,7 +313,6 @@ export default function PaperSheet() {
                   control={<Checkbox value="Friday" checked={friday} />}
                   label="Friday"
                   onChange={e =>
-                    // setMath((event.target as HTMLTextAreaElement).checked)
                     handleDaySubject(
                       (event.target as HTMLInputElement).checked,
                       "friday"
@@ -327,16 +321,11 @@ export default function PaperSheet() {
                 />
               </FormGroup>
             </FormControl>
-
-            {/*
-        https://codesandbox.io/s/73ewv this is a demo of getting the checkboxes working correctly
-        */}
           </div>
           <div>
             <Typography variant="h6" component="h3">
               Start Time
             </Typography>
-
             <FormControl className={classes.formControl}>
               <InputLabel htmlFor="grouped-native-select">Day 1</InputLabel>
               <Select

@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from "react";
-
+import React from "react";
 import Typography from "@material-ui/core/Typography";
-
-import { makeStyles } from "@material-ui/core/styles";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import Skeleton from "@material-ui/lab/Skeleton";
 
 import Grid, { GridSpacing } from "@material-ui/core/Grid";
 
 // The purpose of this component is to render a generic animation for all users who have not signed in yet
-
 // From an Idea I had before https://stackoverflow.com/questions/36862334/get-viewport-window-height-in-reactjs
 
 export default function notLoggedIn() {

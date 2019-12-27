@@ -47737,43 +47737,8 @@ var createRoute = function createRoute(basepath) {
 var shouldNavigate = function shouldNavigate(event) {
   return !event.defaultPrevented && event.button === 0 && !(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }; ////////////////////////////////////////////////////////////////////////
-},{"react":"../node_modules/react/index.js","warning":"../node_modules/warning/browser.js","prop-types":"../node_modules/prop-types/index.js","invariant":"../node_modules/invariant/browser.js","create-react-context":"../node_modules/create-react-context/lib/index.js","react-lifecycles-compat":"../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js","./lib/utils":"../node_modules/@reach/router/es/lib/utils.js","./lib/history":"../node_modules/@reach/router/es/lib/history.js"}],"../src/components/login-context.tsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","warning":"../node_modules/warning/browser.js","prop-types":"../node_modules/prop-types/index.js","invariant":"../node_modules/invariant/browser.js","create-react-context":"../node_modules/create-react-context/lib/index.js","react-lifecycles-compat":"../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js","./lib/utils":"../node_modules/@reach/router/es/lib/utils.js","./lib/history":"../node_modules/@reach/router/es/lib/history.js"}],"../src/components/buttongroups.tsx":[function(require,module,exports) {
 "use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var react_1 = require("react"); // export const loggedIn = {
-//   status: false
-// };
-// export const LoginContext = React.createContext(
-//   loggedIn.status // default value
-// );
-
-
-var LoginContext = react_1.createContext([false, function () {}]);
-exports.default = LoginContext;
-},{"react":"../node_modules/react/index.js"}],"../src/components/buttongroups.tsx":[function(require,module,exports) {
-"use strict";
-
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
-
-function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
-
-function _iterableToArrayLimit(arr, i) { if (!(Symbol.iterator in Object(arr) || Object.prototype.toString.call(arr) === "[object Arguments]")) { return; } var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-var __importStar = this && this.__importStar || function (mod) {
-  if (mod && mod.__esModule) return mod;
-  var result = {};
-  if (mod != null) for (var k in mod) {
-    if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-  }
-  result["default"] = mod;
-  return result;
-};
 
 var __importDefault = this && this.__importDefault || function (mod) {
   return mod && mod.__esModule ? mod : {
@@ -47785,7 +47750,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var react_1 = __importStar(require("react"));
+var react_1 = __importDefault(require("react"));
 
 var Grid_1 = __importDefault(require("@material-ui/core/Grid"));
 
@@ -47795,15 +47760,11 @@ var ButtonGroup_1 = __importDefault(require("@material-ui/core/ButtonGroup"));
 
 var router_1 = require("@reach/router");
 
-var styles_1 = require("@material-ui/core/styles"); // to do pass the styles from the top, basicall ymake it once and then just pass it around
-// I use this to determine whether the button is login or logout
-
-
-var login_context_1 = __importDefault(require("./login-context"));
+var styles_1 = require("@material-ui/core/styles");
 
 var useStyles = styles_1.makeStyles({
   label: {
-    //paddingTop: "15px",
+    // paddingTop: "15px",
     paddingRight: "20px"
   },
   alignment: {}
@@ -47813,14 +47774,7 @@ function GroupedButtons() {
   // there is a bug in Typescript so workaround is to pass an empty object
   var classes = useStyles({});
 
-  var _react_1$useContext = react_1.useContext(login_context_1.default),
-      _react_1$useContext2 = _slicedToArray(_react_1$useContext, 2),
-      login = _react_1$useContext2[0],
-      setLogin = _react_1$useContext2[1];
-
-  var locations = "/login";
-
-  function loginOrLogout() {
+  function logout() {
     location.reload();
   }
 
@@ -47833,7 +47787,7 @@ function GroupedButtons() {
     container: true,
     item: true,
     xs: 6,
-    justify: "center"
+    justify: "space-evenly"
   }, react_1.default.createElement("div", null, react_1.default.createElement(ButtonGroup_1.default, {
     variant: "text",
     color: "inherit",
@@ -47851,11 +47805,11 @@ function GroupedButtons() {
   }, "STUDENTS")))), react_1.default.createElement(Grid_1.default, {
     container: true,
     item: true,
-    xs: 4,
+    xs: 3,
     justify: "flex-end"
   }, react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
     component: router_1.Link,
-    to: locations,
+    to: "/login",
     className: classes.alignment,
     color: "inherit",
     size: "medium",
@@ -47866,7 +47820,7 @@ function GroupedButtons() {
     xs: 7,
     justify: "flex-end"
   }, react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
-    onClick: loginOrLogout,
+    onClick: logout,
     component: router_1.Link,
     to: "/",
     className: classes.alignment,
@@ -47877,7 +47831,7 @@ function GroupedButtons() {
 }
 
 exports.default = GroupedButtons;
-},{"react":"../node_modules/react/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/ButtonGroup":"../node_modules/@material-ui/core/esm/ButtonGroup/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js","./login-context":"../src/components/login-context.tsx"}],"../media/kumon.png":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","@material-ui/core/Grid":"../node_modules/@material-ui/core/esm/Grid/index.js","@material-ui/core/Button":"../node_modules/@material-ui/core/esm/Button/index.js","@material-ui/core/ButtonGroup":"../node_modules/@material-ui/core/esm/ButtonGroup/index.js","@reach/router":"../node_modules/@reach/router/es/index.js","@material-ui/core/styles":"../node_modules/@material-ui/core/esm/styles/index.js"}],"../media/kumon.png":[function(require,module,exports) {
 module.exports = "/kumon.5cafcec8.png";
 },{}],"../src/components/navbar.tsx":[function(require,module,exports) {
 "use strict";
@@ -58774,7 +58728,19 @@ module.exports.default = axios;
 
 },{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"../src/components/login-context.tsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var react_1 = require("react"); // tslint:disable-next-line: no-empty
+
+
+var LoginContext = react_1.createContext([false, function () {}]);
+exports.default = LoginContext;
+},{"react":"../node_modules/react/index.js"}],"../node_modules/@material-ui/lab/esm/Skeleton/Skeleton.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -59092,10 +59058,7 @@ var initialState = {
 };
 
 function PaperSheet() {
-  var classes = useStyles({}); // so state variable is called fname
-  // function that updates it is
-  // Since updating a state variable always replaces it vs merging it when using hooks vs a class
-  // I separated hooks for each input
+  var classes = useStyles({}); // I separated hooks for each input
   // Potential improvement of using one state, https://stackoverflow.com/questions/54895883/reset-to-initial-state-with-react-hooks
   // Name
 
@@ -59287,6 +59250,7 @@ function PaperSheet() {
     label: "First Name",
     margin: "normal",
     value: fname,
+    required: true,
     onChange: function onChange(e) {
       return setFname(e.target.value);
     }
@@ -59305,6 +59269,7 @@ function PaperSheet() {
     component: "fieldset",
     className: classes.formControl
   }, react_1.default.createElement(FormLabel_1.default, {
+    required: true,
     component: "legend"
   }, "Subjects"), react_1.default.createElement(FormGroup_1.default, null, react_1.default.createElement(FormControlLabel_1.default, {
     control: react_1.default.createElement(Checkbox_1.default, {
@@ -59312,11 +59277,8 @@ function PaperSheet() {
       checked: math
     }),
     label: "Math",
-    // Looks like this fix doesn't work https://stackoverflow.com/questions/42066421/property-value-does-not-exist-on-type-eventtarget
     onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "math")
-      );
+      return handleDaySubject(event.target.checked, "math");
     }
   }), react_1.default.createElement(FormControlLabel_1.default, {
     control: react_1.default.createElement(Checkbox_1.default, {
@@ -59325,14 +59287,13 @@ function PaperSheet() {
     }),
     label: "Reading",
     onChange: function onChange(e) {
-      return (// setReading((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "reading")
-      );
+      return handleDaySubject(event.target.checked, "reading");
     }
   }))), react_1.default.createElement(FormControl_1.default, {
     component: "fieldset",
     className: classes.formControl
   }, react_1.default.createElement(FormLabel_1.default, {
+    required: true,
     component: "legend"
   }, "Days"), react_1.default.createElement(FormGroup_1.default, null, react_1.default.createElement(FormControlLabel_1.default, {
     control: react_1.default.createElement(Checkbox_1.default, {
@@ -59341,9 +59302,7 @@ function PaperSheet() {
     }),
     label: "Tuesday",
     onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "tuesday")
-      );
+      return handleDaySubject(event.target.checked, "tuesday");
     }
   }), react_1.default.createElement(FormControlLabel_1.default, {
     control: react_1.default.createElement(Checkbox_1.default, {
@@ -59352,9 +59311,7 @@ function PaperSheet() {
     }),
     label: "Wednesday",
     onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "wednesday")
-      );
+      return handleDaySubject(event.target.checked, "wednesday");
     }
   }), react_1.default.createElement(FormControlLabel_1.default, {
     control: react_1.default.createElement(Checkbox_1.default, {
@@ -59363,9 +59320,7 @@ function PaperSheet() {
     }),
     label: "Friday",
     onChange: function onChange(e) {
-      return (// setMath((event.target as HTMLTextAreaElement).checked)
-        handleDaySubject(event.target.checked, "friday")
-      );
+      return handleDaySubject(event.target.checked, "friday");
     }
   })))), react_1.default.createElement("div", null, react_1.default.createElement(Typography_1.default, {
     variant: "h6",
@@ -101081,8 +101036,7 @@ function removeStudent(index) {
 
 
 function createDataFromPost(postData) {
-  var data = []; // Parse through data to fit this format
-  // tslint:disable-next-line: prefer-for-of
+  var data = []; // tslint:disable-next-line: prefer-for-of
 
   for (var i = 0; i < postData.length; i++) {
     var currentStudent = postData[i];
@@ -101092,7 +101046,7 @@ function createDataFromPost(postData) {
     var sday1 = void 0;
     var sday2 = void 0;
     var sday1Time = void 0;
-    var sday2Time = void 0; // Gotta double check this
+    var sday2Time = void 0; // Converting the student's subjects to fit into the table
 
     if (currentStudent.subjects.length > 1) {
       subjectIndex = "3";
@@ -101143,10 +101097,10 @@ function createDataFromPost(postData) {
 
 function convertStudentList2Student(studentList) {
   var lname = "";
-  var fname = "";
+  var fname = ""; // Better validation is on the to do list to ensure all names work.
 
   if (studentList.name !== "") {
-    fname = studentList.name.split(" ")[0]; // lname = studentList.name.split("")[1];
+    fname = studentList.name.split(" ")[0];
   }
 
   if (studentList.name.split()[1] !== null) {
@@ -101394,10 +101348,8 @@ function Students() {
               setState(function (prevState) {
                 var data = _toConsumableArray(prevState.data);
 
-                console.log(data.indexOf(oldData) + " this was old data");
                 var dataIndex = data.indexOf(oldData);
-                data[data.indexOf(oldData)] = newData;
-                console.log(newData); // Want to update the data after it has changed.
+                data[data.indexOf(oldData)] = newData; // Want to update the data after it has changed.
 
                 updateStudent(dataIndex, newData);
                 return _objectSpread({}, prevState, {
@@ -101423,7 +101375,7 @@ function Students() {
                 data: data
               });
             });
-          }, 600);
+          }, 300);
         });
       }
     }
@@ -101483,26 +101435,24 @@ var StyledTableRow = styles_1.withStyles(function (theme) {
     }
   });
 })(TableRow_1.default);
-var dataRendered = false; // This function will look through the JSON payload and create a schedule based on day and the students
+var dataRendered = false; // This function will look through the payload and create a schedule based on day and the students
 
 function parseSchedule(day, postData) {
   // I am creating the data for each row, this is an object type
   // There are 8 possible time slots for a students
   var rowsData = [];
   var daySchedule = ["", "", "", "", "", "", "", "", ""]; // so for each student, we want to make a string regarding their schedule to put in the table
-  // const dayPassed = "wednesday";
 
   var dayPassed = day;
-  var count = 1; // I should create a symbol.iterator for postData to be able to do a for of loop.
+  var count = 1; // I should create a symbol.iterator for postData to be able to do a for of loop instead of disabling the warning.
 
   /* tslint:disable-next-line */
 
   for (var i = 0; i < postData.length; i++) {
-    var currentStudent = postData[i]; // console.log(current);
-
+    var currentStudent = postData[i];
     var sName = currentStudent.fname + " " + currentStudent.lname;
     var subjectN = currentStudent.subjects.length;
-    var sTime = [].concat(daySchedule); // assuming I got passed a day, start time is either first index or second
+    var sTime = [].concat(daySchedule); // Assuming I got passed a day, start time is either first index or second
     // start time is stored as a value between 1 and 8, I use that as an index
 
     if (currentStudent.days[0] === dayPassed) {
@@ -101534,7 +101484,6 @@ function parseSchedule(day, postData) {
 
     var oneSchedule = createScheduleData(sTime[0], sTime[1], sTime[2], sTime[3], sTime[4], sTime[5], sTime[6], sTime[7], sTime[8]); // let's add that student's data
 
-    console.log(oneSchedule);
     rowsData.push(oneSchedule);
   }
 
@@ -101571,13 +101520,10 @@ var useStyles = styles_1.makeStyles(function (theme) {
 });
 
 var dayschedule = function CustomizedTables(props) {
-  var classes = useStyles({}); // if (typeof props.days === "undefined") {
-  // }
-
+  var classes = useStyles({});
   var data = props.pd;
   var rowsData = parseSchedule(props.d, data);
-  var values = Object.values(data); // something to think about is that Friday time may be 6pm so i would need to change the TableRow a bit (selection)
-
+  var values = Object.values(data);
   return dataRendered ? react_1.default.createElement(Paper_1.default, {
     className: classes.root
   }, react_1.default.createElement(Table_1.default, {
@@ -101666,12 +101612,7 @@ var useStyles = styles_1.makeStyles(function (theme) {
       backgroundColor: theme.palette.background.paper
     }
   };
-}); // const httpsAgent = new https.Agent({
-//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
-//   cert: fs.readFileSync("./usercert.pem"),
-//   key: fs.readFileSync("./key.pem"),
-//   passphrase: "YYY"
-// });
+});
 
 function NavTabs() {
   var classes = useStyles({});
@@ -101709,11 +101650,10 @@ function NavTabs() {
     if (loginHook) {
       getData();
     }
-  }, []);
+  }, []); // Given a change in day, I render the schedule differently
 
   var handleChange = function handleChange(event, newValue) {
     setValue(newValue);
-    console.log(newValue);
 
     if (newValue === 0) {
       setDay("tuesday");
@@ -101722,8 +101662,6 @@ function NavTabs() {
     } else if (newValue === 2) {
       setDay("friday");
     }
-
-    console.log(day);
   };
 
   return loginHook ? react_1.default.createElement("div", {
@@ -105161,8 +105099,7 @@ var clsx_1 = __importDefault(require("clsx"));
 
 var router_1 = require("@reach/router");
 
-var login_context_1 = __importDefault(require("./login-context")); // For snackbar
-
+var login_context_1 = __importDefault(require("./login-context"));
 
 var CheckCircle_1 = __importDefault(require("@material-ui/icons/CheckCircle"));
 
@@ -105337,6 +105274,7 @@ function SignIn() {
 
   var handleClickL = function handleClickL() {
     setOpenError(true);
+    return true;
   };
 
   var handleClose = function handleClose(event, reason) {
@@ -105345,6 +105283,7 @@ function SignIn() {
     }
 
     setOpen(false);
+    return true;
   };
 
   var handleCloseError = function handleCloseError(event, reason) {
@@ -105352,7 +105291,9 @@ function SignIn() {
       return;
     }
 
-    setOpenError(false);
+    setOpenError(false); // Have to return something per Typescript definition
+
+    return true;
   };
 
   var handleSubmit = function handleSubmit(event) {
@@ -105948,7 +105889,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50316" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56196" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

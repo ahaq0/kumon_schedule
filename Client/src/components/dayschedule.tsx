@@ -42,28 +42,26 @@ const StyledTableRow = withStyles((theme: Theme) =>
   })
 )(TableRow);
 let dataRendered = false;
-// This function will look through the JSON payload and create a schedule based on day and the students
-function parseSchedule(day: string, postData: any[]) {
+// This function will look through the payload and create a schedule based on day and the students
+function parseSchedule(day: string, postData: {}) {
   // I am creating the data for each row, this is an object type
   // There are 8 possible time slots for a students
   const rowsData = [];
   const daySchedule = ["", "", "", "", "", "", "", "", ""];
   // so for each student, we want to make a string regarding their schedule to put in the table
-  // const dayPassed = "wednesday";
   const dayPassed = day;
   let count = 1;
 
-  // I should create a symbol.iterator for postData to be able to do a for of loop.
+  // I should create a symbol.iterator for postData to be able to do a for of loop instead of disabling the warning.
   /* tslint:disable-next-line */
-  for (let i = 0; i < postData.length; i++) {
+  for (let i = 0; i < (postData as any[]).length; i++) {
     const currentStudent = postData[i];
-    // console.log(current);
     const sName = currentStudent.fname + " " + currentStudent.lname;
 
     const subjectN: number = currentStudent.subjects.length;
     const sTime: string[] = [...daySchedule];
 
-    // assuming I got passed a day, start time is either first index or second
+    // Assuming I got passed a day, start time is either first index or second
     // start time is stored as a value between 1 and 8, I use that as an index
     if (currentStudent.days[0] === dayPassed) {
       // if there are 2 subjects, total time = 1 hour so we mark 2 spots
@@ -109,7 +107,6 @@ function parseSchedule(day: string, postData: any[]) {
     );
 
     // let's add that student's data
-    console.log(oneSchedule);
     rowsData.push(oneSchedule);
   }
 
@@ -145,29 +142,18 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-// interface IDayScheduleProps {
-//   days: string;
-//   postData: [];
-// }
-
 interface IDayScheduleProps {
   d: string;
-  // Type is any [] as using {} leads to typescript saying no .length property ( which is false)
-  pd: any[];
+  pd: {};
 }
 
 const dayschedule: FunctionComponent<IDayScheduleProps> = function CustomizedTables(
   props
 ) {
   const classes = useStyles({});
-
-  // if (typeof props.days === "undefined") {
-  // }
   const data = props.pd;
-
   const rowsData = parseSchedule(props.d, data);
   const values = Object.values(data);
-  // something to think about is that Friday time may be 6pm so i would need to change the TableRow a bit (selection)
 
   return dataRendered ? (
     <Paper className={classes.root}>

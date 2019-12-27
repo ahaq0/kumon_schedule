@@ -5,7 +5,6 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import DaySchedule from "./dayschedule";
 import axios from "axios";
-
 import loginContext from "./login-context";
 import Loading from "./notLoggedIn";
 
@@ -40,13 +39,6 @@ interface ILinkTabProps {
   href?: string;
 }
 
-// const httpsAgent = new https.Agent({
-//   rejectUnauthorized: false, // (NOTE: this will disable client verification)
-//   cert: fs.readFileSync("./usercert.pem"),
-//   key: fs.readFileSync("./key.pem"),
-//   passphrase: "YYY"
-// });
-
 export default function NavTabs() {
   const classes = useStyles({});
   const [value, setValue] = React.useState(0);
@@ -75,9 +67,9 @@ export default function NavTabs() {
     }
   }, []);
 
+  // Given a change in day, I render the schedule differently
   const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
     setValue(newValue);
-    console.log(newValue);
     if (newValue === 0) {
       setDay("tuesday");
     } else if (newValue === 1) {
@@ -85,7 +77,6 @@ export default function NavTabs() {
     } else if (newValue === 2) {
       setDay("friday");
     }
-    console.log(day);
   };
 
   return loginHook ? (
@@ -97,13 +88,12 @@ export default function NavTabs() {
           onChange={handleChange}
           aria-label="nav tabs example"
         >
-          {/* what to do with drafts trash spam href */}
           <LinkTab label="Tuesday" href="/drafts" {...a11yProps(0)} />
           <LinkTab label="Wednesday" href="/trash" {...a11yProps(1)} />
           <LinkTab label="Friday" href="/spam" {...a11yProps(2)} />
         </Tabs>
       </AppBar>
-      {/* I just reuse this component to display different days instead of creating 3 components */}
+      {/* I just reuse this component to display different days instead of creating  / loading 3 components */}
       <DaySchedule d={day} pd={postData} />
     </div>
   ) : (

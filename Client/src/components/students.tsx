@@ -20,7 +20,6 @@ interface IRow {
 }
 
 // A function to create student object
-
 function Student(
   fName: string,
   lName: string,
@@ -61,7 +60,6 @@ function updateStudent(index: number, studentToUpdate) {
 }
 
 // This function looks at the index of the item that was deleted and then use that to find it's ID to delete from DB
-
 function removeStudent(index: number) {
   const idOfStudent = pData[index]._id;
 
@@ -80,14 +78,10 @@ function removeStudent(index: number) {
 function createDataFromPost(postData) {
   const data = [];
 
-  // Parse through data to fit this format
-
   // tslint:disable-next-line: prefer-for-of
   for (let i = 0; i < postData.length; i++) {
     const currentStudent = postData[i];
-
     const sName = currentStudent.fname + " " + currentStudent.lname;
-
     let subjectIndex: string;
 
     // Every student will have these, if they don't it'll be passed as the last index for empty string
@@ -96,7 +90,7 @@ function createDataFromPost(postData) {
     let sday1Time: string;
     let sday2Time: string;
 
-    // Gotta double check this
+    // Converting the student's subjects to fit into the table
     if (currentStudent.subjects.length > 1) {
       subjectIndex = "3";
     } else {
@@ -151,9 +145,10 @@ function createDataFromPost(postData) {
 function convertStudentList2Student(studentList) {
   let lname = "";
   let fname = "";
+
+  // Better validation is on the to do list to ensure all names work.
   if (studentList.name !== "") {
     fname = studentList.name.split(" ")[0];
-    // lname = studentList.name.split("")[1];
   }
 
   if (studentList.name.split()[1] !== null) {
@@ -371,10 +366,8 @@ export default function Students() {
               if (oldData) {
                 setState(prevState => {
                   const data = [...prevState.data];
-                  console.log(data.indexOf(oldData) + " this was old data");
                   const dataIndex = data.indexOf(oldData);
                   data[data.indexOf(oldData)] = newData;
-                  console.log(newData);
                   // Want to update the data after it has changed.
                   updateStudent(dataIndex, newData);
                   return { ...prevState, data };
@@ -394,7 +387,7 @@ export default function Students() {
                 data.splice(data.indexOf(oldData), 1);
                 return { ...prevState, data };
               });
-            }, 600);
+            }, 300);
           })
       }}
     />

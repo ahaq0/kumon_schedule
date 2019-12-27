@@ -16,10 +16,7 @@ import { green, amber } from "@material-ui/core/colors";
 import clsx from "clsx";
 
 import { navigate } from "@reach/router";
-
 import LoginContext from "./login-context";
-
-// For snackbar
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import ErrorIcon from "@material-ui/icons/Error";
 import InfoIcon from "@material-ui/icons/Info";
@@ -91,7 +88,7 @@ const useStyles = makeStyles(theme => ({
 export interface IProps {
   className?: string;
   message?: string;
-  onClose?: () => {};
+  onClose?: () => any[];
   variant: keyof typeof variantIcon;
 }
 const useStyles1 = makeStyles((theme: Theme) => ({
@@ -172,6 +169,7 @@ export default function SignIn() {
   };
   const handleClickL = () => {
     setOpenError(true);
+    return true;
   };
 
   const handleClose = (
@@ -182,6 +180,7 @@ export default function SignIn() {
       return;
     }
     setOpen(false);
+    return true;
   };
 
   const handleCloseError = (
@@ -192,6 +191,8 @@ export default function SignIn() {
       return;
     }
     setOpenError(false);
+    // Have to return something per Typescript definition
+    return true;
   };
 
   const handleSubmit = (event: React.ChangeEvent<{}>) => {

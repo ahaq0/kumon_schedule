@@ -1,13 +1,6 @@
 import React, { createContext } from "react";
 
-// export const loggedIn = {
-//   status: false
-// };
-
-// export const LoginContext = React.createContext(
-//   loggedIn.status // default value
-// );
-
+// tslint:disable-next-line: no-empty
 const LoginContext = createContext([false, () => {}]);
 
 export default LoginContext;
