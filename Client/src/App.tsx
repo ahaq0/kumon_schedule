@@ -17,8 +17,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-type Props = {};
-
 const App = () => {
   // Hook
   const loginHook = useState(false); // Default value

@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
 export interface IProps {
   className?: string;
   message?: string;
-  onClose?: () => any[];
+  onClose?: () => boolean;
   variant: keyof typeof variantIcon;
 }
 const useStyles1 = makeStyles((theme: Theme) => ({
