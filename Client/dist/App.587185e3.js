@@ -101638,7 +101638,7 @@ function NavTabs() {
 
   function getData() {
     axios_1.default.get("/students/").then(function (res) {
-      console.log(res.data);
+      // console.log(res.data);
       setPostData(res.data);
     }).catch(function (error) {
       console.log(error + " axios error");
@@ -105302,12 +105302,10 @@ function SignIn() {
 
     var userPass = undefined || "14"; // If either username or login password is incorrect, I use double ='s on purpose as I don't care
     // whether it is a number or string due to the way the enviroment variables are passed via heroku
-    // tslint:disable-next-line: triple-equals
 
     if (user !== userName || password !== userPass) {
       handleClickL();
     } // If they have the right password.
-    // tslint:disable-next-line: triple-equals
 
 
     if (user === userName && password === userPass) {

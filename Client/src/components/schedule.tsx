@@ -52,7 +52,7 @@ export default function NavTabs() {
     axios
       .get("/students/")
       .then(res => {
-        console.log(res.data);
+        // console.log(res.data);
         setPostData(res.data);
       })
       .catch(error => {
