@@ -105039,8 +105039,6 @@ exports.default = _default;
 },{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../src/components/login.tsx":[function(require,module,exports) {
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -105305,9 +105303,6 @@ function SignIn() {
     var userPass = undefined || "14"; // If either username or login password is incorrect, I use double ='s on purpose as I don't care
     // whether it is a number or string due to the way the enviroment variables are passed via heroku
     // tslint:disable-next-line: triple-equals
-
-    console.log("This is the us " + userName + "  pass " + userPass);
-    console.log(" Type of name " + _typeof(userName) + "  type of pass " + _typeof(userPass));
 
     if (user !== userName || password !== userPass) {
       handleClickL();
