@@ -275,7 +275,6 @@ export default function Students() {
   // Import data
   useEffect(() => {
     if (loginData === true) {
-      console.log("getting data");
       getData();
     }
   }, []);

@@ -13,9 +13,6 @@ import { Router, RouteComponentProps } from "@reach/router";
 import CssBaseline from "@material-ui/core/CssBaseline";
 
 import LoginContext from "./components/login-context";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 const App = () => {
   // Hook
