@@ -198,19 +198,23 @@ export default function SignIn() {
   const handleSubmit = (event: React.ChangeEvent<{}>) => {
     event.preventDefault();
 
-    const userName = process.env.userN || 14; // Local testing not production
-    const userPass = process.env.userP || 14;
+    const userName = process.env.userN || "14"; // Local testing not production
+    const userPass = process.env.userP || "14";
 
     // If either username or login password is incorrect, I use double ='s on purpose as I don't care
     // whether it is a number or string due to the way the enviroment variables are passed via heroku
     // tslint:disable-next-line: triple-equals
-    if (user != userName || password != userPass) {
+    console.log("This is the us " + userName + "  pass " + userPass);
+    console.log(
+      " Type of name " + typeof userName + "  type of pass " + typeof userPass
+    );
+    if (user !== userName || password !== userPass) {
       handleClickL();
     }
 
     // If they have the right password.
     // tslint:disable-next-line: triple-equals
-    if (user == userName && password == userPass) {
+    if (user === userName && password === userPass) {
       setLogin(true);
       handleClick();
     }

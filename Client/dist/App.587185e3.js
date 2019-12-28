@@ -47782,11 +47782,11 @@ function GroupedButtons() {
     container: true
   }, react_1.default.createElement(Grid_1.default, {
     item: true,
-    xs: 1
+    xs: 4
   }), react_1.default.createElement(Grid_1.default, {
     container: true,
     item: true,
-    xs: 6,
+    xs: 3,
     justify: "space-evenly"
   }, react_1.default.createElement("div", null, react_1.default.createElement(ButtonGroup_1.default, {
     variant: "text",
@@ -47805,7 +47805,7 @@ function GroupedButtons() {
   }, "STUDENTS")))), react_1.default.createElement(Grid_1.default, {
     container: true,
     item: true,
-    xs: 3,
+    xs: 5,
     justify: "flex-end"
   }, react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
     component: router_1.Link,
@@ -47817,7 +47817,7 @@ function GroupedButtons() {
   }, "Login")), react_1.default.createElement(Grid_1.default, {
     container: true,
     item: true,
-    xs: 7,
+    xs: 2,
     justify: "flex-end"
   }, react_1.default.createElement("div", null, react_1.default.createElement(Button_1.default, {
     onClick: logout,
@@ -105039,6 +105039,8 @@ exports.default = _default;
 },{"@babel/runtime/helpers/interopRequireDefault":"../node_modules/@babel/runtime/helpers/interopRequireDefault.js","react":"../node_modules/react/index.js","./utils/createSvgIcon":"../node_modules/@material-ui/icons/utils/createSvgIcon.js"}],"../src/components/login.tsx":[function(require,module,exports) {
 "use strict";
 
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _nonIterableRest(); }
 
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance"); }
@@ -105298,19 +105300,22 @@ function SignIn() {
 
   var handleSubmit = function handleSubmit(event) {
     event.preventDefault();
-    var userName = undefined || 14; // Local testing not production
+    var userName = undefined || "14"; // Local testing not production
 
-    var userPass = undefined || 14; // If either username or login password is incorrect, I use double ='s on purpose as I don't care
+    var userPass = undefined || "14"; // If either username or login password is incorrect, I use double ='s on purpose as I don't care
     // whether it is a number or string due to the way the enviroment variables are passed via heroku
     // tslint:disable-next-line: triple-equals
 
-    if (user != userName || password != userPass) {
+    console.log("This is the us " + userName + "  pass " + userPass);
+    console.log(" Type of name " + _typeof(userName) + "  type of pass " + _typeof(userPass));
+
+    if (user !== userName || password !== userPass) {
       handleClickL();
     } // If they have the right password.
     // tslint:disable-next-line: triple-equals
 
 
-    if (user == userName && password == userPass) {
+    if (user === userName && password === userPass) {
       setLogin(true);
       handleClick();
     }
@@ -105889,7 +105894,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56196" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61332" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

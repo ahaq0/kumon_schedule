@@ -27,10 +27,10 @@ export default function GroupedButtons() {
 
   return (
     <Grid container={true}>
-      <Grid item={true} xs={1}>
+      <Grid item={true} xs={4}>
         {/* Left this empty on purpose to align things  */}
       </Grid>
-      <Grid container={true} item={true} xs={6} justify="space-evenly">
+      <Grid container={true} item={true} xs={3} justify="space-evenly">
         <div>
           <ButtonGroup
             variant="text"
@@ -51,7 +51,7 @@ export default function GroupedButtons() {
         </div>
       </Grid>
 
-      <Grid container={true} item={true} xs={3} justify="flex-end">
+      <Grid container={true} item={true} xs={5} justify="flex-end">
         <div>
           <Button
             component={Link}
@@ -64,7 +64,7 @@ export default function GroupedButtons() {
             Login
           </Button>
         </div>
-        <Grid container={true} item={true} xs={7} justify="flex-end">
+        <Grid container={true} item={true} xs={2} justify="flex-end">
           <div>
             <Button
               onClick={logout}
