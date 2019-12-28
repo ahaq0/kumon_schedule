@@ -47775,6 +47775,7 @@ function GroupedButtons() {
   var classes = useStyles({});
 
   function logout() {
+    router_1.navigate("/");
     location.reload();
   }
 
@@ -47801,7 +47802,7 @@ function GroupedButtons() {
     to: "/schedule"
   }, "SCHEDULE"), react_1.default.createElement(Button_1.default, {
     component: router_1.Link,
-    to: "/students"
+    to: "/studentz"
   }, "STUDENTS")))), react_1.default.createElement(Grid_1.default, {
     container: true,
     item: true,
@@ -101016,8 +101017,7 @@ function updateStudent(index, studentToUpdate) {
   var idOfStudent = currentStudent._id;
   var changedStudent = convertStudentList2Student(studentToUpdate); // Put the newly updated student into the database
 
-  axios_1.default.put("/students/update-student/" + idOfStudent, changedStudent).then(function (res) {
-    console.log(res.data);
+  axios_1.default.put("/students/update-student/" + idOfStudent, changedStudent).then(function (res) {// console.log(res.data);
   }).catch(function (error) {
     console.log(error + "fail reason " + error.response.data);
   });
@@ -101025,10 +101025,9 @@ function updateStudent(index, studentToUpdate) {
 
 
 function removeStudent(index) {
-  var idOfStudent = pData[index]._id;
-  console.log(pData[index]._id);
-  axios_1.default.delete("/students/delete-student/" + idOfStudent).then(function (res) {
-    console.log("Student successfully deleted!");
+  var idOfStudent = pData[index]._id; // console.log(pData[index]._id);
+
+  axios_1.default.delete("/students/delete-student/" + idOfStudent).then(function (res) {// console.log("Student successfully deleted!");
   }).catch(function (error) {
     console.log(error);
   });
@@ -101129,8 +101128,8 @@ function convertStudentList2Student(studentList) {
   var dayStart = [];
 
   if ("day2" in studentList) {
-    console.log("2 days!"); // Parse first day for what day
-
+    // console.log("2 days!");
+    // Parse first day for what day
     switch (studentList.day1) {
       case "1":
         days.push("tuesday");
@@ -101194,9 +101193,7 @@ function postStudentToDb(student) {
   ogData.push(student);
   var newStudent = convertStudentList2Student(student); // Send the newly created student to the database
 
-  axios_1.default.post("/students/create-student", newStudent).then(function (res) {
-    return console.log(res.data);
-  });
+  axios_1.default.post("/students/create-student", newStudent); //.then(res => console.log(res.data));
 } // This function returns an index corresponding to the accurate day the student is in
 
 
@@ -101244,7 +101241,8 @@ function Students() {
 
 
   react_1.useEffect(function () {
-    if (loginData) {
+    if (loginData === true) {
+      console.log("getting data");
       getData();
     }
   }, []); // Table key
@@ -101327,9 +101325,9 @@ function Students() {
             setState(function (prevState) {
               var data = _toConsumableArray(prevState.data);
 
-              data.push(newData);
-              console.log(ogData);
-              console.log(newData); // Add that new student to database
+              data.push(newData); // console.log(ogData);
+              // console.log(newData);
+              // Add that new student to database
 
               postStudentToDb(newData);
               return _objectSpread({}, prevState, {
@@ -105844,7 +105842,7 @@ var App = function App() {
     path: "/schedule",
     pageComponent: react_1.default.createElement(schedule_1.default, null)
   }), react_1.default.createElement(RouterPage, {
-    path: "/students",
+    path: "/studentz",
     pageComponent: react_1.default.createElement(students_1.default, null)
   }), react_1.default.createElement(RouterPage, {
     path: "/login",

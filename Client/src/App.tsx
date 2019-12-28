@@ -29,7 +29,7 @@ const App = () => {
         <Router>
           <RouterPage path="/" pageComponent={<AddStudent />} />
           <RouterPage path="/schedule" pageComponent={<Schedule />} />
-          <RouterPage path="/students" pageComponent={<Students />} />
+          <RouterPage path="/studentz" pageComponent={<Students />} />
           <RouterPage path="/login" pageComponent={<Login />} />
         </Router>
       </div>

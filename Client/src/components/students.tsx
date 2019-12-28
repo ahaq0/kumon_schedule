@@ -52,7 +52,7 @@ function updateStudent(index: number, studentToUpdate) {
   axios
     .put("/students/update-student/" + idOfStudent, changedStudent)
     .then(res => {
-      console.log(res.data);
+      // console.log(res.data);
     })
     .catch(error => {
       console.log(error + "fail reason " + error.response.data);
@@ -63,11 +63,11 @@ function updateStudent(index: number, studentToUpdate) {
 function removeStudent(index: number) {
   const idOfStudent = pData[index]._id;
 
-  console.log(pData[index]._id);
+  // console.log(pData[index]._id);
   axios
     .delete("/students/delete-student/" + idOfStudent)
     .then(res => {
-      console.log("Student successfully deleted!");
+      // console.log("Student successfully deleted!");
     })
     .catch(error => {
       console.log(error);
@@ -172,7 +172,7 @@ function convertStudentList2Student(studentList) {
   const days = [];
   const dayStart = [];
   if ("day2" in studentList) {
-    console.log("2 days!");
+    // console.log("2 days!");
 
     // Parse first day for what day
     switch (studentList.day1) {
@@ -232,9 +232,8 @@ function postStudentToDb(student) {
   ogData.push(student);
   const newStudent = convertStudentList2Student(student);
   // Send the newly created student to the database
-  axios
-    .post("/students/create-student", newStudent)
-    .then(res => console.log(res.data));
+  axios.post("/students/create-student", newStudent);
+  //.then(res => console.log(res.data));
 }
 
 // This function returns an index corresponding to the accurate day the student is in
@@ -275,7 +274,8 @@ export default function Students() {
   }
   // Import data
   useEffect(() => {
-    if (loginData) {
+    if (loginData === true) {
+      console.log("getting data");
       getData();
     }
   }, []);
@@ -351,8 +351,8 @@ export default function Students() {
               setState(prevState => {
                 const data = [...prevState.data];
                 data.push(newData);
-                console.log(ogData);
-                console.log(newData);
+                // console.log(ogData);
+                // console.log(newData);
                 // Add that new student to database
                 postStudentToDb(newData);
                 return { ...prevState, data };
