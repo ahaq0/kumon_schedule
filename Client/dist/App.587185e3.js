@@ -101193,7 +101193,7 @@ function postStudentToDb(student) {
   ogData.push(student);
   var newStudent = convertStudentList2Student(student); // Send the newly created student to the database
 
-  axios_1.default.post("/students/create-student", newStudent); //.then(res => console.log(res.data));
+  axios_1.default.post("/students/create-student", newStudent); //. then(res => console.log(res.data));
 } // This function returns an index corresponding to the accurate day the student is in
 
 
@@ -101242,7 +101242,6 @@ function Students() {
 
   react_1.useEffect(function () {
     if (loginData === true) {
-      console.log("getting data");
       getData();
     }
   }, []); // Table key

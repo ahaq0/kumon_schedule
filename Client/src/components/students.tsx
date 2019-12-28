@@ -233,7 +233,7 @@ function postStudentToDb(student) {
   const newStudent = convertStudentList2Student(student);
   // Send the newly created student to the database
   axios.post("/students/create-student", newStudent);
-  //.then(res => console.log(res.data));
+  //. then(res => console.log(res.data));
 }
 
 // This function returns an index corresponding to the accurate day the student is in
@@ -275,7 +275,6 @@ export default function Students() {
   // Import data
   useEffect(() => {
     if (loginData === true) {
-      console.log("getting data");
       getData();
     }
   }, []);
