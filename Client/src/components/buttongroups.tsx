@@ -22,7 +22,7 @@ export default function GroupedButtons() {
   const classes = useStyles({});
 
   function logout() {
-    navigate("/");
+    navigate(`/`);
     location.reload();
   }
 
@@ -45,7 +45,7 @@ export default function GroupedButtons() {
             <Button component={Link} to="/schedule">
               SCHEDULE
             </Button>
-            <Button component={Link} to="/studentz">
+            <Button component={Link} to="/students">
               STUDENTS
             </Button>
           </ButtonGroup>

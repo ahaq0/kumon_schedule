@@ -47802,7 +47802,7 @@ function GroupedButtons() {
     to: "/schedule"
   }, "SCHEDULE"), react_1.default.createElement(Button_1.default, {
     component: router_1.Link,
-    to: "/studentz"
+    to: "/students"
   }, "STUDENTS")))), react_1.default.createElement(Grid_1.default, {
     container: true,
     item: true,
@@ -105841,7 +105841,7 @@ var App = function App() {
     path: "/schedule",
     pageComponent: react_1.default.createElement(schedule_1.default, null)
   }), react_1.default.createElement(RouterPage, {
-    path: "/studentz",
+    path: "/students",
     pageComponent: react_1.default.createElement(students_1.default, null)
   }), react_1.default.createElement(RouterPage, {
     path: "/login",
@@ -105884,7 +105884,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61332" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64766" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
